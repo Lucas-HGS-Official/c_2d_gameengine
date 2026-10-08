@@ -1,8 +1,11 @@
-#include <lua/lua.h>
-#include <lua/lualib.h>
-#include <lua/lauxlib.h>
 #include <raylib.h>
 #include <raymath.h>
+
+#include "lua/lua.h"
+#include "lua/lualib.h"
+#include "lua/lauxlib.h"
+
+#include "raygui/raygui.h"
 
 
 static int c_swap(lua_State *L) {

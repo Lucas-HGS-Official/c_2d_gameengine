@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #include <raylib.h>
 #include <raymath.h>
 
@@ -8,8 +10,17 @@
 #define RAYGUI_IMPLEMENTATION
 #include "raygui/raygui.h"
 
+#include "game.h"
+
 
 int main() {
+    Game *game = {0};
+
+    init_game(game);
+
+    run_game(game);
+
+    destroy_game(game);
 
     return 0;
 }

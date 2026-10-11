@@ -1,7 +1,11 @@
 #pragma once
 
-typedef struct Game {
+#include <raylib.h>
+#include <raymath.h>
 
+typedef struct Game {
+    Vector2 screen_size;
+    char *title;
 } Game;
 
 void init_game(Game *game);

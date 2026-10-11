@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdbool.h>
 
 #include <raylib.h>
@@ -14,7 +15,7 @@
 
 
 int main() {
-    Game *game = {0};
+    Game *game = NULL;
 
     init_game(game);
 

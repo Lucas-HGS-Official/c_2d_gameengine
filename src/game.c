@@ -1,8 +1,10 @@
 #include "game.h"
 
+#include <stdbool.h>
+#include <stdio.h>
+
 #include <raylib.h>
 #include <raymath.h>
-#include <stdbool.h>
 
 
 void init_game(Game_t *game) {
@@ -10,9 +12,14 @@ void init_game(Game_t *game) {
     game->title = "raylib [core] example - basic window";
 
     InitWindow((int)game->screen_size.x, (int)game->screen_size.y, game->title);
+    SetWindowState(FLAG_WINDOW_UNDECORATED);
     SetTargetFPS(60);
 
-    game->is_running = true;
+    if (IsWindowReady()) {
+        game->is_running = true;
+    } else {
+        printf("Raylib window not correctly initialized");
+    }
 
     return;
 }
@@ -26,8 +33,10 @@ void run_game(Game_t *game) {
     return;
 }
 void destroy_game(Game_t *game) {
-    CloseWindow();
-    MemFree(game);
+    if (IsWindowReady()) {
+        CloseWindow();
+        MemFree(game);
+    }
 
     return;
 }

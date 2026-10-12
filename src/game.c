@@ -5,23 +5,19 @@
 #include <stdbool.h>
 
 
-static bool is_running = false;
-
-
 void init_game(Game_t *game) {
-    game = (Game_t*)MemAlloc(sizeof(Game_t));
     game->screen_size = (Vector2) { .x=800, .y=600 };
     game->title = "raylib [core] example - basic window";
 
     InitWindow((int)game->screen_size.x, (int)game->screen_size.y, game->title);
     SetTargetFPS(60);
 
-    is_running = true;
+    game->is_running = true;
 
     return;
 }
 void run_game(Game_t *game) {
-    while (is_running) {
+    while (game->is_running) {
         process_input(game);
         update_game(game);
         render_game(game);
@@ -38,7 +34,7 @@ void destroy_game(Game_t *game) {
 
 void process_input(Game_t *game) {
     if (IsKeyPressed(KEY_ESCAPE)) {
-        is_running = false;
+        game->is_running = false;
     }
 
     return;

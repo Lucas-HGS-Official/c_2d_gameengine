@@ -19,3 +19,4 @@ void destroy_game(Game_t *game);
 void process_input(Game_t *game);
 void update_game(Game_t *game);
 void render_game(Game_t *game);
+void setup_game(Game_t *game);

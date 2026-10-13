@@ -24,6 +24,7 @@ void init_game(Game_t *game) {
     return;
 }
 void run_game(Game_t *game) {
+    setup_game(game);
     while (game->is_running) {
         process_input(game);
         update_game(game);
@@ -57,9 +58,23 @@ void render_game(Game_t *game) {
 
         ClearBackground(RAYWHITE);
 
+        Rectangle player = {
+            .x=10,
+            .y=10,
+            .width=20,
+            .height=20,
+        };
+        DrawRectangleRec(player, RED);
+
         DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
     EndDrawing();
+
+    return;
+}
+
+
+void setup_game(Game_t *game) {
 
     return;
 }

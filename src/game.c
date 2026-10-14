@@ -7,6 +7,9 @@
 #include <raymath.h>
 
 
+static Texture2D tank = {0};
+
+
 void init_game(Game_t *game) {
     game->screen_size = (Vector2) { .x=800, .y=600 };
     game->title = "raylib [core] example - basic window";
@@ -35,6 +38,7 @@ void run_game(Game_t *game) {
 }
 void destroy_game(Game_t *game) {
     if (IsWindowReady()) {
+        UnloadTexture(tank);
         CloseWindow();
         MemFree(game);
     }
@@ -66,6 +70,15 @@ void render_game(Game_t *game) {
         };
         DrawRectangleRec(player, RED);
 
+        Rectangle tank_srcrec = {
+            .height=tank.height,
+            .width=tank.width,
+        };
+        Rectangle tank_destrec = {
+            .x=10, .y=10, .height=32, .width=32,
+        };
+        DrawTexturePro(tank, tank_srcrec, tank_destrec, (Vector2 ){0, 0}, 0, WHITE);
+
         DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
     EndDrawing();
@@ -75,6 +88,7 @@ void render_game(Game_t *game) {
 
 
 void setup_game(Game_t *game) {
+    tank = LoadTexture("./assets/images/tank-tiger-right.png");
 
     return;
 }

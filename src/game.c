@@ -8,6 +8,8 @@
 
 
 static Texture2D tank = {0};
+static Vector2 player_pos = {0};
+static Vector2 player_velocity = {0};
 
 
 void init_game(Game_t *game) {
@@ -54,6 +56,8 @@ void process_input(Game_t *game) {
     return;
 }
 void update_game(Game_t *game) {
+    player_pos.x += player_velocity.x;
+    player_pos.y += player_velocity.y;
 
     return;
 }
@@ -71,11 +75,10 @@ void render_game(Game_t *game) {
         DrawRectangleRec(player, RED);
 
         Rectangle tank_srcrec = {
-            .height=tank.height,
-            .width=tank.width,
+            .height=tank.height, .width=tank.width,
         };
         Rectangle tank_destrec = {
-            .x=10, .y=10, .height=32, .width=32,
+            .x=player_pos.x, .y=player_pos.y, .height=32, .width=32,
         };
         DrawTexturePro(tank, tank_srcrec, tank_destrec, (Vector2 ){0, 0}, 0, WHITE);
 
@@ -89,6 +92,8 @@ void render_game(Game_t *game) {
 
 void setup_game(Game_t *game) {
     tank = LoadTexture("./assets/images/tank-tiger-right.png");
+    player_pos = (Vector2) { .x=10,.y=20 };
+    player_velocity = (Vector2) { .x=1.f, };
 
     return;
 }

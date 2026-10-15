@@ -32,7 +32,7 @@ void run_game(Game_t *game) {
     setup_game(game);
     while (game->is_running) {
         process_input(game);
-        update_game(game);
+        update_game(game, GetFrameTime());
         render_game(game);
     }
 
@@ -55,9 +55,9 @@ void process_input(Game_t *game) {
 
     return;
 }
-void update_game(Game_t *game) {
-    player_pos.x += player_velocity.x;
-    player_pos.y += player_velocity.y;
+void update_game(Game_t *game, float dt) {
+    player_pos.x += player_velocity.x * dt;
+    player_pos.y += player_velocity.y * dt;
 
     return;
 }
@@ -93,7 +93,7 @@ void render_game(Game_t *game) {
 void setup_game(Game_t *game) {
     tank = LoadTexture("./assets/images/tank-tiger-right.png");
     player_pos = (Vector2) { .x=10,.y=20 };
-    player_velocity = (Vector2) { .x=1.f, };
+    player_velocity = (Vector2) { .x=100.f, };
 
     return;
 }

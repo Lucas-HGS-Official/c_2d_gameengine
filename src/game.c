@@ -18,7 +18,7 @@ void init_game(Game_t *game) {
 
     InitWindow((int)game->screen_size.x, (int)game->screen_size.y, game->title);
     SetWindowState(FLAG_WINDOW_UNDECORATED);
-    SetTargetFPS(60);
+    SetTargetFPS(FPS);
 
     if (IsWindowReady()) {
         game->is_running = true;

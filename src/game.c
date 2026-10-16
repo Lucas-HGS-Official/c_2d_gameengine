@@ -4,10 +4,7 @@
 
 #include <raylib.h>
 #include <raymath.h>
-
 #include "log_dot_c/log.h"
-
-#include "logger.h"
 
 
 static Texture2D tank = {0};
@@ -25,9 +22,9 @@ void init_game(Game_t *game) {
 
     if (IsWindowReady()) {
         game->is_running = true;
-        logger_log("All is well");
+        log_info("Window initialized");
     } else {
-        logger_err("Raylib window not correctly initialized");
+        log_error("Raylib window not correctly initialized");
     }
 
     return;

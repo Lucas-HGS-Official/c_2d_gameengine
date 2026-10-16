@@ -1,10 +1,11 @@
 #include "game.h"
 
 #include <stdbool.h>
-#include <stdio.h>
 
 #include <raylib.h>
 #include <raymath.h>
+
+#include "logger.h"
 
 
 static Texture2D tank = {0};
@@ -22,8 +23,9 @@ void init_game(Game_t *game) {
 
     if (IsWindowReady()) {
         game->is_running = true;
+        logger_log("All is well");
     } else {
-        printf("Raylib window not correctly initialized");
+        logger_err("Raylib window not correctly initialized");
     }
 
     return;

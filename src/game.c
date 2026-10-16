@@ -5,6 +5,8 @@
 #include <raylib.h>
 #include <raymath.h>
 
+#include "log_dot_c/log.h"
+
 #include "logger.h"
 
 

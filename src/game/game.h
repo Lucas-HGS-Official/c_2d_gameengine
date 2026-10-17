@@ -15,7 +15,7 @@ typedef struct Game_t {
 } Game_t;
 
 
-void init_game(Game_t *game);
+Game_t *init_game(void);
 void run_game(Game_t *game);
 void destroy_game(Game_t *game);
 

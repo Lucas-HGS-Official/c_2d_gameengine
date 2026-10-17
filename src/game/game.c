@@ -12,7 +12,8 @@ static Vector2 player_pos = {0};
 static Vector2 player_velocity = {0};
 
 
-void init_game(Game_t *game) {
+Game_t *init_game() {
+    Game_t *game = (Game_t*)MemAlloc(sizeof(Game_t));
     game->screen_size = (Vector2) { .x=800, .y=600 };
     game->title = "raylib [core] example - basic window";
 
@@ -27,7 +28,7 @@ void init_game(Game_t *game) {
         log_error("Raylib window not correctly initialized");
     }
 
-    return;
+    return game;
 }
 void run_game(Game_t *game) {
     setup_game(game);

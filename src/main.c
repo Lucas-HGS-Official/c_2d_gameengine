@@ -4,9 +4,7 @@
 
 
 int main() {
-    Game_t *game = (Game_t*)MemAlloc(sizeof(Game_t));
-
-    init_game(game);
+    Game_t *game = init_game();
     run_game(game);
     destroy_game(game);
 

@@ -6,10 +6,7 @@
 #include <raymath.h>
 #include "log_dot_c/log.h"
 
-
-static Texture2D tank = {0};
-static Vector2 player_pos = {0};
-static Vector2 player_velocity = {0};
+#include "../ECS/ECS.h"
 
 
 Game_t *init_game() {
@@ -42,7 +39,6 @@ void run_game(Game_t *game) {
 }
 void destroy_game(Game_t *game) {
     if (IsWindowReady()) {
-        UnloadTexture(tank);
         CloseWindow();
         MemFree(game);
     }
@@ -58,8 +54,6 @@ void process_input(Game_t *game) {
     return;
 }
 void update_game(Game_t *game, float dt) {
-    player_pos.x += player_velocity.x * dt;
-    player_pos.y += player_velocity.y * dt;
 
     return;
 }
@@ -67,22 +61,6 @@ void render_game(Game_t *game) {
     BeginDrawing();
 
         ClearBackground(RAYWHITE);
-
-        Rectangle player = {
-            .x=10,
-            .y=10,
-            .width=20,
-            .height=20,
-        };
-        DrawRectangleRec(player, RED);
-
-        Rectangle tank_srcrec = {
-            .height=tank.height, .width=tank.width,
-        };
-        Rectangle tank_destrec = {
-            .x=player_pos.x, .y=player_pos.y, .height=32, .width=32,
-        };
-        DrawTexturePro(tank, tank_srcrec, tank_destrec, (Vector2 ){0, 0}, 0, WHITE);
 
         DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
@@ -93,9 +71,6 @@ void render_game(Game_t *game) {
 
 
 void setup_game(Game_t *game) {
-    tank = LoadTexture("./assets/images/tank-tiger-right.png");
-    player_pos = (Vector2) { .x=10,.y=20 };
-    player_velocity = (Vector2) { .x=100.f, };
 
     return;
 }

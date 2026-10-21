@@ -21,7 +21,7 @@ System_t *init_system(void) {
     System_t *new_system = MemAlloc(sizeof(System_t));
 
     for (int i=0; i<BITSLOT(MAX_COMPONENTS); i++) {
-        new_system->signature[i] = 0;
+        new_system->component_signature[i] = 0;
     }
 
     return new_system;

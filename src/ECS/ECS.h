@@ -16,6 +16,12 @@
 #define SIGNATURE_SIZE BITSLOT(MAX_COMPONENTS)
 
 
+typedef enum COMPONENT {
+
+    NUM_COMPONENTS,
+} COMPONENT;
+
+
 typedef struct Entity_t {
     uint32_t id;
 } Entity_t;
@@ -33,3 +39,4 @@ System_t *init_system(void);
 void add_entity_to_system(Entity_t *entity);
 void remove_entity_from_system(Entity_t *entity);
 void destroy_system(System_t *system);
+void set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);

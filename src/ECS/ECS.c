@@ -31,3 +31,11 @@ void remove_entity_from_system(Entity_t *entity);
 void destroy_system(System_t *system) {
     MemFree(system);
 }
+void set_required_components(System_t * system, COMPONENT *component_list, int component_list_size) {
+    // system->component_signature
+    for (int i=0; i<component_list_size; i++) {
+        BITSET(system->component_signature, component_list[i]);
+    }
+
+    return;
+}

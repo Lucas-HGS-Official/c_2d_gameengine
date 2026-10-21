@@ -12,9 +12,8 @@
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
 
 
-const uint32_t MAX_COMPONENTS= 32;
-
-#define SIGNATURE char signature[BITSLOT(MAX_COMPONENTS)]
+#define MAX_COMPONENTS 32
+#define SIGNATURE_SIZE BITSLOT(MAX_COMPONENTS)
 
 
 typedef struct Entity_t {
@@ -22,11 +21,15 @@ typedef struct Entity_t {
 } Entity_t;
 
 Entity_t init_entity(int id);
+void destroy_entity(Entity_t *entity);
+
 
 typedef struct System_t {
-    SIGNATURE;
+    char signature[SIGNATURE_SIZE];
     Entity_t *entities; // TODO: download dinamic arrays lib
 } System_t;
 
+System_t *init_system(void);
 void add_entity_to_system(Entity_t *entity);
 void remove_entity_from_system(Entity_t *entity);
+void destroy_system(System_t *system);

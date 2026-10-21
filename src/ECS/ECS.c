@@ -10,3 +10,24 @@ Entity_t init_entity(int id) {
 
     return new_ent;
 }
+void destroy_entity(Entity_t *entity) {
+    MemFree(entity);
+
+    return;
+}
+
+
+System_t *init_system(void) {
+    System_t *new_system = MemAlloc(sizeof(System_t));
+
+    for (int i=0; i<BITSLOT(MAX_COMPONENTS); i++) {
+        new_system->signature[i] = 0;
+    }
+
+    return new_system;
+}
+void add_entity_to_system(Entity_t *entity);
+void remove_entity_from_system(Entity_t *entity);
+void destroy_system(System_t *system) {
+    MemFree(system);
+}

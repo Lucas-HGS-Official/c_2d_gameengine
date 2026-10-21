@@ -25,8 +25,8 @@ void destroy_entity(Entity_t *entity);
 
 
 typedef struct System_t {
-    char signature[SIGNATURE_SIZE];
-    Entity_t *entities; // TODO: download dinamic arrays lib
+    char component_signature[SIGNATURE_SIZE];
+    Entity_t *entities;
 } System_t;
 
 System_t *init_system(void);

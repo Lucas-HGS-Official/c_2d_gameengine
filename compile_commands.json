@@ -12,9 +12,9 @@
       "game_engine",
       "src/main.c"
     ],
-    "directory": "/home/lhgs/dev/c/c_2d_gameengine",
-    "file": "/home/lhgs/dev/c/c_2d_gameengine/src/main.c",
-    "output": "/home/lhgs/dev/c/c_2d_gameengine/game_engine"
+    "directory": "/home/lhgs/dev/C/c_2d_gameengine",
+    "file": "/home/lhgs/dev/C/c_2d_gameengine/src/main.c",
+    "output": "/home/lhgs/dev/C/c_2d_gameengine/game_engine"
   },
   {
     "arguments": [
@@ -29,9 +29,9 @@
       "game_engine",
       "src/game/game.c"
     ],
-    "directory": "/home/lhgs/dev/c/c_2d_gameengine",
-    "file": "/home/lhgs/dev/c/c_2d_gameengine/src/game/game.c",
-    "output": "/home/lhgs/dev/c/c_2d_gameengine/game_engine"
+    "directory": "/home/lhgs/dev/C/c_2d_gameengine",
+    "file": "/home/lhgs/dev/C/c_2d_gameengine/src/game/game.c",
+    "output": "/home/lhgs/dev/C/c_2d_gameengine/game_engine"
   },
   {
     "arguments": [
@@ -46,9 +46,9 @@
       "game_engine",
       "libs/log_dot_c/log.c"
     ],
-    "directory": "/home/lhgs/dev/c/c_2d_gameengine",
-    "file": "/home/lhgs/dev/c/c_2d_gameengine/libs/log_dot_c/log.c",
-    "output": "/home/lhgs/dev/c/c_2d_gameengine/game_engine"
+    "directory": "/home/lhgs/dev/C/c_2d_gameengine",
+    "file": "/home/lhgs/dev/C/c_2d_gameengine/libs/log_dot_c/log.c",
+    "output": "/home/lhgs/dev/C/c_2d_gameengine/game_engine"
   },
   {
     "arguments": [
@@ -81,8 +81,8 @@
       "-tune-cpu",
       "generic",
       "-debugger-tuning=gdb",
-      "-fdebug-compilation-dir=/home/lhgs/dev/c/c_2d_gameengine",
-      "-fcoverage-compilation-dir=/home/lhgs/dev/c/c_2d_gameengine",
+      "-fdebug-compilation-dir=/home/lhgs/dev/C/c_2d_gameengine",
+      "-fcoverage-compilation-dir=/home/lhgs/dev/C/c_2d_gameengine",
       "-resource-dir",
       "/usr/lib/llvm-18/lib/clang/18",
       "-I",
@@ -113,12 +113,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/main-b7331b.o",
+      "/tmp/main-ce5469.o",
       "src/main.c"
     ],
-    "directory": "/home/lhgs/dev/c/c_2d_gameengine",
-    "file": "/home/lhgs/dev/c/c_2d_gameengine/src/main.c",
-    "output": "/tmp/main-b7331b.o"
+    "directory": "/home/lhgs/dev/C/c_2d_gameengine",
+    "file": "/home/lhgs/dev/C/c_2d_gameengine/src/main.c",
+    "output": "/tmp/main-ce5469.o"
   },
   {
     "arguments": [
@@ -151,8 +151,8 @@
       "-tune-cpu",
       "generic",
       "-debugger-tuning=gdb",
-      "-fdebug-compilation-dir=/home/lhgs/dev/c/c_2d_gameengine",
-      "-fcoverage-compilation-dir=/home/lhgs/dev/c/c_2d_gameengine",
+      "-fdebug-compilation-dir=/home/lhgs/dev/C/c_2d_gameengine",
+      "-fcoverage-compilation-dir=/home/lhgs/dev/C/c_2d_gameengine",
       "-resource-dir",
       "/usr/lib/llvm-18/lib/clang/18",
       "-I",
@@ -183,12 +183,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/game-e69a08.o",
+      "/tmp/game-a3fc82.o",
       "src/game/game.c"
     ],
-    "directory": "/home/lhgs/dev/c/c_2d_gameengine",
-    "file": "/home/lhgs/dev/c/c_2d_gameengine/src/game/game.c",
-    "output": "/tmp/game-e69a08.o"
+    "directory": "/home/lhgs/dev/C/c_2d_gameengine",
+    "file": "/home/lhgs/dev/C/c_2d_gameengine/src/game/game.c",
+    "output": "/tmp/game-a3fc82.o"
   },
   {
     "arguments": [
@@ -221,8 +221,8 @@
       "-tune-cpu",
       "generic",
       "-debugger-tuning=gdb",
-      "-fdebug-compilation-dir=/home/lhgs/dev/c/c_2d_gameengine",
-      "-fcoverage-compilation-dir=/home/lhgs/dev/c/c_2d_gameengine",
+      "-fdebug-compilation-dir=/home/lhgs/dev/C/c_2d_gameengine",
+      "-fcoverage-compilation-dir=/home/lhgs/dev/C/c_2d_gameengine",
       "-resource-dir",
       "/usr/lib/llvm-18/lib/clang/18",
       "-I",
@@ -253,11 +253,11 @@
       "-x",
       "c",
       "-o",
-      "/tmp/log-b80be5.o",
+      "/tmp/log-09042f.o",
       "libs/log_dot_c/log.c"
     ],
-    "directory": "/home/lhgs/dev/c/c_2d_gameengine",
-    "file": "/home/lhgs/dev/c/c_2d_gameengine/libs/log_dot_c/log.c",
-    "output": "/tmp/log-b80be5.o"
+    "directory": "/home/lhgs/dev/C/c_2d_gameengine",
+    "file": "/home/lhgs/dev/C/c_2d_gameengine/libs/log_dot_c/log.c",
+    "output": "/tmp/log-09042f.o"
   }
 ]

@@ -22,7 +22,11 @@ System_t *init_system(void) {
     System_t *new_system = MemAlloc(sizeof(System_t));
 
     for (int i=0; i<BITSLOT(MAX_COMPONENTS); i++) {
-        new_system->component_signature[i] = 0;
+        BITCLEAR(new_system->component_signature, i);
+        // new_system->component_signature[i] = 0;
+    }
+    for (int i=0; i<MAX_ENTITY_PER_SYSTEM; i++) {
+        new_system->entities[i] = (Entity_t) {0};
     }
 
     return new_system;

@@ -12,6 +12,8 @@
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
 
 
+#define MAX_ENTITY_PER_SYSTEM 200
+
 #define MAX_COMPONENTS 32
 #define SIGNATURE_SIZE BITSLOT(MAX_COMPONENTS)
 
@@ -32,7 +34,7 @@ void destroy_entity(Entity_t *entity);
 
 typedef struct System_t {
     char component_signature[SIGNATURE_SIZE];
-    Entity_t *entities;
+    Entity_t entities[MAX_ENTITY_PER_SYSTEM];
 } System_t;
 
 System_t *init_system(void);

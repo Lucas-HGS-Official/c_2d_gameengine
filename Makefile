@@ -4,7 +4,8 @@ COMPILER_FLAGS = -Wextra -Wall -Wfatal-errors
 INCLUDE_PATH = -I"./libs/"
 SRC_FILES = src/*.c \
 			src/game/*.c \
-			libs/log_dot_c/*.c
+			libs/log_dot_c/*.c \
+			libs/darray/*.c
 LINKER_FLAGS = -llua -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
 NAME = game_engine

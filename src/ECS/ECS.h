@@ -34,11 +34,12 @@ void destroy_entity(Entity_t *entity);
 
 typedef struct System_t {
     char component_signature[SIGNATURE_SIZE];
-    Entity_t entities[MAX_ENTITY_PER_SYSTEM];
+    Entity_t *entities;
 } System_t;
 
 System_t *init_system(void);
-void add_entity_to_system(Entity_t *entity);
-void remove_entity_from_system(Entity_t *entity);
 void destroy_system(System_t *system);
+
 void set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
+void add_entity_to_system(System_t *system, Entity_t entity);
+void remove_entity_from_system(System_t *system, Entity_t entity);

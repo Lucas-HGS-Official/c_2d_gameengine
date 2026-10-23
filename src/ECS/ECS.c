@@ -1,20 +1,38 @@
 #include "ECS.h"
 
 #include <raylib.h>
+#include <stdint.h>
 #include "darray/darray.h"
 
 
-// Allocates memory for the entity
-Entity_t init_entity(int id) {
-    Entity_t new_ent = {
-        .id = id,
-    };
+// Allocates memory for the entities
+Entity_t init_entities(void) {
+    Entity_t new_ent = {0};
 
     return new_ent;
 }
-// Frees memory for the entity
-void destroy_entity(Entity_t *entity) {
-    MemFree(entity);
+// Frees memory for the entities
+void destroy_entities(Entity_t entity) {
+    if (entity.size>0) {
+        darray_free(entity.id_list);
+    }
+
+    return;
+}
+void add_entity(Entity_t *entity, uint32_t id) {
+    darray_push(entity->id_list, id);
+    entity->size++;
+
+    return;
+}
+void remove_entity(Entity_t *entity, uint32_t id) {
+    for (uint32_t i=0; i<entity->size; i++) {
+        if (entity->id_list[i] == id) {
+            entity->id_list[i] = entity->id_list[entity->size-1];
+            entity->id_list[entity->size-1] = 0;
+            entity->size--;
+        }
+    }
 
     return;
 }
@@ -27,14 +45,13 @@ System_t *init_system(void) {
     for (int i=0; i<BITSLOT(MAX_COMPONENTS); i++) {
         BITCLEAR(new_system->component_signature, i);
     }
-    for (int i=0; i<MAX_ENTITY_PER_SYSTEM; i++) {
-        new_system->entities[i] = (Entity_t) {0};
-    }
+    new_system->entities = init_entities();
 
     return new_system;
 }
 // Frees memory for the system
 void destroy_system(System_t *system) {
+    destroy_entities(system->entities);
     MemFree(system);
 }
 // Sets the system component signature to that it can chose aplicable entities
@@ -45,20 +62,13 @@ void set_required_components(System_t * system, COMPONENT *component_list, int c
 
     return;
 }
-void add_entity_to_system(System_t *system, Entity_t entity) {
-    darray_push(system->entities, entity);
+void add_entity_to_system(System_t *system, uint32_t entity_id) {
+    add_entity(&system->entities, entity_id);
 
     return;
 }
-void remove_entity_from_system(System_t *system, Entity_t entity) {
-    int entities_size = darray_size(system->entities);
-    for (int i=0; i<entities_size; i++) {
-        if (system->entities[i].id == entity.id) {
-            system->entities[i] = (Entity_t) {0};
-
-            break;
-        }
-    }
+void remove_entity_from_system(System_t *system, uint32_t entity_id) {
+    remove_entity(&system->entities, entity_id);
 
     return;
 }

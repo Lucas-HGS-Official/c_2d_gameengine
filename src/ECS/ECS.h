@@ -51,6 +51,8 @@ void remove_entity_from_system(System_t *system, uint32_t entity_id);
 
 typedef struct Pool {
     void *data;
+    uint32_t max_length;
+    uint32_t current_length;
     size_t data_size;
 } Pool;
 

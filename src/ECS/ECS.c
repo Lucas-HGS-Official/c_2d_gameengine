@@ -1,6 +1,7 @@
 #include "ECS.h"
 
 #include <raylib.h>
+#include <stddef.h>
 #include <stdint.h>
 #include "darray/darray.h"
 
@@ -74,8 +75,10 @@ void remove_entity_from_system(System_t *system, uint32_t entity_id) {
 }
 
 
-void pool_resize(Pool *pool, COMPONENT pool_type, uint32_t new_size) {
-    pool[pool_type].data = MemRealloc(pool[pool_type].data, pool[pool_type].data_size*new_size);
+void pool_resize(Pool *pool, COMPONENT pool_type, uint32_t size_to_add) {
+    uint32_t new_size = size_to_add + pool->max_length;
+    size_t new_memory_size = pool[pool_type].data_size * new_size;
+    pool[pool_type].data = MemRealloc(pool[pool_type].data, new_memory_size);
 
     return;
 }
@@ -83,5 +86,5 @@ void pool_add(Pool *pool, COMPONENT pool_type, void *new_component);
 void pool_set(Pool *pool, COMPONENT pool_type, void *new_component, uint32_t index);
 void *pool_get(Pool *pool, COMPONENT pool_type, uint32_t index) {
 
-    return &pool[pool_type].data[index]; // not working, data[index] does not get the right address, need size info
+    return &pool[pool_type].data + index+pool->data_size; // TODO: Check if it works, possily need system struct offset
 }

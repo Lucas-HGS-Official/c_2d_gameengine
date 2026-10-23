@@ -13,7 +13,7 @@ Entity_t init_entities(void) {
 }
 // Frees memory for the entities
 void destroy_entities(Entity_t entity) {
-    if (entity.size>0) {
+    if (entity.length>0) {
         darray_free(entity.id_list);
     }
 
@@ -21,16 +21,16 @@ void destroy_entities(Entity_t entity) {
 }
 void add_entity(Entity_t *entity, uint32_t id) {
     darray_push(entity->id_list, id);
-    entity->size++;
+    entity->length++;
 
     return;
 }
 void remove_entity(Entity_t *entity, uint32_t id) {
-    for (uint32_t i=0; i<entity->size; i++) {
+    for (uint32_t i=0; i<entity->length; i++) {
         if (entity->id_list[i] == id) {
-            entity->id_list[i] = entity->id_list[entity->size-1];
-            entity->id_list[entity->size-1] = 0;
-            entity->size--;
+            entity->id_list[i] = entity->id_list[entity->length-1];
+            entity->id_list[entity->length-1] = 0;
+            entity->length--;
         }
     }
 
@@ -71,4 +71,17 @@ void remove_entity_from_system(System_t *system, uint32_t entity_id) {
     remove_entity(&system->entities, entity_id);
 
     return;
+}
+
+
+void pool_resize(Pool *pool, COMPONENT pool_type, uint32_t new_size) {
+    pool[pool_type].data = MemRealloc(pool[pool_type].data, pool[pool_type].data_size*new_size);
+
+    return;
+}
+void pool_add(Pool *pool, COMPONENT pool_type, void *new_component);
+void pool_set(Pool *pool, COMPONENT pool_type, void *new_component, uint32_t index);
+void *pool_get(Pool *pool, COMPONENT pool_type, uint32_t index) {
+
+    return &pool[pool_type].data[index]; // not working, data[index] does not get the right address, need size info
 }

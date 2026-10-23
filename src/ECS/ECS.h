@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stddef.h>
 #include <stdint.h>
 
 #include <limits.h>		/* for CHAR_BIT */
@@ -26,7 +27,7 @@ typedef enum COMPONENT {
 
 typedef struct Entity_t {
     uint32_t *id_list;
-    uint32_t size;
+    uint32_t length;
 } Entity_t;
 
 Entity_t init_entities(void);
@@ -46,3 +47,19 @@ void destroy_system(System_t *system);
 void set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
 void add_entity_to_system(System_t *system, uint32_t entity_id);
 void remove_entity_from_system(System_t *system, uint32_t entity_id);
+
+
+typedef struct Pool {
+    void *data;
+    size_t data_size;
+} Pool;
+
+void pool_resize(Pool *pool, COMPONENT pool_type, uint32_t new_size);
+void pool_add(Pool *pool, COMPONENT pool_type, void *new_component);
+void pool_set(Pool *pool, COMPONENT pool_type, void *new_component, uint32_t index);
+void *pool_get(Pool *pool, COMPONENT pool_type, uint32_t index);
+
+
+typedef struct ECSCoordinator_t {
+    Pool component_pools[NUM_COMPONENTS];
+} ECSCoordinator_t;

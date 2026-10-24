@@ -73,3 +73,6 @@ typedef struct Registry_t {
     char *entity_component_signature[SIGNATURE_SIZE];
     System_t systems_list[NUM_SYSTEMS];
 } Registry_t;
+
+Registry_t *init_registry(void);
+void destroy_registry(Registry_t *registry);

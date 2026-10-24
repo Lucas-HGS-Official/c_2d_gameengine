@@ -94,3 +94,13 @@ void remove_entity_from_system(System_t *system, uint32_t entity_id) {
 //
 //     return &pool[pool_type].data + index+pool->data_size; // TODO: Check if it works, possily need system struct offset
 // }
+
+
+Registry_t *init_registry(void) {
+    Registry_t *new_registry = MemAlloc(sizeof(Registry_t));
+
+    return new_registry;
+}
+void destroy_registry(Registry_t *registry) {
+    MemFree(registry);
+}

@@ -24,6 +24,11 @@ typedef enum COMPONENT {
     NUM_COMPONENTS,
 } COMPONENT;
 
+typedef enum SYSTEM {
+
+    NUM_SYSTEMS,
+} SYSTEM;
+
 
 typedef struct Entity_t {
     uint32_t *id_list;
@@ -62,6 +67,9 @@ typedef struct Pool {
 // void *pool_get(Pool *pool, COMPONENT pool_type, uint32_t index);
 
 
-typedef struct ECSCoordinator_t {
+typedef struct Registry_t {
+    uint32_t num_entities;
     Pool component_pools[NUM_COMPONENTS];
-} ECSCoordinator_t;
+    char *entity_component_signature[SIGNATURE_SIZE];
+    System_t systems_list[NUM_SYSTEMS];
+} Registry_t;

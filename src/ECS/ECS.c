@@ -103,7 +103,17 @@ Registry_t *init_registry(void) {
     return new_registry;
 }
 void destroy_registry(Registry_t *registry) {
+    destroy_entities(registry->entities_to_be_added);
+    destroy_entities(registry->entities_to_be_destroyed);
+    for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
+        destroy_system(&registry->systems_list[i]);
+    }
+    // registry->component_pools;
+    // TODO: Destroy component pools
+    darray_free(registry->entities_components);
     MemFree(registry);
+
+    return;
 }
 
 void registry_create_entity(Registry_t *registry) {

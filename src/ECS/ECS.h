@@ -69,6 +69,9 @@ typedef struct Pool {
 
 typedef struct Registry_t {
     uint32_t num_entities;
+    Entity_t entities_to_be_added;
+    Entity_t entities_to_be_destroyed;
+
     Pool component_pools[NUM_COMPONENTS];
     char *entity_component_signature[SIGNATURE_SIZE];
     System_t systems_list[NUM_SYSTEMS];
@@ -76,3 +79,6 @@ typedef struct Registry_t {
 
 Registry_t *init_registry(void);
 void destroy_registry(Registry_t *registry);
+
+void registry_create_entity(Registry_t *registry);
+void registry_update(Registry_t *registry);

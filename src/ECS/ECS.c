@@ -104,3 +104,14 @@ Registry_t *init_registry(void) {
 void destroy_registry(Registry_t *registry) {
     MemFree(registry);
 }
+
+void registry_create_entity(Registry_t *registry) {
+    uint32_t entity_id = registry->entities_to_be_added.length;
+    add_entity(&registry->entities_to_be_added, entity_id);
+
+    return;
+}
+void registry_update(Registry_t *registry) {
+
+    return;
+}

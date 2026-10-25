@@ -44,7 +44,7 @@ System_t *init_system(void) {
     System_t *new_system = MemAlloc(sizeof(System_t));
 
     for (int i=0; i<BITSLOT(MAX_COMPONENTS); i++) {
-        BITCLEAR(new_system->component_signature, i);
+        BITCLEAR(new_system->component.signature, i);
     }
     new_system->entities = init_entities();
 
@@ -58,7 +58,7 @@ void destroy_system(System_t *system) {
 // Sets the system component signature to that it can chose aplicable entities
 void set_required_components(System_t * system, COMPONENT *component_list, int component_list_size) {
     for (int i=0; i<component_list_size; i++) {
-        BITSET(system->component_signature, component_list[i]);
+        BITSET(system->component.signature, component_list[i]);
     }
 
     return;
@@ -109,11 +109,11 @@ void destroy_registry(Registry_t *registry) {
 void registry_create_entity(Registry_t *registry) {
     uint32_t entity_id = registry->entities_to_be_added.length++;
 
-    if (entity_id >= registry->entts_comps_signatures_len) {
-        char **signatures_list = registry->entts_comps_signatures;
-        char *new_signature = registry->entts_comps_signatures[SIGNATURE_SIZE];
+    if (entity_id >= registry->entities_components_len) {
+        Signature_t *signatures_list = registry->entities_components;
+        Signature_t new_signature = {0};
         darray_push(signatures_list, new_signature);
-        registry->entts_comps_signatures_len++;
+        registry->entities_components_len++;
     }
 
     add_entity(&registry->entities_to_be_added, entity_id);

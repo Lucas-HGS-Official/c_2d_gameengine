@@ -30,6 +30,10 @@ typedef enum SYSTEM {
 } SYSTEM;
 
 
+typedef struct Signature_t {
+    char signature[SIGNATURE_SIZE];
+} Signature_t;
+
 typedef struct Entity_t {
     uint32_t *id_list;
     uint32_t length;
@@ -42,7 +46,7 @@ void remove_entity(Entity_t *entity, uint32_t id);
 
 
 typedef struct System_t {
-    char component_signature[SIGNATURE_SIZE];
+    Signature_t component;
     Entity_t entities;
 } System_t;
 
@@ -68,11 +72,11 @@ typedef struct Pool {
 
 
 typedef struct Registry_t {
-    // uint32_t num_entities;
+    uint32_t num_entities;
     Entity_t entities_to_be_added;
     Entity_t entities_to_be_destroyed;
-    char **entts_comps_signatures;
-    uint32_t entts_comps_signatures_len;
+    Signature_t *entities_components;
+    uint32_t entities_components_len;
 
     Pool component_pools[NUM_COMPONENTS];
     System_t systems_list[NUM_SYSTEMS];
@@ -82,4 +86,6 @@ Registry_t *init_registry(void);
 void destroy_registry(Registry_t *registry);
 
 void registry_create_entity(Registry_t *registry);
+void registry_add_component_to_entity(Registry_t *registry);
+void registry_add_entity_to_system(Registry_t *registry);
 void registry_update(Registry_t *registry);

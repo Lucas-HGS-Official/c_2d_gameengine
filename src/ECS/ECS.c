@@ -117,7 +117,7 @@ void destroy_registry(Registry_t *registry) {
 }
 
 void registry_create_entity(Registry_t *registry) {
-    uint32_t entity_id = registry->entities_to_be_added.length++;
+    uint32_t entity_id = registry->biggest_entity_id++;
 
     if (entity_id >= registry->entities_components_len) {
         Signature_t *signatures_list = registry->entities_components;

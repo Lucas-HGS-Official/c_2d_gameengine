@@ -72,7 +72,7 @@ typedef struct Pool {
 
 
 typedef struct Registry_t {
-    uint32_t num_entities;
+    uint32_t biggest_entity_id;
     Entity_t entities_to_be_added;
     Entity_t entities_to_be_destroyed;
     Signature_t *entities_components;

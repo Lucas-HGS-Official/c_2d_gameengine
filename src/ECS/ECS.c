@@ -98,6 +98,7 @@ void remove_entity_from_system(System_t *system, uint32_t entity_id) {
 
 Registry_t *init_registry(void) {
     Registry_t *new_registry = MemAlloc(sizeof(Registry_t));
+    *new_registry = (Registry_t) {0};
 
     return new_registry;
 }
@@ -106,7 +107,15 @@ void destroy_registry(Registry_t *registry) {
 }
 
 void registry_create_entity(Registry_t *registry) {
-    uint32_t entity_id = registry->entities_to_be_added.length;
+    uint32_t entity_id = registry->entities_to_be_added.length++;
+
+    if (entity_id >= registry->entts_comps_signatures_len) {
+        char **signatures_list = registry->entts_comps_signatures;
+        char *new_signature = registry->entts_comps_signatures[SIGNATURE_SIZE];
+        darray_push(signatures_list, new_signature);
+        registry->entts_comps_signatures_len++;
+    }
+
     add_entity(&registry->entities_to_be_added, entity_id);
 
     return;

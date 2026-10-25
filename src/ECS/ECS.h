@@ -68,12 +68,13 @@ typedef struct Pool {
 
 
 typedef struct Registry_t {
-    uint32_t num_entities;
+    // uint32_t num_entities;
     Entity_t entities_to_be_added;
     Entity_t entities_to_be_destroyed;
+    char **entts_comps_signatures;
+    uint32_t entts_comps_signatures_len;
 
     Pool component_pools[NUM_COMPONENTS];
-    char *entity_component_signature[SIGNATURE_SIZE];
     System_t systems_list[NUM_SYSTEMS];
 } Registry_t;
 

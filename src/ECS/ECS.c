@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include "darray/darray.h"
 
+#include "../components/transform_comp.h"
+
 
 // Allocates memory for the entities
 Entity_t init_entities(void) {
@@ -130,6 +132,13 @@ void registry_create_entity(Registry_t *registry) {
 
     return;
 }
+void registry_add_component_to_entity(Registry_t *registry, uint32_t entt_id, COMPONENT comp_type) {
+    BITSET(registry->entities_components[entt_id].signature, comp_type);
+    // tranform_comp_add_to_pool(entt_id, &registry->component_pools[comp_type]);
+
+    return;
+}
+void registry_add_entity_to_system(Registry_t *registry);
 void registry_update(Registry_t *registry) {
 
     return;

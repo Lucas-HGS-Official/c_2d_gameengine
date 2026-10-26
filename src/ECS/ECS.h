@@ -20,11 +20,13 @@
 
 
 typedef enum COMPONENT {
+    TRANSFORM_COMP,
 
     NUM_COMPONENTS,
 } COMPONENT;
 
 typedef enum SYSTEM {
+    MOVEMENT_SYS,
 
     NUM_SYSTEMS,
 } SYSTEM;
@@ -87,6 +89,6 @@ Registry_t *init_registry(void);
 void destroy_registry(Registry_t *registry);
 
 void registry_create_entity(Registry_t *registry);
-void registry_add_component_to_entity(Registry_t *registry);
+void registry_add_component_to_entity(Registry_t *registry, uint32_t entt_id, COMPONENT comp_type);
 void registry_add_entity_to_system(Registry_t *registry);
 void registry_update(Registry_t *registry);

@@ -41,8 +41,9 @@ typedef struct Entity_t {
 
 Entity_t init_entities(void);
 void destroy_entities(Entity_t entity);
-void add_entity(Entity_t *entity, uint32_t id);
-void remove_entity(Entity_t *entity, uint32_t id);
+
+void entities_add_entity(Entity_t *entity, uint32_t id);
+void entities_remove_entity(Entity_t *entity, uint32_t id);
 
 
 typedef struct System_t {
@@ -53,9 +54,9 @@ typedef struct System_t {
 System_t *init_system(void);
 void destroy_system(System_t *system);
 
-void set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
-void add_entity_to_system(System_t *system, uint32_t entity_id);
-void remove_entity_from_system(System_t *system, uint32_t entity_id);
+void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
+void system_add_entity_to(System_t *system, uint32_t entity_id);
+void system_remove_entity(System_t *system, uint32_t entity_id);
 
 
 typedef struct Pool {

@@ -20,13 +20,13 @@ void destroy_entities(Entity_t entity) {
 
     return;
 }
-void add_entity(Entity_t *entity, uint32_t id) {
+void entities_add_entity(Entity_t *entity, uint32_t id) {
     darray_push(entity->id_list, id);
     entity->length++;
 
     return;
 }
-void remove_entity(Entity_t *entity, uint32_t id) {
+void entities_remove_entity(Entity_t *entity, uint32_t id) {
     for (uint32_t i=0; i<entity->length; i++) {
         if (entity->id_list[i] == id) {
             entity->id_list[i] = entity->id_list[entity->length-1];
@@ -56,20 +56,20 @@ void destroy_system(System_t *system) {
     MemFree(system);
 }
 // Sets the system component signature to that it can chose aplicable entities
-void set_required_components(System_t * system, COMPONENT *component_list, int component_list_size) {
+void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size) {
     for (int i=0; i<component_list_size; i++) {
         BITSET(system->component.signature, component_list[i]);
     }
 
     return;
 }
-void add_entity_to_system(System_t *system, uint32_t entity_id) {
-    add_entity(&system->entities, entity_id);
+void system_add_entity_to(System_t *system, uint32_t entity_id) {
+    entities_add_entity(&system->entities, entity_id);
 
     return;
 }
-void remove_entity_from_system(System_t *system, uint32_t entity_id) {
-    remove_entity(&system->entities, entity_id);
+void system_remove_entity(System_t *system, uint32_t entity_id) {
+    entities_remove_entity(&system->entities, entity_id);
 
     return;
 }
@@ -126,7 +126,7 @@ void registry_create_entity(Registry_t *registry) {
         registry->entities_components_len++;
     }
 
-    add_entity(&registry->entities_to_be_added, entity_id);
+    entities_add_entity(&registry->entities_to_be_added, entity_id);
 
     return;
 }

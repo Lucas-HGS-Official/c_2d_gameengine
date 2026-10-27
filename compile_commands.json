@@ -208,12 +208,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/main-52af33.o",
+      "/tmp/main-0adeba.o",
       "src/main.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/main.c",
-    "output": "/tmp/main-52af33.o"
+    "output": "/tmp/main-0adeba.o"
   },
   {
     "arguments": [
@@ -284,12 +284,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/game-19464f.o",
+      "/tmp/game-b86739.o",
       "src/game/game.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/game/game.c",
-    "output": "/tmp/game-19464f.o"
+    "output": "/tmp/game-b86739.o"
   },
   {
     "arguments": [
@@ -360,12 +360,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/log-1ca5e8.o",
+      "/tmp/log-f23b60.o",
       "libs/log_dot_c/log.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/libs/log_dot_c/log.c",
-    "output": "/tmp/log-1ca5e8.o"
+    "output": "/tmp/log-f23b60.o"
   },
   {
     "arguments": [
@@ -436,12 +436,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/darray-e9ed4f.o",
+      "/tmp/darray-cbffbd.o",
       "libs/darray/darray.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/libs/darray/darray.c",
-    "output": "/tmp/darray-e9ed4f.o"
+    "output": "/tmp/darray-cbffbd.o"
   },
   {
     "arguments": [
@@ -512,12 +512,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/movement_system-526dfd.o",
+      "/tmp/movement_system-705b68.o",
       "src/systems/movement_system.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/systems/movement_system.c",
-    "output": "/tmp/movement_system-526dfd.o"
+    "output": "/tmp/movement_system-705b68.o"
   },
   {
     "arguments": [
@@ -588,12 +588,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/ECS-577a1e.o",
+      "/tmp/ECS-f7724f.o",
       "src/ECS/ECS.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/ECS/ECS.c",
-    "output": "/tmp/ECS-577a1e.o"
+    "output": "/tmp/ECS-f7724f.o"
   },
   {
     "arguments": [
@@ -664,11 +664,11 @@
       "-x",
       "c",
       "-o",
-      "/tmp/transform_comp-55229d.o",
+      "/tmp/transform_comp-ca63dd.o",
       "src/components/transform_comp.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/components/transform_comp.c",
-    "output": "/tmp/transform_comp-55229d.o"
+    "output": "/tmp/transform_comp-ca63dd.o"
   }
 ]

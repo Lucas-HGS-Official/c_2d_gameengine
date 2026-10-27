@@ -77,27 +77,6 @@ void system_remove_entity(System_t *system, uint32_t entity_id) {
 }
 
 
-// void pool_resize(Pool *pool, COMPONENT pool_type, uint32_t size_to_add) {
-//     uint32_t new_size = size_to_add + pool->max_length;
-//     size_t new_memory_size = pool[pool_type].data_size * new_size;
-//     pool[pool_type].data = MemRealloc(pool[pool_type].data, new_memory_size);
-//
-//     return;
-// }
-// void pool_add(Pool *pool, COMPONENT pool_type, void *new_component) {
-//     uint32_t current_length =pool[pool_type].current_length;
-//     *pool_get(pool, pool_type, current_length) = *new_component;
-//     pool[pool_type].data[current_length] = (void*)new_component;
-//
-//     return;
-// }
-// void pool_set(Pool *pool, COMPONENT pool_type, void *new_component, uint32_t index);
-// void *pool_get(Pool *pool, COMPONENT pool_type, uint32_t index) {
-//
-//     return &pool[pool_type].data + index+pool->data_size; // TODO: Check if it works, possily need system struct offset
-// }
-
-
 Registry_t *init_registry(void) {
     Registry_t *new_registry = MemAlloc(sizeof(Registry_t));
     *new_registry = (Registry_t) {0};

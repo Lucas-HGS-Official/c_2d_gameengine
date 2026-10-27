@@ -68,11 +68,6 @@ typedef struct Pool {
     size_t data_size;
 } Pool;
 
-// void pool_resize(Pool *pool, COMPONENT pool_type, uint32_t new_size);
-// void pool_add(Pool *pool, COMPONENT pool_type, void *new_component);
-// void pool_set(Pool *pool, COMPONENT pool_type, void *new_component, uint32_t index);
-// void *pool_get(Pool *pool, COMPONENT pool_type, uint32_t index);
-
 
 typedef struct Registry_t {
     uint32_t biggest_entity_id;

@@ -21,6 +21,12 @@ void tranform_comp_set_to_pool(Pool *tranform_comp_pool, uint16_t entt_id, Trans
     return;
 }
 
+Transform_Comp_t *transform_comp_get_from_pool(Pool *tranform_comp_pool, uint16_t entt_id) {
+    Transform_Comp_t *transform_comp_data = (Transform_Comp_t*) tranform_comp_pool->data;
+
+    return &transform_comp_data[entt_id];
+}
+
 // void *pool_get(Pool *pool, COMPONENT pool_type, uint16_t index) {
 //
 //     return &pool[pool_type].data + index+pool->data_size; // TODO: Check if it works, possily need system struct offset

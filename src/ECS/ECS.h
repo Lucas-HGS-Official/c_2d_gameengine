@@ -68,6 +68,10 @@ typedef struct Pool {
     size_t data_size;
 } Pool;
 
+Pool *init_pool(void);
+void destroy_pool_data(Pool *pool);
+void destroy_pool(Pool *pool);
+
 
 typedef struct Registry_t {
     uint32_t biggest_entity_id;

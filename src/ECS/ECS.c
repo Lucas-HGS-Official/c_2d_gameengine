@@ -77,6 +77,25 @@ void system_remove_entity(System_t *system, uint32_t entity_id) {
 }
 
 
+Pool *init_pool(void) {
+    Pool *new_pool = MemAlloc(sizeof(Pool));
+    *new_pool = (Pool) {0};
+
+    return new_pool;
+}
+void destroy_pool_data(Pool *pool) {
+    MemFree(pool->data);
+
+    return;
+}
+void destroy_pool(Pool *pool) {
+    destroy_pool_data(pool);
+    MemFree(pool);
+
+    return;
+}
+
+
 Registry_t *init_registry(void) {
     Registry_t *new_registry = MemAlloc(sizeof(Registry_t));
     *new_registry = (Registry_t) {0};
@@ -89,8 +108,9 @@ void destroy_registry(Registry_t *registry) {
     for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
         destroy_system(&registry->systems_list[i]);
     }
-    // registry->component_pools;
-    // TODO: Destroy component pools
+    for (COMPONENT i=0; i<NUM_COMPONENTS; i++) {
+        destroy_pool_data(&registry->component_pools[i]);
+    }
     darray_free(registry->entities_components);
     MemFree(registry);
 

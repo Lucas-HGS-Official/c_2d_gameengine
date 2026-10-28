@@ -37,15 +37,15 @@ typedef struct Signature_t {
 } Signature_t;
 
 typedef struct Entity_t {
-    uint32_t *id_list;
-    uint32_t length;
+    uint16_t *id_list;
+    uint16_t length;
 } Entity_t;
 
 Entity_t init_entities(void);
 void destroy_entities(Entity_t entity);
 
-void entities_add_entity(Entity_t *entity, uint32_t id);
-void entities_remove_entity(Entity_t *entity, uint32_t id);
+void entities_add_entity(Entity_t *entity, uint16_t id);
+void entities_remove_entity(Entity_t *entity, uint16_t id);
 
 
 typedef struct System_t {
@@ -57,14 +57,14 @@ System_t *init_system(void);
 void destroy_system(System_t *system);
 
 void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
-void system_add_entity_to(System_t *system, uint32_t entity_id);
-void system_remove_entity(System_t *system, uint32_t entity_id);
+void system_add_entity_to(System_t *system, uint16_t entity_id);
+void system_remove_entity(System_t *system, uint16_t entity_id);
 
 
 typedef struct Pool {
     void *data;
-    uint32_t max_length;
-    uint32_t current_length;
+    uint16_t max_length;
+    uint16_t current_length;
     size_t data_size;
 } Pool;
 
@@ -74,11 +74,11 @@ void destroy_pool(Pool *pool);
 
 
 typedef struct Registry_t {
-    uint32_t biggest_entity_id;
+    uint16_t biggest_entity_id;
     Entity_t entities_to_be_added;
     Entity_t entities_to_be_destroyed;
     Signature_t *entities_components;
-    uint32_t entities_components_len;
+    uint16_t entities_components_len;
 
     Pool component_pools[NUM_COMPONENTS];
     System_t systems_list[NUM_SYSTEMS];
@@ -88,6 +88,6 @@ Registry_t *init_registry(void);
 void destroy_registry(Registry_t *registry);
 
 void registry_create_entity(Registry_t *registry);
-void registry_add_component_to_entity(Registry_t *registry, uint32_t entt_id, COMPONENT comp_type);
+void registry_add_component_to_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type);
 void registry_add_entity_to_system(Registry_t *registry);
 void registry_update(Registry_t *registry);

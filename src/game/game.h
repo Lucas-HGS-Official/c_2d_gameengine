@@ -1,8 +1,9 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include <raylib.h>
 #include <raymath.h>
-#include <stdbool.h>
 
 
 static const int FPS = 60;

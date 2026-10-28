@@ -1,8 +1,9 @@
 #include "ECS.h"
 
-#include <raylib.h>
 #include <stddef.h>
 #include <stdint.h>
+
+#include <raylib.h>
 #include "darray/darray.h"
 
 #include "../components/transform_comp.h"

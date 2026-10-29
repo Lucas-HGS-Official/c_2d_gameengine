@@ -100,6 +100,18 @@ void destroy_pool(Pool *pool) {
 Registry_t *init_registry(void) {
     Registry_t *new_registry = MemAlloc(sizeof(Registry_t));
     *new_registry = (Registry_t) {0};
+    for (COMPONENT i=0; i<NUM_COMPONENTS; i++) {
+        switch (i) {
+            case TRANSFORM_COMP:
+                init_trasform_comp_pool_data(&new_registry->component_pools[i]);
+                break;
+
+            case NUM_COMPONENTS:
+                break;
+            default:
+                break;
+        }
+    }
 
     return new_registry;
 }

@@ -6,6 +6,11 @@
 #include <raylib.h>
 
 
+void init_trasform_comp_pool_data(Pool *transform_comp_pool) {
+    transform_comp_pool_resize(transform_comp_pool, 100);
+
+    return;
+}
 void transform_comp_pool_resize(Pool *tranform_comp_pool, uint16_t size_to_add) {
     uint16_t new_size = tranform_comp_pool->max_length + size_to_add;
     size_t new_memory_size = sizeof(Transform_Comp_t) * new_size;

@@ -85,7 +85,9 @@ Pool *init_pool(void) {
     return new_pool;
 }
 void destroy_pool_data(Pool *pool) {
-    MemFree(pool->data);
+    if (pool->current_length != 0) {
+        MemFree(pool->data);
+    }
 
     return;
 }
@@ -116,15 +118,21 @@ Registry_t *init_registry(void) {
     return new_registry;
 }
 void destroy_registry(Registry_t *registry) {
-    destroy_entities(registry->entities_to_be_added);
-    destroy_entities(registry->entities_to_be_destroyed);
+    if (registry->entities_to_be_added.length != 0) {
+        destroy_entities(registry->entities_to_be_added);
+    }
+    if (registry->entities_to_be_destroyed.length != 0) {
+        destroy_entities(registry->entities_to_be_destroyed);
+    }
     for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
         destroy_system(&registry->systems_list[i]);
     }
     for (COMPONENT i=0; i<NUM_COMPONENTS; i++) {
         destroy_pool_data(&registry->component_pools[i]);
     }
-    darray_free(registry->entities_components);
+    if (registry->entities_components_len != 0) {
+        darray_free(registry->entities_components);
+    }
     MemFree(registry);
 
     return;

@@ -134,7 +134,7 @@ void registry_create_entity(Registry_t *registry) {
 }
 void registry_add_component_to_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type) {
     BITSET(registry->entities_components[entt_id].signature, comp_type);
-    // tranform_comp_add_to_pool(entt_id, &registry->component_pools[comp_type]);
+    tranform_comp_set_to_pool(&registry->component_pools[comp_type], entt_id, (Transform_Comp_t) {0});
 
     return;
 }

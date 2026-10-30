@@ -5,6 +5,7 @@
 
 #include <raylib.h>
 #include "darray/darray.h"
+#include "log_dot_c/log.h"
 
 #include "../components/transform_comp.h"
 
@@ -17,6 +18,9 @@ Entity_t init_entities(void) {
 }
 // Frees memory for the entities
 void destroy_entities(Entity_t entity) {
+    if (!entity.is_enttities_initialized) {
+        return;
+    }
     if (entity.length>0) {
         darray_free(entity.id_list);
     }
@@ -55,8 +59,13 @@ System_t *init_system(void) {
 }
 // Frees memory for the system
 void destroy_system(System_t *system) {
+    if (!system->is_system_initialized) {
+        return;
+    }
     destroy_entities(system->entities);
     MemFree(system);
+
+    return;
 }
 // Sets the system component signature to that it can chose aplicable entities
 void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size) {
@@ -92,6 +101,9 @@ void destroy_pool_data(Pool *pool) {
     return;
 }
 void destroy_pool(Pool *pool) {
+    if (!pool->is_pool_initialized) {
+        return;
+    }
     destroy_pool_data(pool);
     MemFree(pool);
 
@@ -114,14 +126,18 @@ Registry_t *init_registry(void) {
                 break;
         }
     }
+    registry_create_entity(new_registry);
 
     return new_registry;
 }
 void destroy_registry(Registry_t *registry) {
-    if (registry->entities_to_be_added.length != 0) {
+    if (!registry->is_registry_initialized) {
+        return;
+    }
+    if (registry->entities_to_be_added.length > 0) {
         destroy_entities(registry->entities_to_be_added);
     }
-    if (registry->entities_to_be_destroyed.length != 0) {
+    if (registry->entities_to_be_destroyed.length > 0) {
         destroy_entities(registry->entities_to_be_destroyed);
     }
     for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {

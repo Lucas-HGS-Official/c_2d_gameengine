@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -39,6 +40,7 @@ typedef struct Signature_t {
 typedef struct Entity_t {
     uint16_t *id_list;
     uint16_t length;
+    bool is_enttities_initialized;
 } Entity_t;
 
 Entity_t init_entities(void);
@@ -51,6 +53,7 @@ void entities_remove_entity(Entity_t *entity, uint16_t id);
 typedef struct System_t {
     Signature_t component;
     Entity_t entities;
+    bool is_system_initialized;
 } System_t;
 
 System_t *init_system(void);
@@ -66,6 +69,7 @@ typedef struct Pool {
     uint16_t max_length;
     uint16_t current_length;
     size_t data_size;
+    bool is_pool_initialized;
 } Pool;
 
 Pool *init_pool(void);
@@ -82,6 +86,8 @@ typedef struct Registry_t {
 
     Pool component_pools[NUM_COMPONENTS];
     System_t systems_list[NUM_SYSTEMS];
+
+    bool is_registry_initialized;
 } Registry_t;
 
 Registry_t *init_registry(void);

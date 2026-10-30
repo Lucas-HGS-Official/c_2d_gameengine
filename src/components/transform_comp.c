@@ -1,5 +1,6 @@
 #include "transform_comp.h"
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -8,6 +9,7 @@
 
 void init_trasform_comp_pool_data(Pool *transform_comp_pool) {
     transform_comp_pool_resize(transform_comp_pool, 100);
+    transform_comp_pool->is_pool_initialized = true;
 
     return;
 }

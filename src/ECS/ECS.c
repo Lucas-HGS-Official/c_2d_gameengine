@@ -68,7 +68,7 @@ void destroy_system(System_t *system) {
     return;
 }
 // Sets the system component signature to that it can chose aplicable entities
-void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size) {
+void system_set_required_components(System_t *system, COMPONENT *component_list, int component_list_size) {
     for (int i=0; i<component_list_size; i++) {
         BITSET(system->component.signature, component_list[i]);
     }
@@ -168,9 +168,17 @@ void registry_create_entity(Registry_t *registry) {
 
     return;
 }
-void registry_add_component_to_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type) {
+void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type, void *comp) {
     BITSET(registry->entities_components[entt_id].signature, comp_type);
-    tranform_comp_set_to_pool(&registry->component_pools[comp_type], entt_id, (Transform_Comp_t) {0});
+    switch (comp_type) {
+        case TRANSFORM_COMP:
+            tranform_comp_set_to_pool(&registry->component_pools[comp_type], entt_id, *(Transform_Comp_t*) comp);
+            break;
+        case NUM_COMPONENTS:
+            break;
+        default:
+            break;
+    }
 
     return;
 }

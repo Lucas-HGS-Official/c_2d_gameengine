@@ -94,6 +94,6 @@ Registry_t *init_registry(void);
 void destroy_registry(Registry_t *registry);
 
 void registry_create_entity(Registry_t *registry);
-void registry_add_component_to_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type);
+void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type, void *comp);
 void registry_add_entity_to_system(Registry_t *registry);
 void registry_update(Registry_t *registry);

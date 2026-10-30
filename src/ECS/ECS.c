@@ -182,6 +182,20 @@ void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, CO
 
     return;
 }
+void registry_remove_component_from_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type) {
+    BITCLEAR(registry->entities_components[entt_id].signature, comp_type);
+    switch (comp_type) {
+        case TRANSFORM_COMP:
+            transform_comp_remove_from_pool(&registry->component_pools[comp_type], entt_id);
+            break;
+        case NUM_COMPONENTS:
+            break;
+        default:
+            break;
+    }
+
+    return;
+}
 void registry_add_entity_to_system(Registry_t *registry);
 void registry_update(Registry_t *registry) {
 

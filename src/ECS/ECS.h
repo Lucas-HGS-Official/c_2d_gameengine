@@ -51,7 +51,7 @@ void entities_remove_entity(Entity_t *entity, uint16_t id);
 
 
 typedef struct System_t {
-    Signature_t component;
+    Signature_t component_requirement;
     Entity_t entities;
     bool is_system_initialized;
 } System_t;

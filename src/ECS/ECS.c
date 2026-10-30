@@ -9,6 +9,7 @@
 #include "log_dot_c/log.h"
 
 #include "../components/transform_comp.h"
+#include "../systems/movement_system.h"
 
 
 // Allocates memory for the entities
@@ -52,7 +53,7 @@ System_t *init_system(void) {
     System_t *new_system = MemAlloc(sizeof(System_t));
 
     for (int i=0; i<BITSLOT(MAX_COMPONENTS); i++) {
-        BITCLEAR(new_system->component.signature, i);
+        BITCLEAR(new_system->component_requirement.signature, i);
     }
     new_system->entities = init_entities();
 
@@ -71,7 +72,7 @@ void destroy_system(System_t *system) {
 // Sets the system component signature to that it can chose aplicable entities
 void system_set_required_components(System_t *system, COMPONENT *component_list, int component_list_size) {
     for (int i=0; i<component_list_size; i++) {
-        BITSET(system->component.signature, component_list[i]);
+        BITSET(system->component_requirement.signature, component_list[i]);
     }
 
     return;

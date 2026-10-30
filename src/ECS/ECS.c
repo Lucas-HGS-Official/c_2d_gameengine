@@ -1,5 +1,6 @@
 #include "ECS.h"
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -195,6 +196,10 @@ void registry_remove_component_from_entity(Registry_t *registry, uint16_t entt_i
     }
 
     return;
+}
+bool registry_entity_has_component(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type) {
+
+    return BITTEST(registry->entities_components[entt_id].signature, comp_type);
 }
 void registry_add_entity_to_system(Registry_t *registry);
 void registry_update(Registry_t *registry) {

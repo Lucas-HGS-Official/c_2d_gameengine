@@ -3,14 +3,14 @@
 #include "ECS.h"
 
 
-void init_movement_system(System_t *movement_system) {
-    movement_system->component_requirement;
+System_t init_movement_system() {
+    System_t new_movement_system = {0};
+    BITSET(new_movement_system.component_requirement.signature, TRANSFORM_COMP);
+    new_movement_system.is_system_initialized = true;
 
-    movement_system->is_system_initialized = true;
-
-    return;
+    return new_movement_system;
 }
-void update_movement_system() {
+void movement_system_update(System_t *movement_system) {
 
     return;
 }

@@ -202,7 +202,6 @@ bool registry_entity_has_component(Registry_t *registry, uint16_t entt_id, COMPO
 
     return BITTEST(registry->entities_components[entt_id].signature, comp_type);
 }
-void registry_add_entity_to_system(Registry_t *registry);
 void registry_add_system(Registry_t *registry, SYSTEM system_to_add) {
     switch (system_to_add) {
         case MOVEMENT_SYS:
@@ -224,6 +223,16 @@ void registry_remove_system(Registry_t *registry, SYSTEM system_to_remove) {
 bool registry_has_system(Registry_t *registry, SYSTEM system_to_check) {
 
     return registry->systems_list[system_to_check].is_system_initialized;
+}
+void registry_add_entity_to_system(Registry_t *registry, uint16_t entt_id, SYSTEM sys_type) {
+    for (uint16_t i=0; i<MAX_COMPONENTS; i++) {
+        Signature_t system_required_signature = registry->systems_list[sys_type].component_requirement;
+        Signature_t entity_signature = registry->entities_components[entt_id];
+        // TODO: system_required_signature == entity_signature;
+        // BITTEST(a, b)
+    }
+
+    return;
 }
 void registry_update(Registry_t *registry) {
 

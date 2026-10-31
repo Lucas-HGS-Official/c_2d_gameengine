@@ -99,7 +99,7 @@ void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, CO
 void registry_remove_component_from_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type);
 bool registry_entity_has_component(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type);
 
-void registry_add_entity_to_system(Registry_t *registry);
 void registry_remove_system(Registry_t *registry, SYSTEM system_to_remove);
 bool registry_has_system(Registry_t *registry, SYSTEM system_to_check);
+void registry_add_entity_to_system(Registry_t *registry, uint16_t entt_id, SYSTEM sys_type);
 void registry_update(Registry_t *registry);

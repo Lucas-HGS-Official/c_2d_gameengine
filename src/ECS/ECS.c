@@ -203,6 +203,28 @@ bool registry_entity_has_component(Registry_t *registry, uint16_t entt_id, COMPO
     return BITTEST(registry->entities_components[entt_id].signature, comp_type);
 }
 void registry_add_entity_to_system(Registry_t *registry);
+void registry_add_system(Registry_t *registry, SYSTEM system_to_add) {
+    switch (system_to_add) {
+        case MOVEMENT_SYS:
+            registry->systems_list[system_to_add] = init_movement_system();
+            break;
+        case NUM_SYSTEMS:
+            break;
+        default:
+            break;
+    }
+
+    return;
+}
+void registry_remove_system(Registry_t *registry, SYSTEM system_to_remove) {
+    registry->systems_list[system_to_remove] = (System_t) {0};
+
+    return;
+}
+bool registry_has_system(Registry_t *registry, SYSTEM system_to_check) {
+
+    return registry->systems_list[system_to_check].is_system_initialized;
+}
 void registry_update(Registry_t *registry) {
 
     return;

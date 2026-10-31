@@ -225,11 +225,33 @@ bool registry_has_system(Registry_t *registry, SYSTEM system_to_check) {
     return registry->systems_list[system_to_check].is_system_initialized;
 }
 void registry_add_entity_to_system(Registry_t *registry, uint16_t entt_id, SYSTEM sys_type) {
-    for (uint16_t i=0; i<MAX_COMPONENTS; i++) {
+    bool is_entt_in_use = false;
+    for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
         Signature_t system_required_signature = registry->systems_list[sys_type].component_requirement;
         Signature_t entity_signature = registry->entities_components[entt_id];
-        // TODO: system_required_signature == entity_signature;
-        // BITTEST(a, b)
+
+        bool is_entt_added_to_sys = false;
+
+        for (uint16_t j=0; j<MAX_COMPONENTS; j++) {
+            bool is_component_required_in_sys = BITTEST(system_required_signature.signature, j);
+            bool is_component_turned_on_in_entt = BITTEST(entity_signature.signature, j);
+
+            if (!is_component_required_in_sys) {
+                continue;
+            } else if (is_component_required_in_sys && is_component_turned_on_in_entt) {
+                is_entt_added_to_sys = true;
+            } else {
+                is_entt_added_to_sys = false;
+                break;
+            }
+        }
+        if (is_entt_added_to_sys) {
+            entities_add_entity(&registry->systems_list[sys_type].entities, entt_id);
+            is_entt_in_use = true;
+        }
+    }
+    if (is_entt_in_use) {
+        // TODO
     }
 
     return;

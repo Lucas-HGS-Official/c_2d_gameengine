@@ -9,8 +9,6 @@
 #include "../ECS/ECS.h"
 
 
-Registry_t *registry = NULL;
-
 Game_t *init_game() {
     Game_t *game = (Game_t*)MemAlloc(sizeof(Game_t));
     game->screen_size = (Vector2) { .x=800, .y=600 };
@@ -27,7 +25,7 @@ Game_t *init_game() {
         log_error("Raylib window not correctly initialized");
     }
 
-    registry = init_registry();
+    game->registry = init_registry();
 
     return game;
 }
@@ -42,8 +40,8 @@ void run_game(Game_t *game) {
     return;
 }
 void destroy_game(Game_t *game) {
-    if (registry != NULL) {
-        destroy_registry(registry);
+    if (game->registry != NULL) {
+        destroy_registry(game->registry);
     }
     if (IsWindowReady()) {
         CloseWindow();

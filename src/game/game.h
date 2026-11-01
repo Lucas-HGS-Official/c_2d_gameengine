@@ -5,11 +5,14 @@
 #include <raylib.h>
 #include <raymath.h>
 
+#include "../ECS/ECS.h"
+
 
 static const int FPS = 60;
 static const int MILLISECS_PER_FRAME = 1000/FPS;
 
 typedef struct Game_t {
+    Registry_t *registry;
     bool is_running;
     Vector2 screen_size;
     char *title;

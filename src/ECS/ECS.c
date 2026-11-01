@@ -250,9 +250,6 @@ void registry_add_entity_to_system(Registry_t *registry, uint16_t entt_id, SYSTE
             is_entt_in_use = true;
         }
     }
-    if (is_entt_in_use) {
-        // TODO
-    }
 
     return;
 }

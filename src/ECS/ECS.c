@@ -279,10 +279,10 @@ bool registry_has_system(Registry_t *registry, SYSTEM system_to_check) {
 
     return registry->systems_list[system_to_check].is_system_initialized;
 }
-void registry_add_entity_to_system(Registry_t *registry, uint16_t entt_id, SYSTEM sys_type) {
-    // TODO: log
+void registry_add_entity_to_systems(Registry_t *registry, uint16_t entt_id) {
+    log_info("adding entity %i to systems", entt_id);
     for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
-        Signature_t system_required_signature = registry->systems_list[sys_type].component_requirement;
+        Signature_t system_required_signature = registry->systems_list[i].component_requirement;
         Signature_t entity_signature = registry->entities_components[entt_id];
 
         bool is_entt_added_to_sys = false;
@@ -301,7 +301,8 @@ void registry_add_entity_to_system(Registry_t *registry, uint16_t entt_id, SYSTE
             }
         }
         if (is_entt_added_to_sys) {
-            entities_add_entity(&registry->systems_list[sys_type].entities, entt_id);
+            entities_add_entity(&registry->systems_list[i].entities, entt_id);
+            log_info("entity %i added to system %i", entt_id, i);
         }
     }
 

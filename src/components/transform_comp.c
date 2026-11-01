@@ -5,11 +5,13 @@
 #include <stdint.h>
 
 #include <raylib.h>
+#include "log_dot_c/log.h"
 
 
 void init_trasform_comp_pool_data(Pool *transform_comp_pool) {
     transform_comp_pool_resize(transform_comp_pool, 100);
     transform_comp_pool->is_pool_initialized = true;
+    log_info("tranform pool initilized");
 
     return;
 }
@@ -25,6 +27,7 @@ void transform_comp_pool_resize(Pool *tranform_comp_pool, uint16_t size_to_add) 
     }
 
     tranform_comp_pool->max_length = new_size;
+    log_info("tranform pool new size %i", new_size);
 
     return;
 }
@@ -34,17 +37,20 @@ void tranform_comp_set_to_pool(Pool *tranform_comp_pool, uint16_t entt_id, Trans
     }
     Transform_Comp_t *transform_comp_data = (Transform_Comp_t*) tranform_comp_pool->data;
     transform_comp_data[entt_id] = transform_comp;
+    log_info("set transform comp for entity %i", entt_id);
 
     return;
 }
 Transform_Comp_t *transform_comp_get_from_pool(Pool *tranform_comp_pool, uint16_t entt_id) {
     Transform_Comp_t *transform_comp_data = (Transform_Comp_t*) tranform_comp_pool->data;
+    log_info("get transform comp from entity %i", entt_id);
 
     return &transform_comp_data[entt_id];
 }
 void transform_comp_remove_from_pool(Pool *tranform_comp_pool, uint16_t entt_id) {
     Transform_Comp_t *transform_comp_data = (Transform_Comp_t*) tranform_comp_pool->data;
     transform_comp_data[entt_id] = (Transform_Comp_t) {0};
+    log_info("remove transform comp from entity %i", entt_id);
 
     return;
 }

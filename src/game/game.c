@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #include <raylib.h>
 #include <raymath.h>
@@ -8,9 +9,21 @@
 
 #include "../ECS/ECS.h"
 
+struct Game_Entts_t {
+    uint16_t tank;
+
+    bool is_game_entts_initialized;
+};
+
 
 Game_t *init_game() {
     Game_t *game = (Game_t*)MemAlloc(sizeof(Game_t));
+    *game = (Game_t) {0};
+
+    game->game_entts = (Game_Entts_t*)MemAlloc(sizeof(Game_Entts_t));
+    *game->game_entts = (Game_Entts_t) {0};
+    game->game_entts->is_game_entts_initialized = true;
+
     game->screen_size = (Vector2) { .x=800, .y=600 };
     game->title = "raylib [core] example - basic window";
 
@@ -42,6 +55,9 @@ void run_game(Game_t *game) {
 void destroy_game(Game_t *game) {
     if (game->registry != NULL) {
         destroy_registry(game->registry);
+    }
+    if (game->game_entts->is_game_entts_initialized) {
+        MemFree(game->game_entts);
     }
     if (IsWindowReady()) {
         CloseWindow();
@@ -76,6 +92,7 @@ void render_game(Game_t *game) {
 
 
 void setup_game(Game_t *game) {
+    game->game_entts->tank = registry_create_entity(game->registry);
 
     return;
 }

@@ -93,7 +93,7 @@ typedef struct Registry_t {
 Registry_t *init_registry(void);
 void destroy_registry(Registry_t *registry);
 
-void registry_create_entity(Registry_t *registry);
+uint16_t registry_create_entity(Registry_t *registry);
 
 void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type, void *comp);
 void registry_remove_component_from_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type);

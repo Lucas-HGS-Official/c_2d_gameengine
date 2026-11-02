@@ -45,7 +45,9 @@ void entities_remove_entity(Entity_t *entity, uint16_t id) {
     for (uint16_t i=0; i<entity->length; i++) {
         if (entity->id_list[i] == id) {
             entity->id_list[i] = 0;
-            entity->length--;
+            if (i == entity->length-1) {
+                entity->length--;
+            }
             log_info("entity %i removed", id);
         }
     }
@@ -157,6 +159,19 @@ Registry_t *init_registry(void) {
                 break;
         }
     }
+
+    for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
+        switch (i) {
+            case MOVEMENT_SYS:
+                new_registry->systems_list[i] = init_movement_system();
+                break;
+            case NUM_SYSTEMS:
+                break;
+            default:
+                break;
+        }
+    }
+
     new_registry->is_registry_initialized = true;
     log_info("registry initialized");
 
@@ -176,7 +191,7 @@ void destroy_registry(Registry_t *registry) {
     for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
 
         log_info("freeing %i system in the registry", i);
-        destroy_system(&registry->systems_list[i]);
+        destroy_entities(registry->systems_list[i].entities);
     }
     for (COMPONENT i=0; i<NUM_COMPONENTS; i++) {
 
@@ -195,17 +210,17 @@ void destroy_registry(Registry_t *registry) {
 
 uint16_t registry_create_entity(Registry_t *registry) {
     log_info("creating a new entity in the registry");
-    uint16_t entity_id = registry->biggest_entity_id++;
+    registry->biggest_entity_id++;
+    uint16_t entity_id = registry->biggest_entity_id;
 
-    if (entity_id >= registry->entities_components_len) {
-        Signature_t *signatures_list = registry->entities_components;
+    while (entity_id >= registry->entities_components_len) {
         Signature_t new_signature = {0};
-        darray_push(signatures_list, new_signature);
+        darray_push(registry->entities_components, new_signature);
         registry->entities_components_len++;
         log_info("new slot for component signature added in the registry");
     }
     entities_add_entity(&registry->entities_to_be_added, entity_id);
-    log_info("new entity created in the registry");
+    log_info("entity %i created in the registry", entity_id);
 
     return entity_id;
 }
@@ -282,6 +297,9 @@ bool registry_has_system(Registry_t *registry, SYSTEM system_to_check) {
 void registry_add_entity_to_systems(Registry_t *registry, uint16_t entt_id) {
     log_info("adding entity %i to systems", entt_id);
     for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
+        if (!registry_has_system(registry, i)) {
+            continue;
+        }
         Signature_t system_required_signature = registry->systems_list[i].component_requirement;
         Signature_t entity_signature = registry->entities_components[entt_id];
 
@@ -309,6 +327,16 @@ void registry_add_entity_to_systems(Registry_t *registry, uint16_t entt_id) {
     return;
 }
 void registry_update(Registry_t *registry) {
+    uint16_t n_entts_to_add = registry->entities_to_be_added.length;
+    for (uint16_t i=0; i<n_entts_to_add; i++) {
+        uint16_t *entt_id = &registry->entities_to_be_added.id_list[i];
+        if (*entt_id == 0) {
+            continue;
+        } else {
+            registry_add_entity_to_systems(registry, *entt_id);
+            entities_remove_entity(&registry->entities_to_be_added, *entt_id);
+        }
+    }
 
     return;
 }

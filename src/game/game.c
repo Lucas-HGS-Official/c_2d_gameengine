@@ -99,13 +99,11 @@ void setup_game(Game_t *game) {
     Game_Entts_t *entts = game->game_entts;
 
 
-    uint16_t *tank = &(entts->tank);
-    *tank = registry_create_entity(registry);
-    registry_set_component_to_entity(registry, *tank, TRANSFORM_COMP, &(Transform_Comp_t) {0});
+    entts->tank = registry_create_entity(registry);
+    registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &(Transform_Comp_t) {0});
 
-    uint16_t *truck = &entts->truck;
-    *truck = registry_create_entity(registry);
-    registry_set_component_to_entity(registry, *truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});
+    entts->truck = registry_create_entity(registry);
+    registry_set_component_to_entity(registry, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});
 
     return;
 }

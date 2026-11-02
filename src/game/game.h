@@ -9,7 +9,6 @@
 
 
 static const int FPS = 60;
-static const int MILLISECS_PER_FRAME = 1000/FPS;
 
 typedef struct Game_Entts_t Game_Entts_t;
 

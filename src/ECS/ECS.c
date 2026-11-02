@@ -92,7 +92,7 @@ void system_set_required_components(System_t *system, COMPONENT *component_list,
 
     return;
 }
-void system_add_entity_to(System_t *system, uint16_t entity_id) {
+void system_add_entity(System_t *system, uint16_t entity_id) {
 
     log_info("adding entity %i to system", entity_id);
     entities_add_entity(&system->entities, entity_id);
@@ -116,7 +116,7 @@ Pool *init_pool(void) {
     return new_pool;
 }
 void destroy_pool_data(Pool *pool) {
-    if (pool->current_length != 0) {
+    if (pool->max_length != 0) {
         log_info("no data in component pool");
 
         MemFree(pool->data);

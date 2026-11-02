@@ -37,6 +37,7 @@ typedef struct Signature_t {
     char signature[SIGNATURE_SIZE];
 } Signature_t;
 
+// Rename Entity_t for clarity
 typedef struct Entity_t {
     uint16_t *id_list;
     uint16_t length;
@@ -51,6 +52,7 @@ void entities_remove_entity(Entity_t *entity, uint16_t id);
 
 
 typedef struct System_t {
+    // TODO: Rename component_requirement for clarity
     Signature_t component_requirement;
     Entity_t entities;
     bool is_system_initialized;
@@ -60,15 +62,15 @@ System_t *init_system(void);
 void destroy_system(System_t *system);
 
 void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
-void system_add_entity_to(System_t *system, uint16_t entity_id);
+void system_add_entity(System_t *system, uint16_t entity_id);
 void system_remove_entity(System_t *system, uint16_t entity_id);
 
 
 typedef struct Pool {
     void *data;
+    // TODO: Rename max_length for clarity
     uint16_t max_length;
-    uint16_t current_length;
-    size_t data_size;
+
     bool is_pool_initialized;
 } Pool;
 

@@ -8,9 +8,11 @@
 #include "log_dot_c/log.h"
 
 #include "../ECS/ECS.h"
+#include "transform_comp.h"
 
 struct Game_Entts_t {
     uint16_t tank;
+    uint16_t truck;
 
     bool is_game_entts_initialized;
 };
@@ -75,6 +77,7 @@ void process_input(Game_t *game) {
     return;
 }
 void update_game(Game_t *game, float dt) {
+    registry_update(game->registry);
 
     return;
 }
@@ -92,7 +95,17 @@ void render_game(Game_t *game) {
 
 
 void setup_game(Game_t *game) {
-    game->game_entts->tank = registry_create_entity(game->registry);
+    Registry_t *registry = game->registry;
+    Game_Entts_t *entts = game->game_entts;
+
+
+    uint16_t *tank = &(entts->tank);
+    *tank = registry_create_entity(registry);
+    registry_set_component_to_entity(registry, *tank, TRANSFORM_COMP, &(Transform_Comp_t) {0});
+
+    uint16_t *truck = &entts->truck;
+    *truck = registry_create_entity(registry);
+    registry_set_component_to_entity(registry, *truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});
 
     return;
 }

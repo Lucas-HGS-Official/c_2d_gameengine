@@ -37,24 +37,24 @@ typedef struct Signature_t {
     char signature[SIGNATURE_SIZE];
 } Signature_t;
 
-// Rename Entity_t for clarity
-typedef struct Entity_t {
+// Rename Entities_t for clarity
+typedef struct Entities_t {
     uint16_t *id_list;
     uint16_t length;
     bool is_enttities_initialized;
-} Entity_t;
+} Entities_t;
 
-Entity_t init_entities(void);
-void destroy_entities(Entity_t entity);
+Entities_t init_entities(void);
+void destroy_entities(Entities_t entity);
 
-void entities_add_entity(Entity_t *entity, uint16_t id);
-void entities_remove_entity(Entity_t *entity, uint16_t id);
+void entities_add_entity(Entities_t *entity, uint16_t id);
+void entities_remove_entity(Entities_t *entity, uint16_t id);
 
 
 typedef struct System_t {
-    // TODO: Rename component_requirement for clarity
-    Signature_t component_requirement;
-    Entity_t entities;
+    Signature_t requirement;
+    Entities_t entities;
+
     bool is_system_initialized;
 } System_t;
 
@@ -68,8 +68,7 @@ void system_remove_entity(System_t *system, uint16_t entity_id);
 
 typedef struct Pool {
     void *data;
-    // TODO: Rename max_length for clarity
-    uint16_t max_length;
+    uint16_t length;
 
     bool is_pool_initialized;
 } Pool;
@@ -81,8 +80,8 @@ void destroy_pool(Pool *pool);
 
 typedef struct Registry_t {
     uint16_t biggest_entity_id;
-    Entity_t entities_to_be_added;
-    Entity_t entities_to_be_destroyed;
+    Entities_t entities_to_be_added;
+    Entities_t entities_to_be_destroyed;
     Signature_t *entities_components;
     uint16_t entities_components_len;
 

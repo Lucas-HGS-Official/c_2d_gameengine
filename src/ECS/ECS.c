@@ -13,15 +13,15 @@
 
 
 // Allocates memory for the entities
-Entity_t init_entities(void) {
-    Entity_t new_ent = {0};
+Entities_t init_entities(void) {
+    Entities_t new_ent = {0};
     new_ent.is_enttities_initialized = true;
     log_info("entities initialized");
 
     return new_ent;
 }
 // Frees memory for the entities
-void destroy_entities(Entity_t entity) {
+void destroy_entities(Entities_t entity) {
     if (!entity.is_enttities_initialized) {
         log_info("entities not initialized");
 
@@ -34,14 +34,14 @@ void destroy_entities(Entity_t entity) {
 
     return;
 }
-void entities_add_entity(Entity_t *entity, uint16_t id) {
+void entities_add_entity(Entities_t *entity, uint16_t id) {
     darray_push(entity->id_list, id);
     entity->length++;
     log_info("entity %i added", id);
 
     return;
 }
-void entities_remove_entity(Entity_t *entity, uint16_t id) {
+void entities_remove_entity(Entities_t *entity, uint16_t id) {
     for (uint16_t i=0; i<entity->length; i++) {
         if (entity->id_list[i] == id) {
             entity->id_list[i] = 0;
@@ -61,7 +61,7 @@ System_t *init_system(void) {
     System_t *new_system = MemAlloc(sizeof(System_t));
 
     for (int i=0; i<BITSLOT(MAX_COMPONENTS); i++) {
-        BITCLEAR(new_system->component_requirement.signature, i);
+        BITCLEAR(new_system->requirement.signature, i);
     }
     new_system->entities = init_entities();
     log_info("system struct initialized");
@@ -86,7 +86,7 @@ void system_set_required_components(System_t *system, COMPONENT *component_list,
 
     log_info("system set to require the components:");
     for (int i=0; i<component_list_size; i++) {
-        BITSET(system->component_requirement.signature, component_list[i]);
+        BITSET(system->requirement.signature, component_list[i]);
         log_info("%i", component_list[i]);
     }
 
@@ -116,7 +116,7 @@ Pool *init_pool(void) {
     return new_pool;
 }
 void destroy_pool_data(Pool *pool) {
-    if (pool->max_length != 0) {
+    if (pool->length != 0) {
         log_info("no data in component pool");
 
         MemFree(pool->data);
@@ -300,7 +300,7 @@ void registry_add_entity_to_systems(Registry_t *registry, uint16_t entt_id) {
         if (!registry_has_system(registry, i)) {
             continue;
         }
-        Signature_t system_required_signature = registry->systems_list[i].component_requirement;
+        Signature_t system_required_signature = registry->systems_list[i].requirement;
         Signature_t entity_signature = registry->entities_components[entt_id];
 
         bool is_entt_added_to_sys = false;

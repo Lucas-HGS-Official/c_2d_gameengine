@@ -332,11 +332,12 @@ void registry_remove_entity_from_systems(Registry_t *registry, uint16_t entt_id)
         if (!registry_has_system(registry, i)) {
             continue;
         }
-        uint16_t *entts = registry->systems_list[i].entities.id_list;
-        uint16_t entts_len = registry->systems_list[i].entities.length;
+        Entities_t *entts = &registry->systems_list[i].entities;
+        uint16_t *entts_ids = entts->id_list;
+        uint16_t entts_len = entts->length;
         for (int j=0; j<entts_len; j++) {
-            if (entts[j] == entt_id) {
-                entts[j] = 0;
+            if (entts_ids[j] == entt_id) {
+                entities_remove_entity(entts, entts_ids[j]);
                 break;
             }
         }

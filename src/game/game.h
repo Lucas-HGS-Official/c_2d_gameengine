@@ -8,6 +8,9 @@
 #include "../ECS/ECS.h"
 
 
+static const int WINDOW_WIDTH = 800;
+static const int WINDOW_HEIGHT = 600;
+
 static const int FPS = 60;
 
 typedef struct Game_Entts_t Game_Entts_t;

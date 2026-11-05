@@ -10,6 +10,7 @@
 #include "../ECS/ECS.h"
 #include "transform_comp.h"
 
+
 struct Game_Entts_t {
     uint16_t tank;
     uint16_t truck;
@@ -26,7 +27,7 @@ Game_t *init_game() {
     *game->game_entts = (Game_Entts_t) {0};
     game->game_entts->is_game_entts_initialized = true;
 
-    game->screen_size = (Vector2) { .x=800, .y=600 };
+    game->screen_size = (Vector2) { .x=WINDOW_WIDTH, .y=WINDOW_HEIGHT };
     game->title = "raylib [core] example - basic window";
 
     InitWindow((int)game->screen_size.x, (int)game->screen_size.y, game->title);

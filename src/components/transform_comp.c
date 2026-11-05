@@ -8,8 +8,11 @@
 #include "log_dot_c/log.h"
 
 
+#define SLOTS_TO_ADD 100
+
+
 void init_trasform_comp_pool_data(Pool *transform_comp_pool) {
-    transform_comp_pool_resize(transform_comp_pool, 100);
+    transform_comp_pool_resize(transform_comp_pool, SLOTS_TO_ADD);
     transform_comp_pool->is_pool_initialized = true;
     log_info("tranform pool initilized");
 
@@ -35,7 +38,7 @@ void transform_comp_pool_resize(Pool *tranform_comp_pool, uint16_t size_to_add) 
 }
 void tranform_comp_set_to_pool(Pool *tranform_comp_pool, uint16_t entt_id, Transform_Comp_t transform_comp) {
     if (entt_id >= tranform_comp_pool->length) {
-        transform_comp_pool_resize(tranform_comp_pool, 100);
+        transform_comp_pool_resize(tranform_comp_pool, SLOTS_TO_ADD);
     }
     Transform_Comp_t *transform_comp_data = (Transform_Comp_t*) tranform_comp_pool->data;
     transform_comp_data[entt_id] = transform_comp;

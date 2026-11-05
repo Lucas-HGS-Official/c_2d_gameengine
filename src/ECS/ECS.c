@@ -326,6 +326,24 @@ void registry_add_entity_to_systems(Registry_t *registry, uint16_t entt_id) {
 
     return;
 }
+void registry_remove_entity_from_systems(Registry_t *registry, uint16_t entt_id) {
+    log_info("removing entity %i from systems", entt_id);
+    for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
+        if (!registry_has_system(registry, i)) {
+            continue;
+        }
+        uint16_t *entts = registry->systems_list[i].entities.id_list;
+        uint16_t entts_len = registry->systems_list[i].entities.length;
+        for (int j=0; j<entts_len; j++) {
+            if (entts[j] == entt_id) {
+                entts[j] = 0;
+                break;
+            }
+        }
+    }
+
+    return;
+}
 void registry_update(Registry_t *registry) {
     uint16_t n_entts_to_add = registry->entities_to_be_added.length;
     for (uint16_t i=0; i<n_entts_to_add; i++) {

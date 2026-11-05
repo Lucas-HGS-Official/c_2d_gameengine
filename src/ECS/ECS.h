@@ -103,4 +103,5 @@ bool registry_entity_has_component(Registry_t *registry, uint16_t entt_id, COMPO
 void registry_remove_system(Registry_t *registry, SYSTEM system_to_remove);
 bool registry_has_system(Registry_t *registry, SYSTEM system_to_check);
 void registry_add_entity_to_systems(Registry_t *registry, uint16_t entt_id);
+void registry_remove_entity_from_systems(Registry_t *registry, uint16_t entt_id);
 void registry_update(Registry_t *registry);

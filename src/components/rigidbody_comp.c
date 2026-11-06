@@ -14,7 +14,13 @@ void init_rigidbody_comp_pool_data(Pool *rigidbody_comp_pool);
 void rigidbody_comp_pool_resize(Pool *rigidbody_comp_pool, uint16_t size_to_add) {
     log_info("re-sizing rigid-body component pool");
     RESIZE_COMP_POOL(RigidBody_Comp_t, rigidbody_comp_pool, size_to_add);
+
+    return;
 }
-void rigidbody_comp_set_to_pool(Pool *rigidbody_comp_pool, uint16_t entt_id, RigidBody_Comp_t rigidbody_comp);
+void rigidbody_comp_set_to_pool(Pool *rigidbody_comp_pool, uint16_t entt_id, RigidBody_Comp_t rigidbody_comp) {
+    SET_COMP_TO_POOL(RigidBody_Comp_t, rigidbody_comp_pool, entt_id, rigidbody_comp, rigidbody_comp_pool_resize);
+
+    return;
+}
 RigidBody_Comp_t *rigidbody_comp_get_from_pool(Pool *rigidbody_comp_pool, uint16_t entt_id);
 void rigidbody_comp_remove_from_pool(Pool *rigidbody_comp_pool, uint16_t entt_id);

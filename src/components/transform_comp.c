@@ -29,15 +29,13 @@ void transform_comp_set_to_pool(Pool *transform_comp_pool, uint16_t entt_id, Tra
     return;
 }
 Transform_Comp_t *transform_comp_get_from_pool(Pool *transform_comp_pool, uint16_t entt_id) {
-    Transform_Comp_t *transform_comp_data = (Transform_Comp_t*) transform_comp_pool->data;
-    log_info("get transform comp from entity %i", entt_id);
+    Transform_Comp_t *returned_component_pointer = NULL;
+    GET_COMP_FROM_POOL(Transform_Comp_t, transform_comp_pool, entt_id, returned_component_pointer);
 
-    return &transform_comp_data[entt_id];
+    return returned_component_pointer;
 }
 void transform_comp_remove_from_pool(Pool *transform_comp_pool, uint16_t entt_id) {
-    Transform_Comp_t *transform_comp_data = (Transform_Comp_t*) transform_comp_pool->data;
-    transform_comp_data[entt_id] = (Transform_Comp_t) {0};
-    log_info("remove transform comp from entity %i", entt_id);
+    REMOVE_COMP_FROM_POOL(Transform_Comp_t, transform_comp_pool, entt_id);
 
     return;
 }

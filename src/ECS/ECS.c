@@ -150,7 +150,7 @@ Registry_t *init_registry(void) {
     for (COMPONENT i=0; i<NUM_COMPONENTS; i++) {
         switch (i) {
             case TRANSFORM_COMP:
-                init_trasform_comp_pool_data(&new_registry->component_pools[i]);
+                init_transform_comp_pool_data(&new_registry->component_pools[i]);
                 break;
 
             case NUM_COMPONENTS:
@@ -236,7 +236,7 @@ void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, CO
     BITSET(registry->entities_components[entt_id].signature, comp_type);
     switch (comp_type) {
         case TRANSFORM_COMP:
-            tranform_comp_set_to_pool(&registry->component_pools[comp_type], entt_id, *(Transform_Comp_t*) comp);
+            transform_comp_set_to_pool(&registry->component_pools[comp_type], entt_id, *(Transform_Comp_t*) comp);
             break;
         case NUM_COMPONENTS:
             break;

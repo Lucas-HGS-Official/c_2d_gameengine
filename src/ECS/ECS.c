@@ -9,6 +9,7 @@
 #include "log_dot_c/log.h"
 
 #include "../components/transform_comp.h"
+#include "../components/rigidbody_comp.h"
 #include "../systems/movement_system.h"
 
 
@@ -153,9 +154,10 @@ Registry_t *init_registry(void) {
                 init_transform_comp_pool_data(&new_registry->component_pools[i]);
                 break;
 
+            case RIGIDBODY_COMP:
+                init_rigidbody_comp_pool_data(&new_registry->component_pools[i]);
+
             case NUM_COMPONENTS:
-                break;
-            default:
                 break;
         }
     }
@@ -165,9 +167,8 @@ Registry_t *init_registry(void) {
             case MOVEMENT_SYS:
                 new_registry->systems_list[i] = init_movement_system();
                 break;
+
             case NUM_SYSTEMS:
-                break;
-            default:
                 break;
         }
     }
@@ -238,9 +239,11 @@ void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, CO
         case TRANSFORM_COMP:
             transform_comp_set_to_pool(&registry->component_pools[comp_type], entt_id, *(Transform_Comp_t*) comp);
             break;
+
+        case RIGIDBODY_COMP:
+            rigidbody_comp_set_to_pool(&registry->component_pools[comp_type], entt_id, *(RigidBody_Comp_t*) comp);
+
         case NUM_COMPONENTS:
-            break;
-        default:
             break;
     }
 
@@ -254,9 +257,11 @@ void registry_remove_component_from_entity(Registry_t *registry, uint16_t entt_i
         case TRANSFORM_COMP:
             transform_comp_remove_from_pool(&registry->component_pools[comp_type], entt_id);
             break;
+
+        case RIGIDBODY_COMP:
+            rigidbody_comp_remove_from_pool(&registry->component_pools[comp_type], entt_id);
+
         case NUM_COMPONENTS:
-            break;
-        default:
             break;
     }
 

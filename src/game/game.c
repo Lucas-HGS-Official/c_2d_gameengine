@@ -13,8 +13,8 @@
 
 
 struct Game_Entts_t {
-    uint16_t tank;
-    uint16_t truck;
+    int16_t tank;
+    int16_t truck;
 
     bool is_game_entts_initialized;
 };

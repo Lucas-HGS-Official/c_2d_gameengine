@@ -35,15 +35,15 @@ void destroy_entities(Entities_t entity) {
 
     return;
 }
-void entities_add_entity(Entities_t *entity, uint16_t id) {
+void entities_add_entity(Entities_t *entity, int16_t id) {
     darray_push(entity->id_list, id);
     entity->length++;
     log_info("entity %i added", id);
 
     return;
 }
-void entities_remove_entity(Entities_t *entity, uint16_t id) {
-    for (uint16_t i=0; i<entity->length; i++) {
+void entities_remove_entity(Entities_t *entity, int16_t id) {
+    for (int16_t i=0; i<entity->length; i++) {
         if (entity->id_list[i] == id) {
             entity->id_list[i] = 0;
             if (i == entity->length-1) {
@@ -93,14 +93,14 @@ void system_set_required_components(System_t *system, COMPONENT *component_list,
 
     return;
 }
-void system_add_entity(System_t *system, uint16_t entity_id) {
+void system_add_entity(System_t *system, int16_t entity_id) {
 
     log_info("adding entity %i to system", entity_id);
     entities_add_entity(&system->entities, entity_id);
 
     return;
 }
-void system_remove_entity(System_t *system, uint16_t entity_id) {
+void system_remove_entity(System_t *system, int16_t entity_id) {
 
     log_info("removing entity %i to system", entity_id);
     entities_remove_entity(&system->entities, entity_id);
@@ -210,10 +210,10 @@ void destroy_registry(Registry_t *registry) {
     return;
 }
 
-uint16_t registry_create_entity(Registry_t *registry) {
+int16_t registry_create_entity(Registry_t *registry) {
     log_info("creating a new entity in the registry");
     registry->biggest_entity_id++;
-    uint16_t entity_id = registry->biggest_entity_id;
+    int16_t entity_id = registry->biggest_entity_id;
 
     while (entity_id >= registry->entities_components_len) {
         Signature_t new_signature = {0};
@@ -226,7 +226,7 @@ uint16_t registry_create_entity(Registry_t *registry) {
 
     return entity_id;
 }
-void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type, void *comp) {
+void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type, void *comp) {
     log_info("setting %i component to entity %i", comp_type, entt_id);
 
     if (entt_id >= registry->entities_components_len) {
@@ -240,7 +240,7 @@ void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, CO
 
     return;
 }
-void registry_remove_component_from_entity(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type) {
+void registry_remove_component_from_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type) {
     log_info("removing %i component from entity %i", comp_type, entt_id);
 
     BITCLEAR(registry->entities_components[entt_id].signature, comp_type);
@@ -248,7 +248,7 @@ void registry_remove_component_from_entity(Registry_t *registry, uint16_t entt_i
 
     return;
 }
-bool registry_entity_has_component(Registry_t *registry, uint16_t entt_id, COMPONENT comp_type) {
+bool registry_entity_has_component(Registry_t *registry, int16_t entt_id, COMPONENT comp_type) {
     log_info("testing component %i for entity %i", comp_type, entt_id);
 
     return BITTEST(registry->entities_components[entt_id].signature, comp_type);
@@ -280,7 +280,7 @@ bool registry_has_system(Registry_t *registry, SYSTEM system_to_check) {
 
     return registry->systems_list[system_to_check].is_system_initialized;
 }
-void registry_add_entity_to_systems(Registry_t *registry, uint16_t entt_id) {
+void registry_add_entity_to_systems(Registry_t *registry, int16_t entt_id) {
     log_info("adding entity %i to systems", entt_id);
     for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
         if (!registry_has_system(registry, i)) {
@@ -291,7 +291,7 @@ void registry_add_entity_to_systems(Registry_t *registry, uint16_t entt_id) {
 
         bool is_entt_added_to_sys = false;
 
-        for (uint16_t j=0; j<MAX_COMPONENTS; j++) {
+        for (int16_t j=0; j<MAX_COMPONENTS; j++) {
             bool is_component_required_in_sys = BITTEST(system_required_signature.signature, j);
             bool is_component_turned_on_in_entt = BITTEST(entity_signature.signature, j);
 
@@ -312,15 +312,15 @@ void registry_add_entity_to_systems(Registry_t *registry, uint16_t entt_id) {
 
     return;
 }
-void registry_remove_entity_from_systems(Registry_t *registry, uint16_t entt_id) {
+void registry_remove_entity_from_systems(Registry_t *registry, int16_t entt_id) {
     log_info("removing entity %i from systems", entt_id);
     for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
         if (!registry_has_system(registry, i)) {
             continue;
         }
         Entities_t *entts = &registry->systems_list[i].entities;
-        uint16_t *entts_ids = entts->id_list;
-        uint16_t entts_len = entts->length;
+        int16_t *entts_ids = entts->id_list;
+        int16_t entts_len = entts->length;
         for (int j=0; j<entts_len; j++) {
             if (entts_ids[j] == entt_id) {
                 entities_remove_entity(entts, entts_ids[j]);
@@ -332,9 +332,9 @@ void registry_remove_entity_from_systems(Registry_t *registry, uint16_t entt_id)
     return;
 }
 void registry_update(Registry_t *registry) {
-    uint16_t n_entts_to_add = registry->entities_to_be_added.length;
-    for (uint16_t i=0; i<n_entts_to_add; i++) {
-        uint16_t *entt_id = &registry->entities_to_be_added.id_list[i];
+    int16_t n_entts_to_add = registry->entities_to_be_added.length;
+    for (int16_t i=0; i<n_entts_to_add; i++) {
+        int16_t *entt_id = &registry->entities_to_be_added.id_list[i];
         if (*entt_id == 0) {
             continue;
         } else {

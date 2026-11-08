@@ -12,8 +12,8 @@
 
 
 #define RESIZE_COMP_POOL(component_type, component_pool, size_to_add) \
-    uint16_t old_length = component_pool->length; \
-    uint16_t new_size = old_length + size_to_add; \
+    int16_t old_length = component_pool->length; \
+    int16_t new_size = old_length + size_to_add; \
     size_t new_memory_size = sizeof(component_type) * new_size; \
     component_pool->data = MemRealloc(component_pool->data, new_memory_size); \
     component_pool->length = new_size; \

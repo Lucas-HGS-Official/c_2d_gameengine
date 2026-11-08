@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include <raylib.h>
+#include <time.h>
 #include "darray/darray.h"
 #include "log_dot_c/log.h"
 
@@ -239,6 +240,19 @@ void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, COM
     registry->component_pools[comp_type].set_comp(&registry->component_pools[comp_type], entt_id, comp);
 
     return;
+}
+void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type) {
+    if (entt_id == -1) {
+        return NULL;
+    }
+
+    Signature_t entt_signature = registry->entities_components[entt_id];
+    if (BITTEST(entt_signature.signature, comp_type)) {
+        Pool *comp_pool = &registry->component_pools[comp_type];
+        return comp_pool->get_comp(comp_pool, entt_id);
+    }
+
+    return NULL;
 }
 void registry_remove_component_from_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type) {
     log_info("removing %i component from entity %i", comp_type, entt_id);

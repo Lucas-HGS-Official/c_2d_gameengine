@@ -15,6 +15,7 @@ void init_rigidbody_comp_pool_data(Pool *rigidbody_comp_pool) {
     rigidbody_comp_pool->set_comp = &rigidbody_comp_set_to_pool;
     rigidbody_comp_pool->get_comp = &rigidbody_comp_get_from_pool;
     rigidbody_comp_pool->remove_comp = &rigidbody_comp_remove_from_pool;
+
     rigidbody_comp_pool->resize(rigidbody_comp_pool, SLOTS_TO_ADD);
 
     rigidbody_comp_pool->is_pool_initialized = true;

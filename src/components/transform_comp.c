@@ -15,6 +15,7 @@ void init_transform_comp_pool_data(Pool *transform_comp_pool) {
     transform_comp_pool->set_comp = &transform_comp_set_to_pool;
     transform_comp_pool->get_comp = &transform_comp_get_from_pool;
     transform_comp_pool->remove_comp = &transform_comp_remove_from_pool;
+
     transform_comp_pool->resize(transform_comp_pool, SLOTS_TO_ADD);
 
     transform_comp_pool->is_pool_initialized = true;

@@ -17,11 +17,6 @@ typedef struct Transform_Comp_t {
 
 void init_transform_comp_pool_data(Pool *transform_comp_pool);
 void transform_comp_pool_resize(Pool *transform_comp_pool, uint16_t size_to_add);
-void transform_comp_set_to_pool(Pool *transform_comp_pool, uint16_t entt_id, Transform_Comp_t transform_comp);
-Transform_Comp_t *transform_comp_get_from_pool(Pool *transform_comp_pool, uint16_t entt_id);
+void transform_comp_set_to_pool(Pool *transform_comp_pool, uint16_t entt_id, void *transform_comp);
+void *transform_comp_get_from_pool(Pool *transform_comp_pool, uint16_t entt_id);
 void transform_comp_remove_from_pool(Pool *transform_comp_pool, uint16_t entt_id);
-
-// void pool_resize(Pool *pool, COMPONENT pool_type, uint16_t new_size); --
-// void pool_add(Pool *pool, COMPONENT pool_type, void *new_component); --
-// void pool_set(Pool *pool, COMPONENT pool_type, void *new_component, uint16_t index); --
-// void *pool_get(Pool *pool, COMPONENT pool_type, uint16_t index);

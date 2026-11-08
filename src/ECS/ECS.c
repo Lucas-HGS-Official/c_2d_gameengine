@@ -156,6 +156,7 @@ Registry_t *init_registry(void) {
 
             case RIGIDBODY_COMP:
                 init_rigidbody_comp_pool_data(&new_registry->component_pools[i]);
+                break;
 
             case NUM_COMPONENTS:
                 break;
@@ -235,17 +236,7 @@ void registry_set_component_to_entity(Registry_t *registry, uint16_t entt_id, CO
     }
 
     BITSET(registry->entities_components[entt_id].signature, comp_type);
-    switch (comp_type) {
-        case TRANSFORM_COMP:
-            transform_comp_set_to_pool(&registry->component_pools[comp_type], entt_id, *(Transform_Comp_t*) comp);
-            break;
-
-        case RIGIDBODY_COMP:
-            rigidbody_comp_set_to_pool(&registry->component_pools[comp_type], entt_id, *(RigidBody_Comp_t*) comp);
-
-        case NUM_COMPONENTS:
-            break;
-    }
+    registry->component_pools[comp_type].set_comp(&registry->component_pools[comp_type], entt_id, comp);
 
     return;
 }
@@ -253,17 +244,7 @@ void registry_remove_component_from_entity(Registry_t *registry, uint16_t entt_i
     log_info("removing %i component from entity %i", comp_type, entt_id);
 
     BITCLEAR(registry->entities_components[entt_id].signature, comp_type);
-    switch (comp_type) {
-        case TRANSFORM_COMP:
-            transform_comp_remove_from_pool(&registry->component_pools[comp_type], entt_id);
-            break;
-
-        case RIGIDBODY_COMP:
-            rigidbody_comp_remove_from_pool(&registry->component_pools[comp_type], entt_id);
-
-        case NUM_COMPONENTS:
-            break;
-    }
+    registry->component_pools[comp_type].remove_comp(&registry->component_pools[comp_type], entt_id);
 
     return;
 }

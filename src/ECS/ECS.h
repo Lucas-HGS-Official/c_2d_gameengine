@@ -71,6 +71,11 @@ typedef struct Pool {
     void *data;
     uint16_t length;
 
+    void (*resize) (struct Pool *, uint16_t);
+    void (*set_comp) (struct Pool *, uint16_t, void *);
+    void *(*get_comp) (struct Pool *, uint16_t);
+    void (*remove_comp) (struct Pool *, uint16_t);
+
     bool is_pool_initialized;
 } Pool;
 

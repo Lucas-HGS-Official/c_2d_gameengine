@@ -29,15 +29,15 @@
     if (entt_id >= component_pool->length) { \
         resize_function_name(component_pool, SLOTS_TO_ADD); \
     } \
-    component_type *component_pool_data = (component_type*) component_pool->data; \
-    component_pool_data[entt_id] = component; \
+    component_type *component_pool_data = (component_type *) component_pool->data; \
+    component_pool_data[entt_id] = *(component_type *)component; \
     log_info("set component for entity %i", entt_id); \
 
 
 #define GET_COMP_FROM_POOL(component_type, component_pool, entt_id, returned_component_pointer) \
     component_type *component_pool_data = (component_type*) component_pool->data; \
     log_info("get component from entity %i", entt_id); \
-    returned_component_pointer = &component_pool_data[entt_id]; \
+    returned_component_pointer = (void *) &component_pool_data[entt_id]; \
 
 
 #define REMOVE_COMP_FROM_POOL(component_type, component_pool, entt_id) \

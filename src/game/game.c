@@ -102,8 +102,8 @@ void setup_game(Game_t *game) {
 
 
     entts->tank = registry_create_entity(registry);
-    registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &(Transform_Comp_t) {0});
-    registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, &(RigidBody_Comp_t) {0});
+    registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, (void *) &(Transform_Comp_t) {0});
+    registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, (void *) &(RigidBody_Comp_t) {0});
 
     entts->truck = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});

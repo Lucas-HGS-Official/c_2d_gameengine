@@ -11,7 +11,12 @@
 
 
 void init_rigidbody_comp_pool_data(Pool *rigidbody_comp_pool) {
-    rigidbody_comp_pool_resize(rigidbody_comp_pool, SLOTS_TO_ADD);
+    rigidbody_comp_pool->resize = &rigidbody_comp_pool_resize;
+    rigidbody_comp_pool->set_comp = &rigidbody_comp_set_to_pool;
+    rigidbody_comp_pool->get_comp = &rigidbody_comp_get_from_pool;
+    rigidbody_comp_pool->remove_comp = &rigidbody_comp_remove_from_pool;
+    rigidbody_comp_pool->resize(rigidbody_comp_pool, SLOTS_TO_ADD);
+
     rigidbody_comp_pool->is_pool_initialized = true;
     log_info("tranform pool initilized");
 
@@ -23,13 +28,13 @@ void rigidbody_comp_pool_resize(Pool *rigidbody_comp_pool, uint16_t size_to_add)
 
     return;
 }
-void rigidbody_comp_set_to_pool(Pool *rigidbody_comp_pool, uint16_t entt_id, RigidBody_Comp_t rigidbody_comp) {
+void rigidbody_comp_set_to_pool(Pool *rigidbody_comp_pool, uint16_t entt_id, void *rigidbody_comp) {
     SET_COMP_TO_POOL(RigidBody_Comp_t, rigidbody_comp_pool, entt_id, rigidbody_comp, rigidbody_comp_pool_resize);
 
     return;
 }
-RigidBody_Comp_t *rigidbody_comp_get_from_pool(Pool *rigidbody_comp_pool, uint16_t entt_id) {
-    RigidBody_Comp_t *returned_component_pointer = NULL;
+void *rigidbody_comp_get_from_pool(Pool *rigidbody_comp_pool, uint16_t entt_id) {
+    void *returned_component_pointer = NULL;
     GET_COMP_FROM_POOL(RigidBody_Comp_t, rigidbody_comp_pool, entt_id, returned_component_pointer);
 
     return returned_component_pointer;

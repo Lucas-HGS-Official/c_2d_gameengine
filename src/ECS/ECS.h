@@ -46,10 +46,10 @@ typedef struct Entities_t {
 } Entities_t;
 
 Entities_t init_entities(void);
-void destroy_entities(Entities_t entity);
-
-void entities_add_entity(Entities_t *entity, int16_t id);
-void entities_remove_entity(Entities_t *entity, int16_t id);
+// void destroy_entities(Entities_t entity);
+//
+// void entities_add_entity(Entities_t *entity, int16_t id);
+// void entities_remove_entity(Entities_t *entity, int16_t id);
 
 
 typedef struct System_t {
@@ -59,12 +59,12 @@ typedef struct System_t {
     bool is_system_initialized;
 } System_t;
 
-System_t *init_system(void);
-void destroy_system(System_t *system);
-
-void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
-void system_add_entity(System_t *system, int16_t entity_id);
-void system_remove_entity(System_t *system, int16_t entity_id);
+// System_t *init_system(void);
+// void destroy_system(System_t *system);
+//
+// void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
+// void system_add_entity(System_t *system, int16_t entity_id);
+// void system_remove_entity(System_t *system, int16_t entity_id);
 
 
 typedef struct Pool {
@@ -79,9 +79,9 @@ typedef struct Pool {
     bool is_pool_initialized;
 } Pool;
 
-Pool *init_pool(void);
-void destroy_pool_data(Pool *pool);
-void destroy_pool(Pool *pool);
+// Pool *init_pool(void);
+// void destroy_pool_data(Pool *pool);
+// void destroy_pool(Pool *pool);
 
 
 typedef struct Registry_t {

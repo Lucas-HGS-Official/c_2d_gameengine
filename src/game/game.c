@@ -101,9 +101,17 @@ void setup_game(Game_t *game) {
     Game_Entts_t *entts = game->game_entts;
 
 
+    Transform_Comp_t tank_transform = {
+        .position = (Vector2) { .x=10, .y=30 },
+        .rotation = 0.f,
+        .scale = 0.f,
+    };
+    RigidBody_Comp_t tank_rigidbody = {
+        .velocity = (Vector2) { .x=10, .y=50 },
+    };
     entts->tank = registry_create_entity(registry);
-    registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, (void *) &(Transform_Comp_t) {0});
-    registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, (void *) &(RigidBody_Comp_t) {0});
+    registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &tank_transform);
+    registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, &tank_rigidbody);
 
     entts->truck = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});

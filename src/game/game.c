@@ -8,6 +8,7 @@
 #include "log_dot_c/log.h"
 
 #include "../ECS/ECS.h"
+#include "movement_system.h"
 #include "rigidbody_comp.h"
 #include "transform_comp.h"
 
@@ -79,6 +80,9 @@ void process_input(Game_t *game) {
     return;
 }
 void update_game(Game_t *game, float dt) {
+    System_t *systems = game->registry->systems_list;
+    movement_system_update(&systems[MOVEMENT_SYS], game->registry, dt);
+
     registry_update(game->registry);
 
     return;

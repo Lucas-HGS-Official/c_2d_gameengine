@@ -22,23 +22,27 @@ System_t init_movement_system() {
 
     return new_movement_system;
 }
-void movement_system_update(System_t *movement_system, Registry_t *registry) {
+void movement_system_update(System_t *movement_system, Registry_t *registry, float dt) {
     Pool *transform_pool = &registry->component_pools[TRANSFORM_COMP];
     Pool *rigidbody_pool = &registry->component_pools[RIGIDBODY_COMP];
-    Transform_Comp_t entt_transform = {0};
-    RigidBody_Comp_t entt_rigidbody = {0};
+    Transform_Comp_t *entt_transform = NULL;
+    RigidBody_Comp_t *entt_rigidbody = NULL;
     void *temp_comp = NULL;
 
     for (int16_t i=0; i<movement_system->entities.length; i++) {
         int16_t entt_id = movement_system->entities.id_list[i];
         temp_comp = transform_pool->get_comp(transform_pool, entt_id);
         if (temp_comp != NULL) {
-            entt_transform = *(Transform_Comp_t *)temp_comp;
+            entt_transform = (Transform_Comp_t *)temp_comp;
         }
         temp_comp = rigidbody_pool->get_comp(rigidbody_pool, entt_id);
         if (temp_comp != NULL) {
-            entt_rigidbody = *(RigidBody_Comp_t *)temp_comp;
+            entt_rigidbody = (RigidBody_Comp_t *)temp_comp;
         }
+
+        entt_transform->position.x += entt_rigidbody->velocity.x * dt;
+        entt_transform->position.y += entt_rigidbody->velocity.y * dt;
+        log_info("Entity %i position (x=%f, y=%f)", entt_id, entt_transform->position.x, entt_transform->position.y);
     }
 
     return;

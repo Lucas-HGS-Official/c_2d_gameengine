@@ -36,7 +36,6 @@
 
 #define GET_COMP_FROM_POOL(component_type, component_pool, entt_id, returned_component_pointer) \
     component_type *component_pool_data = (component_type*) component_pool->data; \
-    log_info("get component from entity %i", entt_id); \
     returned_component_pointer = (void *) &component_pool_data[entt_id]; \
 
 

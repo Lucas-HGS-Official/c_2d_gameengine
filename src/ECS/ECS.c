@@ -5,13 +5,33 @@
 #include <stdint.h>
 
 #include <raylib.h>
-#include <time.h>
 #include "darray/darray.h"
 #include "log_dot_c/log.h"
 
 #include "../components/transform_comp.h"
 #include "../components/rigidbody_comp.h"
 #include "../systems/movement_system.h"
+
+
+
+// Entities_t init_entities(void);
+void destroy_entities(Entities_t entity);
+
+void entities_add_entity(Entities_t *entity, int16_t id);
+void entities_remove_entity(Entities_t *entity, int16_t id);
+
+
+System_t *init_system(void);
+void destroy_system(System_t *system);
+
+void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
+void system_add_entity(System_t *system, int16_t entity_id);
+void system_remove_entity(System_t *system, int16_t entity_id);
+
+
+Comp_Pool_t *init_pool(void);
+void destroy_pool_data(Comp_Pool_t *pool);
+void destroy_pool(Comp_Pool_t *pool);
 
 
 // Allocates memory for the entities
@@ -110,14 +130,14 @@ void system_remove_entity(System_t *system, int16_t entity_id) {
 }
 
 
-Pool *init_pool(void) {
-    Pool *new_pool = MemAlloc(sizeof(Pool));
-    *new_pool = (Pool) {0};
+Comp_Pool_t *init_pool(void) {
+    Comp_Pool_t *new_pool = MemAlloc(sizeof(Comp_Pool_t));
+    *new_pool = (Comp_Pool_t) {0};
     log_info("component pool initialized");
 
     return new_pool;
 }
-void destroy_pool_data(Pool *pool) {
+void destroy_pool_data(Comp_Pool_t *pool) {
     if (pool->length != 0) {
         log_info("no data in component pool");
 
@@ -128,7 +148,7 @@ void destroy_pool_data(Pool *pool) {
 
     return;
 }
-void destroy_pool(Pool *pool) {
+void destroy_pool(Comp_Pool_t *pool) {
     if (!pool->is_pool_initialized) {
         log_info("component pool not initialized");
 
@@ -248,7 +268,7 @@ void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, CO
 
     Signature_t entt_signature = registry->entities_components[entt_id];
     if (BITTEST(entt_signature.signature, comp_type)) {
-        Pool *comp_pool = &registry->component_pools[comp_type];
+        Comp_Pool_t *comp_pool = &registry->component_pools[comp_type];
         return comp_pool->get_comp(comp_pool, entt_id);
     }
 

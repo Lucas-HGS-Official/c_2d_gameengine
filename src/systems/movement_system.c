@@ -1,8 +1,6 @@
 #include "movement_system.h"
 
 #include <stdint.h>
-#include <stdio.h>
-#include <time.h>
 
 #include "log_dot_c/log.h"
 
@@ -23,8 +21,8 @@ System_t init_movement_system() {
     return new_movement_system;
 }
 void movement_system_update(System_t *movement_system, Registry_t *registry, float dt) {
-    Pool *transform_pool = &registry->component_pools[TRANSFORM_COMP];
-    Pool *rigidbody_pool = &registry->component_pools[RIGIDBODY_COMP];
+    Comp_Pool_t *transform_pool = &registry->component_pools[TRANSFORM_COMP];
+    Comp_Pool_t *rigidbody_pool = &registry->component_pools[RIGIDBODY_COMP];
     Transform_Comp_t *entt_transform = NULL;
     RigidBody_Comp_t *entt_rigidbody = NULL;
     void *temp_comp = NULL;

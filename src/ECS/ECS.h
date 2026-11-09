@@ -38,19 +38,11 @@ typedef struct Signature_t {
     char signature[SIGNATURE_SIZE];
 } Signature_t;
 
-// Rename Entities_t for clarity
 typedef struct Entities_t {
     int16_t *id_list;
     int16_t length;
     bool is_enttities_initialized;
 } Entities_t;
-
-Entities_t init_entities(void);
-// void destroy_entities(Entities_t entity);
-//
-// void entities_add_entity(Entities_t *entity, int16_t id);
-// void entities_remove_entity(Entities_t *entity, int16_t id);
-
 
 typedef struct System_t {
     Signature_t requirement;
@@ -59,30 +51,17 @@ typedef struct System_t {
     bool is_system_initialized;
 } System_t;
 
-// System_t *init_system(void);
-// void destroy_system(System_t *system);
-//
-// void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
-// void system_add_entity(System_t *system, int16_t entity_id);
-// void system_remove_entity(System_t *system, int16_t entity_id);
-
-
-typedef struct Pool {
+typedef struct Comp_Pool_t {
     void *data;
     int16_t length;
 
-    void (*resize) (struct Pool *, int16_t);
-    void (*set_comp) (struct Pool *, int16_t, void *);
-    void *(*get_comp) (struct Pool *, int16_t);
-    void (*remove_comp) (struct Pool *, int16_t);
+    void (*resize) (struct Comp_Pool_t *, int16_t);
+    void (*set_comp) (struct Comp_Pool_t *, int16_t, void *);
+    void *(*get_comp) (struct Comp_Pool_t *, int16_t);
+    void (*remove_comp) (struct Comp_Pool_t *, int16_t);
 
     bool is_pool_initialized;
-} Pool;
-
-// Pool *init_pool(void);
-// void destroy_pool_data(Pool *pool);
-// void destroy_pool(Pool *pool);
-
+} Comp_Pool_t;
 
 typedef struct Registry_t {
     int16_t biggest_entity_id;
@@ -91,11 +70,15 @@ typedef struct Registry_t {
     Signature_t *entities_components;
     int16_t entities_components_len;
 
-    Pool component_pools[NUM_COMPONENTS];
+    Comp_Pool_t component_pools[NUM_COMPONENTS];
     System_t systems_list[NUM_SYSTEMS];
 
     bool is_registry_initialized;
 } Registry_t;
+
+
+Entities_t init_entities(void);
+
 
 Registry_t *init_registry(void);
 void destroy_registry(Registry_t *registry);

@@ -10,7 +10,7 @@
 #include "base_comp.h"
 
 
-void init_transform_comp_pool_data(Pool *transform_comp_pool) {
+void init_transform_comp_pool_data(Comp_Pool_t *transform_comp_pool) {
     transform_comp_pool->resize = &transform_comp_pool_resize;
     transform_comp_pool->set_comp = &transform_comp_set_to_pool;
     transform_comp_pool->get_comp = &transform_comp_get_from_pool;
@@ -23,24 +23,24 @@ void init_transform_comp_pool_data(Pool *transform_comp_pool) {
 
     return;
 }
-void transform_comp_pool_resize(Pool *transform_comp_pool, int16_t size_to_add) {
+void transform_comp_pool_resize(Comp_Pool_t *transform_comp_pool, int16_t size_to_add) {
     log_info("re-sizing transform component pool");
     RESIZE_COMP_POOL(Transform_Comp_t, transform_comp_pool, size_to_add);
 
     return;
 }
-void transform_comp_set_to_pool(Pool *transform_comp_pool, int16_t entt_id, void *transform_comp) {
+void transform_comp_set_to_pool(Comp_Pool_t *transform_comp_pool, int16_t entt_id, void *transform_comp) {
     SET_COMP_TO_POOL(Transform_Comp_t, transform_comp_pool, entt_id, transform_comp, transform_comp_pool_resize);
 
     return;
 }
-void *transform_comp_get_from_pool(Pool *transform_comp_pool, int16_t entt_id) {
+void *transform_comp_get_from_pool(Comp_Pool_t *transform_comp_pool, int16_t entt_id) {
     void *returned_component_pointer = NULL;
     GET_COMP_FROM_POOL(Transform_Comp_t, transform_comp_pool, entt_id, returned_component_pointer);
 
     return returned_component_pointer;
 }
-void transform_comp_remove_from_pool(Pool *transform_comp_pool, int16_t entt_id) {
+void transform_comp_remove_from_pool(Comp_Pool_t *transform_comp_pool, int16_t entt_id) {
     REMOVE_COMP_FROM_POOL(Transform_Comp_t, transform_comp_pool, entt_id);
 
     return;

@@ -79,7 +79,9 @@ typedef struct Registry_t {
 } Registry_t;
 
 
-Entities_t init_entities(void);
+Entities_t entities_create_entities(void);
+
+System_t system_create_system(COMPONENT *comp_arr, int comp_arr_len);
 
 
 Registry_t *init_registry(void);

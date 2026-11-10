@@ -10,12 +10,8 @@
 
 
 System_t init_movement_system() {
-    System_t new_movement_system = {0};
-    BITSET(new_movement_system.requirement.signature, TRANSFORM_COMP);
-    BITSET(new_movement_system.requirement.signature, RIGIDBODY_COMP);
-    new_movement_system.entities = init_entities();
-
-    new_movement_system.is_system_initialized = true;
+    COMPONENT comp_arr[2]={TRANSFORM_COMP, RIGIDBODY_COMP};
+    System_t new_movement_system = system_create_system(comp_arr, 2);
     log_info("movement system initialized");
 
     return new_movement_system;

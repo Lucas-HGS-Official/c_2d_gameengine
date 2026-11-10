@@ -1,6 +1,7 @@
 #include "render_system.h"
 
 #include <raylib.h>
+#include "log_dot_c/log.h"
 
 #include "ECS.h"
 #include "transform_comp.h"
@@ -8,12 +9,9 @@
 
 
 System_t init_render_system() {
-    System_t new_render_system = {0};
-    BITSET(new_render_system.requirement.signature, TRANSFORM_COMP);
-    BITSET(new_render_system.requirement.signature, SPRITE_COMP);
-    new_render_system.entities = init_entities();
-
-    new_render_system.is_system_initialized = true;
+    COMPONENT comp_arr[2]={TRANSFORM_COMP, SPRITE_COMP};
+    System_t new_render_system = system_create_system(comp_arr, 2);
+    log_info("render system initialized");
 
     return new_render_system;
 }

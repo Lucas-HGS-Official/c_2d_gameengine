@@ -15,8 +15,6 @@
 #include "render_system.h"
 
 
-
-// Entities_t init_entities(void);
 void destroy_entities(Entities_t entity);
 
 void entities_add_entity(Entities_t *entity, int16_t id);
@@ -37,7 +35,7 @@ void destroy_pool(Comp_Pool_t *pool);
 
 
 // Allocates memory for the entities
-Entities_t init_entities(void) {
+Entities_t entities_create_entities(void) {
     Entities_t new_ent = {0};
     new_ent.is_enttities_initialized = true;
     log_info("entities initialized");
@@ -87,7 +85,7 @@ System_t *init_system(void) {
     for (int i=0; i<BITSLOT(MAX_COMPONENTS); i++) {
         BITCLEAR(new_system->requirement.signature, i);
     }
-    new_system->entities = init_entities();
+    new_system->entities = entities_create_entities();
     log_info("system struct initialized");
 
     return new_system;
@@ -104,6 +102,14 @@ void destroy_system(System_t *system) {
     log_info("system freed");
 
     return;
+}
+System_t system_create_system(COMPONENT *comp_arr, int comp_arr_len) {
+    System_t new_system = {0};
+    system_set_required_components(&new_system, comp_arr, comp_arr_len);
+    new_system.entities = entities_create_entities();
+    new_system.is_system_initialized = true;
+
+    return new_system;
 }
 // Sets the system component signature to that it can chose aplicable entities
 void system_set_required_components(System_t *system, COMPONENT *component_list, int component_list_size) {
@@ -168,8 +174,8 @@ Registry_t *init_registry(void) {
     Registry_t *new_registry = MemAlloc(sizeof(Registry_t));
     *new_registry = (Registry_t) {0};
 
-    new_registry->entities_to_be_added = init_entities();
-    new_registry->entities_to_be_destroyed = init_entities();
+    new_registry->entities_to_be_added = entities_create_entities();
+    new_registry->entities_to_be_destroyed = entities_create_entities();
 
     for (COMPONENT i=0; i<NUM_COMPONENTS; i++) {
         switch (i) {

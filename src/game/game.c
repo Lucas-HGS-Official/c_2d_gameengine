@@ -9,7 +9,9 @@
 
 #include "../ECS/ECS.h"
 #include "movement_system.h"
+#include "render_system.h"
 #include "rigidbody_comp.h"
+#include "sprite_comp.h"
 #include "transform_comp.h"
 
 
@@ -88,9 +90,12 @@ void update_game(Game_t *game, float dt) {
     return;
 }
 void render_game(Game_t *game) {
+    System_t *systems = game->registry->systems_list;
     BeginDrawing();
 
         ClearBackground(RAYWHITE);
+
+        render_system_update(&systems[RENDER_SYSTEM], game->registry);
 
         DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
@@ -119,6 +124,7 @@ void setup_game(Game_t *game) {
 
     entts->truck = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});
+    registry_set_component_to_entity(registry, entts->truck, SPRITE_COMP, &(Sprite_Comp_t) { 100, 100 });
 
     return;
 }

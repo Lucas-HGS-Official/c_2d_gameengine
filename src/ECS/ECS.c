@@ -10,7 +10,9 @@
 
 #include "../components/transform_comp.h"
 #include "../components/rigidbody_comp.h"
+#include "../components/sprite_comp.h"
 #include "../systems/movement_system.h"
+#include "render_system.h"
 
 
 
@@ -179,6 +181,9 @@ Registry_t *init_registry(void) {
                 init_rigidbody_comp_pool_data(&new_registry->component_pools[i]);
                 break;
 
+            case SPRITE_COMP:
+                init_sprite_comp_pool_data(&new_registry->component_pools[i]);
+
             case NUM_COMPONENTS:
                 break;
         }
@@ -189,6 +194,9 @@ Registry_t *init_registry(void) {
             case MOVEMENT_SYS:
                 new_registry->systems_list[i] = init_movement_system();
                 break;
+
+            case RENDER_SYSTEM:
+                new_registry->systems_list[i] = init_render_system();
 
             case NUM_SYSTEMS:
                 break;

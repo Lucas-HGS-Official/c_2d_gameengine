@@ -3,14 +3,15 @@ LANG_STD = -std=c99
 COMPILER_FLAGS = -Wextra -Wall -Wfatal-errors
 
 INCLUDE_PATH_LIBS = -I"./libs/"
-INCLUDE_PATH_ENGINE = -I"./src/components/" -I"./src/ECS" -I"./src/systems/"
+INCLUDE_PATH_ENGINE = -I"./src/components/" -I"./src/ECS" -I"./src/systems/" -I"./src/assets_manager"
 INCLUDE_PATH = $(INCLUDE_PATH_LIBS) $(INCLUDE_PATH_ENGINE)
 
 SRC_FILES_LIBS = libs/log_dot_c/*.c \
 				 libs/darray/*.c
 SRC_FILES_ENGINE = src/systems/*.c \
 				   src/ECS/*.c \
-				   src/components/*.c
+				   src/components/*.c \
+				   src/assets_manager/*.c
 SRC_FILES = src/*.c \
 			src/game/*.c \
 			$(SRC_FILES_LIBS) \

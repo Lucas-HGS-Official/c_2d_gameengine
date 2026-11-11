@@ -3,6 +3,8 @@
 #include <raylib.h>
 
 typedef enum TEXTURES {
+    TANK_PANTHER_RIGHT_TEXTURE,
+
     NUM_TEXTURES,
 } TEXTURES;
 
@@ -16,6 +18,6 @@ typedef struct AssetsManager_t {
 AssetsManager_t *init_assets_manager();
 void destroy_assets_manager(AssetsManager_t *assets_manager);
 
-void clear_assets();
-void add_texture(char *file_path, TEXTURES texture_id);
-Texture2D *get_texture(TEXTURES texture_id);
+void assets_manager_clear_assets(AssetsManager_t *assets_manager);
+void assets_manager_add_texture(AssetsManager_t *assets_manager, char *file_path, TEXTURES texture_id);
+Texture2D *assets_manager_get_texture(AssetsManager_t *assets_manager, TEXTURES texture_id);

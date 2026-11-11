@@ -6,6 +6,7 @@
 #include <raymath.h>
 
 #include "../ECS/ECS.h"
+#include "assets_manager.h"
 
 
 static const int WINDOW_WIDTH = 800;
@@ -16,12 +17,13 @@ static const int FPS = 60;
 typedef struct Game_Entts_t Game_Entts_t;
 
 typedef struct Game_t {
+    Game_Entts_t *game_entts;
     Registry_t *registry;
+    AssetsManager_t *assets_manager;
+    char *title;
     bool is_running;
     Vector2 screen_size;
-    char *title;
 
-    Game_Entts_t *game_entts;
 } Game_t;
 
 

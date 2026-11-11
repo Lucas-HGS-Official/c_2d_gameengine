@@ -46,12 +46,12 @@
 
 
 #define COMPONENT_IMPLEMENTATION(component_type, pool_init_func_name, str_component_name) \
-static void comp_pool_resize(Comp_Pool_t *comp_pool, int16_t size_to_add); \
-static void comp_set_to_pool(Comp_Pool_t *comp_pool, int16_t entt_id, void *comp); \
-static void *comp_get_from_pool(Comp_Pool_t *comp_pool, int16_t entt_id); \
-static void comp_remove_from_pool(Comp_Pool_t *comp_pool, int16_t entt_id); \
+static void comp_pool_resize(ComponentPool_t *comp_pool, int16_t size_to_add); \
+static void comp_set_to_pool(ComponentPool_t *comp_pool, int16_t entt_id, void *comp); \
+static void *comp_get_from_pool(ComponentPool_t *comp_pool, int16_t entt_id); \
+static void comp_remove_from_pool(ComponentPool_t *comp_pool, int16_t entt_id); \
  \
-void pool_init_func_name(Comp_Pool_t *comp_pool) { \
+void pool_init_func_name(ComponentPool_t *comp_pool) { \
     comp_pool->resize = &comp_pool_resize; \
     comp_pool->set_comp = &comp_set_to_pool; \
     comp_pool->get_comp = &comp_get_from_pool; \
@@ -65,24 +65,24 @@ void pool_init_func_name(Comp_Pool_t *comp_pool) { \
     return; \
 } \
 \
-void comp_pool_resize(Comp_Pool_t *comp_pool, int16_t size_to_add) { \
+void comp_pool_resize(ComponentPool_t *comp_pool, int16_t size_to_add) { \
     log_info("re-sizing %s component pool", str_component_name); \
     RESIZE_COMP_POOL(component_type, comp_pool, size_to_add); \
  \
     return; \
 } \
-void comp_set_to_pool(Comp_Pool_t *comp_pool, int16_t entt_id, void *comp) { \
+void comp_set_to_pool(ComponentPool_t *comp_pool, int16_t entt_id, void *comp) { \
     SET_COMP_TO_POOL(component_type, comp_pool, entt_id, comp, comp_pool_resize); \
  \
     return; \
 } \
-void *comp_get_from_pool(Comp_Pool_t *comp_pool, int16_t entt_id) { \
+void *comp_get_from_pool(ComponentPool_t *comp_pool, int16_t entt_id) { \
     void *returned_component_pointer = NULL; \
     GET_COMP_FROM_POOL(component_type, comp_pool, entt_id, returned_component_pointer); \
  \
     return returned_component_pointer; \
 } \
-void comp_remove_from_pool(Comp_Pool_t *comp_pool, int16_t entt_id) { \
+void comp_remove_from_pool(ComponentPool_t *comp_pool, int16_t entt_id) { \
     REMOVE_COMP_FROM_POOL(component_type, comp_pool, entt_id); \
  \
     return; \

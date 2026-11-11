@@ -16,8 +16,8 @@ System_t init_render_system() {
     return new_render_system;
 }
 void render_system_update(System_t *render_system,  Registry_t *registry) {
-    Comp_Pool_t *transform_pool = &registry->component_pools[TRANSFORM_COMP];
-    Comp_Pool_t *sprite_pool = &registry->component_pools[SPRITE_COMP];
+    ComponentPool_t *transform_pool = &registry->component_pools[TRANSFORM_COMP];
+    ComponentPool_t *sprite_pool = &registry->component_pools[SPRITE_COMP];
     Transform_Comp_t *entt_transform = NULL;
     Sprite_Comp_t *entt_sprite = NULL;
     void *temp_comp = NULL;

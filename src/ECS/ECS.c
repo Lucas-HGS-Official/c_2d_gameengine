@@ -29,9 +29,9 @@ void system_add_entity(System_t *system, int16_t entity_id);
 void system_remove_entity(System_t *system, int16_t entity_id);
 
 
-Comp_Pool_t *init_pool(void);
-void destroy_pool_data(Comp_Pool_t *pool);
-void destroy_pool(Comp_Pool_t *pool);
+ComponentPool_t *init_pool(void);
+void destroy_pool_data(ComponentPool_t *pool);
+void destroy_pool(ComponentPool_t *pool);
 
 
 // Allocates memory for the entities
@@ -138,14 +138,14 @@ void system_remove_entity(System_t *system, int16_t entity_id) {
 }
 
 
-Comp_Pool_t *init_pool(void) {
-    Comp_Pool_t *new_pool = MemAlloc(sizeof(Comp_Pool_t));
-    *new_pool = (Comp_Pool_t) {0};
+ComponentPool_t *init_pool(void) {
+    ComponentPool_t *new_pool = MemAlloc(sizeof(ComponentPool_t));
+    *new_pool = (ComponentPool_t) {0};
     log_info("component pool initialized");
 
     return new_pool;
 }
-void destroy_pool_data(Comp_Pool_t *pool) {
+void destroy_pool_data(ComponentPool_t *pool) {
     if (pool->length != 0) {
         log_info("no data in component pool");
 
@@ -156,7 +156,7 @@ void destroy_pool_data(Comp_Pool_t *pool) {
 
     return;
 }
-void destroy_pool(Comp_Pool_t *pool) {
+void destroy_pool(ComponentPool_t *pool) {
     if (!pool->is_pool_initialized) {
         log_info("component pool not initialized");
 
@@ -282,7 +282,7 @@ void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, CO
 
     Signature_t entt_signature = registry->entities_components[entt_id];
     if (BITTEST(entt_signature.signature, comp_type)) {
-        Comp_Pool_t *comp_pool = &registry->component_pools[comp_type];
+        ComponentPool_t *comp_pool = &registry->component_pools[comp_type];
         return comp_pool->get_comp(comp_pool, entt_id);
     }
 

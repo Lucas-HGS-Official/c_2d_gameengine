@@ -53,17 +53,17 @@ typedef struct System_t {
     bool is_system_initialized;
 } System_t;
 
-typedef struct Comp_Pool_t {
+typedef struct ComponentPool_t {
     void *data;
     int16_t length;
 
-    void (*resize) (struct Comp_Pool_t *, int16_t);
-    void (*set_comp) (struct Comp_Pool_t *, int16_t, void *);
-    void *(*get_comp) (struct Comp_Pool_t *, int16_t);
-    void (*remove_comp) (struct Comp_Pool_t *, int16_t);
+    void (*resize) (struct ComponentPool_t *, int16_t);
+    void (*set_comp) (struct ComponentPool_t *, int16_t, void *);
+    void *(*get_comp) (struct ComponentPool_t *, int16_t);
+    void (*remove_comp) (struct ComponentPool_t *, int16_t);
 
     bool is_pool_initialized;
-} Comp_Pool_t;
+} ComponentPool_t;
 
 typedef struct Registry_t {
     int16_t biggest_entity_id;
@@ -72,7 +72,7 @@ typedef struct Registry_t {
     Signature_t *entities_components;
     int16_t entities_components_len;
 
-    Comp_Pool_t component_pools[NUM_COMPONENTS];
+    ComponentPool_t component_pools[NUM_COMPONENTS];
     System_t systems_list[NUM_SYSTEMS];
 
     bool is_registry_initialized;

@@ -15,4 +15,4 @@ typedef struct Transform_Comp_t {
 } Transform_Comp_t;
 
 
-void init_transform_comp_pool_data(Comp_Pool_t *transform_comp_pool);
+void init_transform_comp_pool_data(ComponentPool_t *transform_comp_pool);

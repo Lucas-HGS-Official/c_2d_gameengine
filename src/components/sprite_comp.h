@@ -13,4 +13,4 @@ typedef struct Sprite_Comp_t {
     int32_t heigt;
 } Sprite_Comp_t;
 
-void init_sprite_comp_pool_data(Comp_Pool_t *sprite_comp_pool);
+void init_sprite_comp_pool_data(ComponentPool_t *sprite_comp_pool);

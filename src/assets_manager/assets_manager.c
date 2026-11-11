@@ -1,13 +1,12 @@
 #include "assets_manager.h"
 
-#include <time.h>
-
 #include <raylib.h>
+#include "log_dot_c/log.h"
 
 
 AssetsManager_t *init_assets_manager() {
     AssetsManager_t *new_assets_manager = MemAlloc(sizeof(AssetsManager_t));
-    new_assets_manager = NULL;
+    *new_assets_manager = (AssetsManager_t) {0};
 
     return new_assets_manager;
 }
@@ -28,6 +27,7 @@ void assets_manager_clear_assets(AssetsManager_t *assets_manager) {
 void assets_manager_add_texture(AssetsManager_t *assets_manager, char *file_path, TEXTURES texture_id) {
     Texture2D new_texture = LoadTexture(file_path);
     assets_manager->textures_arr[texture_id] = new_texture;
+    log_info("new texture loaded with the id: %i", texture_id);
 
     return;
 }

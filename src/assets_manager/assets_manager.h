@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include <raylib.h>
 
 typedef enum TEXTURES {
@@ -12,6 +14,7 @@ typedef struct AssetsManager_t {
     Texture2D textures_arr[NUM_TEXTURES];
     int textures_arr_len;
 
+    bool is_assets_manager_initialized;
 } AssetsManager_t;
 
 

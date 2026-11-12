@@ -8,9 +8,16 @@ AssetsManager_t *init_assets_manager() {
     AssetsManager_t *new_assets_manager = MemAlloc(sizeof(AssetsManager_t));
     *new_assets_manager = (AssetsManager_t) {0};
 
+    new_assets_manager->is_assets_manager_initialized = true;
+
     return new_assets_manager;
 }
 void destroy_assets_manager(AssetsManager_t *assets_manager) {
+    if (!assets_manager->is_assets_manager_initialized) {
+        log_info("assets_manager not initialized");
+
+        return;
+    }
     assets_manager_clear_assets(assets_manager);
     MemFree(assets_manager);
 

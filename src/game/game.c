@@ -101,7 +101,7 @@ void render_game(Game_t *game) {
 
         ClearBackground(RAYWHITE);
 
-        render_system_update(&systems[RENDER_SYSTEM], game->registry);
+        render_system_update(&systems[RENDER_SYSTEM], game->registry, game->assets_manager);
 
         DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
@@ -123,15 +123,15 @@ void setup_game(Game_t *game) {
     Transform_Comp_t tank_transform = {
         .position = (Vector2) { .x=10, .y=30 },
         .rotation = 0.f,
-        .scale = 0.f,
+        .scale = 1.f,
     };
     RigidBody_Comp_t tank_rigidbody = {
         .velocity = (Vector2) { .x=10, .y=50 },
     };
     Sprite_Comp_t tank_sprite = {
         .texture_id = TANK_PANTHER_RIGHT_TEXTURE,
-        .heigt = 30,
-        .width = 30,
+        .heigt = 32,
+        .width = 32,
     };
     entts->tank = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &tank_transform);

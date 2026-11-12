@@ -4,6 +4,7 @@
 #include "log_dot_c/log.h"
 
 #include "ECS.h"
+#include "assets_manager.h"
 #include "transform_comp.h"
 #include "sprite_comp.h"
 
@@ -15,7 +16,7 @@ System_t init_render_system() {
 
     return new_render_system;
 }
-void render_system_update(System_t *render_system,  Registry_t *registry) {
+void render_system_update(System_t *render_system,  Registry_t *registry, AssetsManager_t *assets_manager) {
     ComponentPool_t *transform_pool = &registry->component_pools[TRANSFORM_COMP];
     ComponentPool_t *sprite_pool = &registry->component_pools[SPRITE_COMP];
     Transform_Comp_t *entt_transform = NULL;
@@ -34,11 +35,16 @@ void render_system_update(System_t *render_system,  Registry_t *registry) {
         Rectangle entt_rec = {
             .x=entt_transform->position.x,
             .y=entt_transform->position.y,
+            .width=entt_sprite->width * entt_transform->scale,
+            .height=entt_sprite->heigt * entt_transform->scale,
+        };
+        Texture2D entt_texture = assets_manager->textures_arr[entt_sprite->texture_id];
+        Rectangle texture_rec = {
             .width=entt_sprite->width,
             .height=entt_sprite->heigt,
         };
 
-        DrawRectangleRec(entt_rec, BLACK);
+        DrawTexturePro(entt_texture, texture_rec, entt_rec, (Vector2) { 0,0 }, entt_transform->rotation, WHITE);
     }
 
     return;

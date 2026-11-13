@@ -112,6 +112,12 @@ void render_game(Game_t *game) {
 
 
 void setup_game(Game_t *game) {
+    game_load_lvl(game, 0);
+
+    return;
+}
+
+void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     AssetsManager_t *assets_manager = game->assets_manager;
     Registry_t *registry = game->registry;
     Game_Entts_t *entts = game->game_entts;

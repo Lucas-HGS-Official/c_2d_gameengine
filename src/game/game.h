@@ -9,6 +9,10 @@
 #include "assets_manager.h"
 
 
+typedef enum LEVELS {
+    NUM_LVLS,
+} LEVELS ;
+
 static const int WINDOW_WIDTH = 800;
 static const int WINDOW_HEIGHT = 600;
 
@@ -35,3 +39,5 @@ void process_input(Game_t *game);
 void update_game(Game_t *game, float dt);
 void render_game(Game_t *game);
 void setup_game(Game_t *game);
+
+void game_load_lvl(Game_t *game, LEVELS lvl_to_load);

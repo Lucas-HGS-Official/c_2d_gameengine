@@ -139,8 +139,8 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     };
     Sprite_Comp_t tank_sprite = {
         .texture_id = TANK_PANTHER_RIGHT_TEXTURE,
-        .heigt = 32,
-        .width = 32,
+        .rec.height = 32,
+        .rec.width = 32,
     };
     entts->tank = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &tank_transform);
@@ -149,7 +149,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
     entts->truck = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});
-    registry_set_component_to_entity(registry, entts->truck, SPRITE_COMP, &(Sprite_Comp_t) { 0, 100, 100 });
+    // registry_set_component_to_entity(registry, entts->truck, SPRITE_COMP, &(Sprite_Comp_t) { 0, 100, 100 });
 
 
     int tile_size = 32;
@@ -173,12 +173,8 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
                 int src_rec_x = num*tile_size;
 
                 float tile_true_size = tile_scale*tile_size;
-                Rectangle dest_rec = {
-                    .x=x*(tile_true_size), .y=y*(tile_true_size),
-                    .width=tile_true_size, .height=tile_true_size,
-                };
                 Transform_Comp_t tile_transform= {
-                    .position={ .x=dest_rec.x, .y=dest_rec.y },
+                    .position={ .x=x*(tile_true_size), .y=y*(tile_true_size) },
                     .rotation=0.f,
                     .scale=tile_scale,
                 };
@@ -191,10 +187,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
                 };
                 Sprite_Comp_t tile_sprite = {
                     .texture_id=TILESET_TEXTURE,
-                    .heigt=src_rec.height,
-                    .width=src_rec.width,
-                    .x=src_rec.x,
-                    .y=src_rec.y,
+                    .rec = src_rec,
                 };
 
                 int16_t new_tile = registry_create_entity(registry);

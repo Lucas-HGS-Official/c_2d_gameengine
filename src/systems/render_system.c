@@ -35,16 +35,11 @@ void render_system_update(System_t *render_system,  Registry_t *registry, Assets
         Rectangle entt_rec = {
             .x=entt_transform->position.x,
             .y=entt_transform->position.y,
-            .width=entt_sprite->width * entt_transform->scale,
-            .height=entt_sprite->heigt * entt_transform->scale,
+            .width=entt_sprite->rec.width * entt_transform->scale,
+            .height=entt_sprite->rec.height * entt_transform->scale,
         };
         Texture2D entt_texture = assets_manager->textures_arr[entt_sprite->texture_id];
-        Rectangle texture_rec = {
-            .x=entt_sprite->x,
-            .y=entt_sprite->y,
-            .width=entt_sprite->width,
-            .height=entt_sprite->heigt,
-        };
+        Rectangle texture_rec = entt_sprite->rec;
 
         DrawTexturePro(entt_texture, texture_rec, entt_rec, (Vector2) { 0,0 }, entt_transform->rotation, WHITE);
     }

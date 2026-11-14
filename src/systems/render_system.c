@@ -40,6 +40,8 @@ void render_system_update(System_t *render_system,  Registry_t *registry, Assets
         };
         Texture2D entt_texture = assets_manager->textures_arr[entt_sprite->texture_id];
         Rectangle texture_rec = {
+            .x=entt_sprite->x,
+            .y=entt_sprite->y,
             .width=entt_sprite->width,
             .height=entt_sprite->heigt,
         };

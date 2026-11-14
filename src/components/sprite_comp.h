@@ -11,8 +11,10 @@
 
 typedef struct Sprite_Comp_t {
     TEXTURES texture_id;
-    int32_t width;
-    int32_t heigt;
+    float width;
+    float heigt;
+    float x;
+    float y;
 } Sprite_Comp_t;
 
 void init_sprite_comp_pool_data(ComponentPool_t *sprite_comp_pool);

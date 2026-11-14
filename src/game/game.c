@@ -5,6 +5,7 @@
 
 #include <raylib.h>
 #include <raymath.h>
+#include "darray/darray.h"
 #include "log_dot_c/log.h"
 
 #include "../ECS/ECS.h"
@@ -20,6 +21,7 @@
 struct Game_Entts_t {
     int16_t tank;
     int16_t truck;
+    int16_t *tile_darr;
 
     bool is_game_entts_initialized;
 };
@@ -156,6 +158,41 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     int num_rows = 20;
 
     char *map_file = LoadFileText("assets/tilemaps/jungle.map");
+
+    int i=0;
+    for (int y=0; y<num_rows*num_cols; y++) {
+        for (int x=0; x<num_cols; x++) {
+            i++;
+            if (map_file[i] == ',') {
+                int num = 0;
+
+                num = map_file[i-2] - '0';
+                int src_rec_y = num*tile_size;
+
+                num = map_file[i-1] - '0';
+                int src_rec_x = num*tile_size;
+
+                float tile_true_size = tile_scale*tile_size;
+                Rectangle dest_rec = {
+                    .x=x*(tile_true_size), .y=y*(tile_true_size),
+                    .width=tile_true_size, .height=tile_true_size,
+                };
+
+                Rectangle src_rec = {
+                    .x=src_rec_x,
+                    .y=src_rec_y,
+                    .width=tile_size,
+                    .height=tile_size,
+                };
+
+                int16_t new_tile = registry_create_entity(registry);
+                darray_push(entts->tile_darr, new_tile);
+                registry_set_component_to_entity(registry, new_tile, TRANSFORM_COMP, &dest_rec);
+                registry_set_component_to_entity(registry, new_tile, SPRITE_COMP, &src_rec);
+            }
+        }
+    }
+
     UnloadFileText(map_file);
 
     return;

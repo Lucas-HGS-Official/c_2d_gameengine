@@ -177,6 +177,11 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
                     .x=x*(tile_true_size), .y=y*(tile_true_size),
                     .width=tile_true_size, .height=tile_true_size,
                 };
+                Transform_Comp_t tile_transform= {
+                    .position={ .x=dest_rec.x, .y=dest_rec.y },
+                    .rotation=0.f,
+                    .scale=tile_scale,
+                };
 
                 Rectangle src_rec = {
                     .x=src_rec_x,
@@ -184,11 +189,18 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
                     .width=tile_size,
                     .height=tile_size,
                 };
+                Sprite_Comp_t tile_sprite = {
+                    .texture_id=TILESET_TEXTURE,
+                    .heigt=src_rec.height,
+                    .width=src_rec.width,
+                    .x=src_rec.x,
+                    .y=src_rec.y,
+                };
 
                 int16_t new_tile = registry_create_entity(registry);
                 darray_push(entts->tile_darr, new_tile);
-                registry_set_component_to_entity(registry, new_tile, TRANSFORM_COMP, &dest_rec);
-                registry_set_component_to_entity(registry, new_tile, SPRITE_COMP, &src_rec);
+                registry_set_component_to_entity(registry, new_tile, TRANSFORM_COMP, &tile_transform);
+                registry_set_component_to_entity(registry, new_tile, SPRITE_COMP, &tile_sprite);
             }
         }
     }

@@ -178,6 +178,8 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
                     .rotation=0.f,
                     .scale=tile_scale,
                 };
+                if (x==0) { tile_transform.position.x=0; }
+                if (y==0) { tile_transform.position.y=0; }
 
                 Rectangle src_rec = {
                     .x=src_rec_x,

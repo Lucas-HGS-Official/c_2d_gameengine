@@ -160,7 +160,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     char *map_file = LoadFileText("assets/tilemaps/jungle.map");
 
     int i=0;
-    for (int y=0; y<num_rows*num_cols; y++) {
+    for (int y=0; y<num_rows; y++) {
         for (int x=0; x<num_cols; x++) {
             i++;
             if (map_file[i] == ',') {

@@ -124,6 +124,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
 
     assets_manager_add_texture(assets_manager, "assets/images/tank-panther-right.png", TANK_PANTHER_RIGHT_TEXTURE);
+    assets_manager_add_texture(assets_manager, "assets/tilemaps/jungle.png", TILESET_TEXTURE);
 
 
     Transform_Comp_t tank_transform = {
@@ -147,6 +148,15 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     entts->truck = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});
     registry_set_component_to_entity(registry, entts->truck, SPRITE_COMP, &(Sprite_Comp_t) { 0, 100, 100 });
+
+
+    int tile_size = 32;
+    float tile_scale = 2.0;
+    int num_cols = 25;
+    int num_rows = 20;
+
+    char *map_file = LoadFileText("assets/tilemaps/jungle.map");
+    UnloadFileText(map_file);
 
     return;
 }

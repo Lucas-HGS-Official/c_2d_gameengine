@@ -72,6 +72,7 @@ void destroy_game(Game_t *game) {
         destroy_registry(game->registry);
     }
     if (game->game_entts->is_game_entts_initialized) {
+        darray_free(game->game_entts->tile_darr);
         MemFree(game->game_entts);
     }
     if (IsWindowReady()) {
@@ -153,7 +154,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
 
     int tile_size = 32;
-    float tile_scale = 0.75f;
+    float tile_scale = 2.f;
     int num_cols = 25;
     int num_rows = 20;
 
@@ -163,10 +164,6 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     int y=0;
     for (int i=0; y<num_rows && x<num_cols; i++) {
         if (map_file[i] == ',') {
-            if (x>=num_cols-1) {
-                x=0;
-                y++;
-            }
             int num = 0;
 
             num = map_file[i-2] - '0';
@@ -175,7 +172,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
             num = map_file[i-1] - '0';
             int src_rec_x = num*tile_size;
 
-            float tile_true_size = tile_scale*tile_size+1;
+            float tile_true_size = tile_scale*tile_size;
             Transform_Comp_t tile_transform= {
                 .position={ .x=x*tile_true_size, .y=y*tile_true_size },
                 .rotation=0.f,
@@ -199,6 +196,10 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
             registry_set_component_to_entity(registry, new_tile, SPRITE_COMP, &tile_sprite);
 
             x++;
+            if (x>=num_cols-1) {
+                x=0;
+                y++;
+            }
         }
         log_debug("(x=%i, y=%i)", x, y);
     }

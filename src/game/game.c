@@ -153,7 +153,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
 
     int tile_size = 32;
-    float tile_scale = 0.75;
+    float tile_scale = 0.75f;
     int num_cols = 25;
     int num_rows = 20;
 
@@ -161,8 +161,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
     int x=0;
     int y=0;
-    int map_size = num_cols*num_rows;
-    for (int i=0; i<map_size; i++) {
+    for (int i=0; y<num_rows && x<num_cols; i++) {
         if (map_file[i] == ',') {
             if (x>=num_cols-1) {
                 x=0;
@@ -201,6 +200,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
             x++;
         }
+        log_debug("(x=%i, y=%i)", x, y);
     }
 
     UnloadFileText(map_file);

@@ -153,7 +153,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
 
     int tile_size = 32;
-    float tile_scale = 2.0;
+    float tile_scale = 0.75;
     int num_cols = 25;
     int num_rows = 20;
 
@@ -161,14 +161,13 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
     int x=0;
     int y=0;
-    for (int i=0; i<num_cols*num_rows; i++) {
+    int map_size = num_cols*num_rows;
+    for (int i=0; i<map_size; i++) {
         if (map_file[i] == ',') {
-            x++;
-            if (x>=num_cols) {
+            if (x>=num_cols-1) {
                 x=0;
                 y++;
             }
-
             int num = 0;
 
             num = map_file[i-2] - '0';
@@ -177,14 +176,12 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
             num = map_file[i-1] - '0';
             int src_rec_x = num*tile_size;
 
-            float tile_true_size = tile_scale*tile_size;
+            float tile_true_size = tile_scale*tile_size+1;
             Transform_Comp_t tile_transform= {
                 .position={ .x=x*tile_true_size, .y=y*tile_true_size },
                 .rotation=0.f,
                 .scale=tile_scale,
             };
-            // if (x==2) { tile_transform.position.x=0; }
-            // if (y==2) { tile_transform.position.y=0; }
 
             Rectangle src_rec = {
                 .x=src_rec_x,
@@ -201,6 +198,8 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
             darray_push(entts->tile_darr, new_tile);
             registry_set_component_to_entity(registry, new_tile, TRANSFORM_COMP, &tile_transform);
             registry_set_component_to_entity(registry, new_tile, SPRITE_COMP, &tile_sprite);
+
+            x++;
         }
     }
 

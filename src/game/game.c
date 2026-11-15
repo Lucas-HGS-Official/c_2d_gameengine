@@ -159,44 +159,48 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
     char *map_file = LoadFileText("assets/tilemaps/jungle.map");
 
-    int i=0;
-    for (int y=0; y<num_rows; y++) {
-        for (int x=0; x<num_cols; x++) {
-            i++;
-            if (map_file[i] == ',') {
-                int num = 0;
-
-                num = map_file[i-2] - '0';
-                int src_rec_y = num*tile_size;
-
-                num = map_file[i-1] - '0';
-                int src_rec_x = num*tile_size;
-
-                float tile_true_size = tile_scale*tile_size;
-                Transform_Comp_t tile_transform= {
-                    .position={ .x=x*(tile_true_size), .y=y*(tile_true_size) },
-                    .rotation=0.f,
-                    .scale=tile_scale,
-                };
-                if (x==0) { tile_transform.position.x=0; }
-                if (y==0) { tile_transform.position.y=0; }
-
-                Rectangle src_rec = {
-                    .x=src_rec_x,
-                    .y=src_rec_y,
-                    .width=tile_size,
-                    .height=tile_size,
-                };
-                Sprite_Comp_t tile_sprite = {
-                    .texture_id=TILESET_TEXTURE,
-                    .rec = src_rec,
-                };
-
-                int16_t new_tile = registry_create_entity(registry);
-                darray_push(entts->tile_darr, new_tile);
-                registry_set_component_to_entity(registry, new_tile, TRANSFORM_COMP, &tile_transform);
-                registry_set_component_to_entity(registry, new_tile, SPRITE_COMP, &tile_sprite);
+    int x=0;
+    int y=0;
+    for (int i=0; i<num_cols*num_rows; i++) {
+        if (map_file[i] == ',') {
+            x++;
+            if (x>=num_cols) {
+                x=0;
+                y++;
             }
+
+            int num = 0;
+
+            num = map_file[i-2] - '0';
+            int src_rec_y = num*tile_size;
+
+            num = map_file[i-1] - '0';
+            int src_rec_x = num*tile_size;
+
+            float tile_true_size = tile_scale*tile_size;
+            Transform_Comp_t tile_transform= {
+                .position={ .x=x*tile_true_size, .y=y*tile_true_size },
+                .rotation=0.f,
+                .scale=tile_scale,
+            };
+            // if (x==2) { tile_transform.position.x=0; }
+            // if (y==2) { tile_transform.position.y=0; }
+
+            Rectangle src_rec = {
+                .x=src_rec_x,
+                .y=src_rec_y,
+                .width=tile_size,
+                .height=tile_size,
+            };
+            Sprite_Comp_t tile_sprite = {
+                .texture_id=TILESET_TEXTURE,
+                .rec = src_rec,
+            };
+
+            int16_t new_tile = registry_create_entity(registry);
+            darray_push(entts->tile_darr, new_tile);
+            registry_set_component_to_entity(registry, new_tile, TRANSFORM_COMP, &tile_transform);
+            registry_set_component_to_entity(registry, new_tile, SPRITE_COMP, &tile_sprite);
         }
     }
 

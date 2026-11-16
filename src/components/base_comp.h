@@ -27,7 +27,7 @@
 
 #define SET_COMP_TO_POOL(component_type, component_pool, entt_id, component, resize_function_name) \
     if (entt_id >= component_pool->length) { \
-        resize_function_name(component_pool, SLOTS_TO_ADD); \
+        resize_function_name(component_pool, entt_id+SLOTS_TO_ADD); \
     } \
     component_type *component_pool_data = (component_type *) component_pool->data; \
     component_pool_data[entt_id] = *(component_type *)component; \

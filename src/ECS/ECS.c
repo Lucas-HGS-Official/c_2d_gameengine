@@ -124,14 +124,14 @@ void system_set_required_components(System_t *system, COMPONENT *component_list,
 }
 void system_add_entity(System_t *system, int16_t entity_id) {
 
-    log_info("adding entity %i to system", entity_id);
+    // log_info("adding entity %i to system", entity_id);
     entities_add_entity(&system->entities, entity_id);
 
     return;
 }
 void system_remove_entity(System_t *system, int16_t entity_id) {
 
-    log_info("removing entity %i to system", entity_id);
+    // log_info("removing entity %i to system", entity_id);
     entities_remove_entity(&system->entities, entity_id);
 
     return;

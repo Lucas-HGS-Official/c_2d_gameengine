@@ -60,16 +60,16 @@ void render_system_update(System_t *render_system,  Registry_t *registry, Assets
         sprite_entt = render_entt_darr[i].sprite;
         transform_entt = render_entt_darr[i].transform;
 
-        Rectangle entt_rec = {
+        Texture2D entt_texture = assets_manager->textures_arr[sprite_entt->texture_id];
+        Rectangle entt_dest_rec = {
             .x=transform_entt->position.x,
             .y=transform_entt->position.y,
             .width=sprite_entt->rec.width * transform_entt->scale,
             .height=sprite_entt->rec.height * transform_entt->scale,
         };
-        Texture2D entt_texture = assets_manager->textures_arr[sprite_entt->texture_id];
-        Rectangle texture_rec = sprite_entt->rec;
+        Rectangle entt_src_rec = sprite_entt->rec;
 
-        DrawTexturePro(entt_texture, texture_rec, entt_rec, (Vector2) { 0,0 }, transform_entt->rotation, WHITE);
+        DrawTexturePro(entt_texture, entt_src_rec, entt_dest_rec, sprite_entt->origin, transform_entt->rotation, sprite_entt->color);
     }
 
     return;

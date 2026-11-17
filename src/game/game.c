@@ -143,6 +143,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
         .rec.height = 32,
         .rec.width = 32,
         .z_index = 1,
+        .color = WHITE,
     };
     entts->tank = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, &tank_rigidbody);
@@ -186,6 +187,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
                 .texture_id=TILESET_TEXTURE,
                 .rec = src_rec,
                 .z_index = 0,
+                .color = WHITE,
             };
 
             int16_t new_tile = registry_create_entity(registry);

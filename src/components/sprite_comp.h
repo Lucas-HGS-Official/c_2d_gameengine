@@ -10,9 +10,11 @@
 
 
 typedef struct Sprite_Comp_t {
-    TEXTURES texture_id;
+    Color color;
     Rectangle rec;
+    Vector2 origin;
     uint32_t z_index;
+    TEXTURES texture_id;
 } Sprite_Comp_t;
 
 void init_sprite_comp_pool_data(ComponentPool_t *sprite_comp_pool);

@@ -22,7 +22,7 @@
         component_pool_data[i] =  (component_type) {0}; \
     } \
     component_pool->length = new_size; \
-    log_info("component pool new size: %i", new_size); \
+    log_info("component pool new size: %i", new_size) \
 
 
 #define SET_COMP_TO_POOL(component_type, component_pool, entt_id, component, resize_function_name) \
@@ -31,18 +31,18 @@
     } \
     component_type *component_pool_data = (component_type *) component_pool->data; \
     component_pool_data[entt_id] = *(component_type *)component; \
-    log_info("set component for entity %i", entt_id); \
+    log_info("set component for entity %i", entt_id) \
 
 
 #define GET_COMP_FROM_POOL(component_type, component_pool, entt_id, returned_component_pointer) \
     component_type *component_pool_data = (component_type*) component_pool->data; \
-    returned_component_pointer = (void *) &component_pool_data[entt_id]; \
+    returned_component_pointer = (void *) &component_pool_data[entt_id] \
 
 
 #define REMOVE_COMP_FROM_POOL(component_type, component_pool, entt_id) \
     component_type *component_pool_data = (component_type*) component_pool->data; \
     component_pool_data[entt_id] = (component_type) {0}; \
-    log_info("remove component from entity %i", entt_id); \
+    log_info("remove component from entity %i", entt_id) \
 
 
 #define COMPONENT_IMPLEMENTATION(component_type, pool_init_func_name, str_component_name) \

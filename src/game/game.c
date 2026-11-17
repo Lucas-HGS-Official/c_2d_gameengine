@@ -130,6 +130,26 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     assets_manager_add_texture(assets_manager, "assets/tilemaps/jungle.png", TILESET_TEXTURE);
 
 
+    Transform_Comp_t tank_transform = {
+        .position = (Vector2) { .x=10, .y=30 },
+        .rotation = 0.f,
+        .scale = 1.f,
+    };
+    RigidBody_Comp_t tank_rigidbody = {
+        .velocity = (Vector2) { .x=10, .y=50 },
+    };
+    Sprite_Comp_t tank_sprite = {
+        .texture_id = TANK_PANTHER_RIGHT_TEXTURE,
+        .rec.height = 32,
+        .rec.width = 32,
+        .z_index = 1,
+    };
+    entts->tank = registry_create_entity(registry);
+    registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, &tank_rigidbody);
+    registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &tank_transform);
+    registry_set_component_to_entity(registry, entts->tank, SPRITE_COMP, &tank_sprite);
+
+
     int tile_size = 32;
     float tile_scale = 2.f;
     int num_cols = 25;
@@ -184,24 +204,6 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
     UnloadFileText(map_file);
 
-    Transform_Comp_t tank_transform = {
-        .position = (Vector2) { .x=10, .y=30 },
-        .rotation = 0.f,
-        .scale = 1.f,
-    };
-    RigidBody_Comp_t tank_rigidbody = {
-        .velocity = (Vector2) { .x=10, .y=50 },
-    };
-    Sprite_Comp_t tank_sprite = {
-        .texture_id = TANK_PANTHER_RIGHT_TEXTURE,
-        .rec.height = 32,
-        .rec.width = 32,
-        .z_index = 1,
-    };
-    entts->tank = registry_create_entity(registry);
-    registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, &tank_rigidbody);
-    registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &tank_transform);
-    registry_set_component_to_entity(registry, entts->tank, SPRITE_COMP, &tank_sprite);
 
     entts->truck = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});

@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include <raylib.h>
+#include "animation_comp.h"
 #include "darray/darray.h"
 #include "log_dot_c/log.h"
 
@@ -189,6 +190,11 @@ Registry_t *init_registry(void) {
 
             case SPRITE_COMP:
                 init_sprite_comp_pool_data(&new_registry->component_pools[i]);
+                break;
+
+            case ANIMATION_COMP:
+                init_animation_comp_pool_data(&new_registry->component_pools[i]);
+                break;
 
             case NUM_COMPONENTS:
                 break;

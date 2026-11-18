@@ -5,6 +5,7 @@
 
 #include <raylib.h>
 #include <raymath.h>
+#include "animation_comp.h"
 #include "darray/darray.h"
 #include "log_dot_c/log.h"
 
@@ -19,9 +20,10 @@
 
 
 struct Game_Entts_t {
+    int16_t *tile_darr;
     int16_t tank;
     int16_t truck;
-    int16_t *tile_darr;
+    int16_t chopper;
 
     bool is_game_entts_initialized;
 };
@@ -128,6 +130,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
     assets_manager_add_texture(assets_manager, "assets/images/tank-panther-right.png", TANK_PANTHER_RIGHT_TEXTURE);
     assets_manager_add_texture(assets_manager, "assets/tilemaps/jungle.png", TILESET_TEXTURE);
+    assets_manager_add_texture(assets_manager, "assets/images/chopper.png", CHOPPER_SPRITESHEET_TEXTURE);
 
 
     Transform_Comp_t tank_transform = {
@@ -149,6 +152,27 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, &tank_rigidbody);
     registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &tank_transform);
     registry_set_component_to_entity(registry, entts->tank, SPRITE_COMP, &tank_sprite);
+
+
+    Transform_Comp_t chopper_transform = {
+        .position = (Vector2) { .x=10, .y=30 },
+        .rotation = 0.f,
+        .scale = 1.f,
+    };
+    RigidBody_Comp_t chopper_rigidbody = { 0 };
+    Sprite_Comp_t chopper_sprite = {
+        .texture_id = CHOPPER_SPRITESHEET_TEXTURE,
+        .rec.height = 32,
+        .rec.width = 32,
+        .z_index = 1,
+        .color = WHITE,
+    };
+    Animation_Comp_t chopper_animation = { 0 };
+    entts->chopper = registry_create_entity(registry);
+    registry_set_component_to_entity(registry, entts->chopper, RIGIDBODY_COMP, &chopper_rigidbody);
+    registry_set_component_to_entity(registry, entts->chopper, TRANSFORM_COMP, &chopper_transform);
+    registry_set_component_to_entity(registry, entts->chopper, SPRITE_COMP, &chopper_sprite);
+    registry_set_component_to_entity(registry, entts->chopper, ANIMATION_COMP, &chopper_animation);
 
 
     int tile_size = 32;

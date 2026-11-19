@@ -24,7 +24,8 @@ typedef enum COMPONENT {
 
 typedef enum SYSTEM {
     MOVEMENT_SYS,
-    RENDER_SYSTEM,
+    RENDER_SYS,
+    ANIMATION_SYS,
 
     NUM_SYSTEMS,
 } SYSTEM;

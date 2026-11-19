@@ -5,14 +5,15 @@
 #include <stdint.h>
 
 #include <raylib.h>
-#include "animation_comp.h"
 #include "darray/darray.h"
 #include "log_dot_c/log.h"
 
-#include "../components/transform_comp.h"
-#include "../components/rigidbody_comp.h"
-#include "../components/sprite_comp.h"
-#include "../systems/movement_system.h"
+#include "transform_comp.h"
+#include "rigidbody_comp.h"
+#include "sprite_comp.h"
+#include "animation_comp.h"
+#include "animation_system.h"
+#include "movement_system.h"
 #include "render_system.h"
 
 
@@ -207,8 +208,11 @@ Registry_t *init_registry(void) {
                 new_registry->systems_list[i] = init_movement_system();
                 break;
 
-            case RENDER_SYSTEM:
+            case RENDER_SYS:
                 new_registry->systems_list[i] = init_render_system();
+
+            case ANIMATION_SYS:
+                new_registry->systems_list[i] = init_animation_system();
 
             case NUM_SYSTEMS:
                 break;

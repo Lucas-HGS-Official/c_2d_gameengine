@@ -106,7 +106,7 @@ void render_game(Game_t *game) {
 
         ClearBackground(RAYWHITE);
 
-        render_system_update(&systems[RENDER_SYSTEM], game->registry, game->assets_manager);
+        render_system_update(&systems[RENDER_SYS], game->registry, game->assets_manager);
 
         DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 

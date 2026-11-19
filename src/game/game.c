@@ -167,7 +167,12 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
         .z_index = 1,
         .color = WHITE,
     };
-    Animation_Comp_t chopper_animation = { 0 };
+    Animation_Comp_t chopper_animation = {
+        .num_frames = 2,
+        .frame_speed = 15,
+        .is_looping = true,
+        .startup_time = GetFrameTime(),
+    };
     entts->chopper = registry_create_entity(registry);
     registry_set_component_to_entity(registry, entts->chopper, RIGIDBODY_COMP, &chopper_rigidbody);
     registry_set_component_to_entity(registry, entts->chopper, TRANSFORM_COMP, &chopper_transform);

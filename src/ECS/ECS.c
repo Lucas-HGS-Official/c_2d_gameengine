@@ -12,6 +12,7 @@
 #include "rigidbody_comp.h"
 #include "sprite_comp.h"
 #include "animation_comp.h"
+
 #include "animation_system.h"
 #include "movement_system.h"
 #include "render_system.h"

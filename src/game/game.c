@@ -5,7 +5,6 @@
 
 #include <raylib.h>
 #include <raymath.h>
-#include "animation_comp.h"
 #include "darray/darray.h"
 #include "log_dot_c/log.h"
 
@@ -14,6 +13,9 @@
 
 #include "movement_system.h"
 #include "render_system.h"
+#include "animation_system.h"
+
+#include "animation_comp.h"
 #include "rigidbody_comp.h"
 #include "sprite_comp.h"
 #include "transform_comp.h"
@@ -95,6 +97,7 @@ void process_input(Game_t *game) {
 void update_game(Game_t *game, float dt) {
     System_t *systems = game->registry->systems_list;
     movement_system_update(&systems[MOVEMENT_SYS], game->registry, dt);
+    animation_system_update(&systems[ANIMATION_SYS], game->registry, dt);
 
     registry_update(game->registry);
 

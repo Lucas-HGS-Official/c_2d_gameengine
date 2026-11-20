@@ -73,7 +73,7 @@ void entities_remove_entity(Entities_t *entity, int16_t id) {
             if (i == entity->length-1) {
                 entity->length--;
             }
-            log_info("entity %i removed", id);
+            // log_info("entity %i removed", id);
         }
     }
 
@@ -211,9 +211,11 @@ Registry_t *init_registry(void) {
 
             case RENDER_SYS:
                 new_registry->systems_list[i] = init_render_system();
+                break;
 
             case ANIMATION_SYS:
                 new_registry->systems_list[i] = init_animation_system();
+                break;
 
             case NUM_SYSTEMS:
                 break;

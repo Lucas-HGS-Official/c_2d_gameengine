@@ -31,5 +31,16 @@ void animation_system_update(System_t *animation_system, Registry_t *registry, f
 
         temp_comp = animation_pool->get_comp(animation_pool, entt_id);
         animation_entt = (Animation_Comp_t *)temp_comp;
+
+        if (animation_entt->current_frame >= animation_entt->num_frames) {
+            animation_entt->current_frame = 0;
+        }
+        if (animation_entt->timer < 0.f) {
+            animation_entt->timer = animation_entt->frame_time;
+            animation_entt->current_frame++;
+        }
+        animation_entt->timer -= dt;
+
+        sprite_entt->rec.x = sprite_entt->rec.width * animation_entt->current_frame;
     }
 }

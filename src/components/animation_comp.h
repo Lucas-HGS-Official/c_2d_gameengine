@@ -11,9 +11,9 @@
 typedef struct Animation_Comp_t {
     uint32_t num_frames;
     uint32_t current_frame;
-    uint32_t frame_speed;
-    uint32_t startup_time;
     bool is_looping;
+    float frame_time;
+    float timer;
 } Animation_Comp_t;
 
 

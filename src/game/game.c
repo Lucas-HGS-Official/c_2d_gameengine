@@ -172,7 +172,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     };
     Animation_Comp_t chopper_animation = {
         .num_frames = 2,
-        .frame_time = .25f,
+        .frame_time = .1f,
         .is_looping = true,
         .timer = chopper_animation.frame_time,
     };

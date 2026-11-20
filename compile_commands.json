@@ -343,12 +343,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/main-ab72ea.o",
+      "/tmp/main-e3f62e.o",
       "src/main.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/main.c",
-    "output": "/tmp/main-ab72ea.o"
+    "output": "/tmp/main-e3f62e.o"
   },
   {
     "arguments": [
@@ -421,12 +421,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/game-4d293d.o",
+      "/tmp/game-1a57fe.o",
       "src/game/game.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/game/game.c",
-    "output": "/tmp/game-4d293d.o"
+    "output": "/tmp/game-1a57fe.o"
   },
   {
     "arguments": [
@@ -499,12 +499,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/log-b00c6d.o",
+      "/tmp/log-d987a1.o",
       "libs/log_dot_c/log.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/libs/log_dot_c/log.c",
-    "output": "/tmp/log-b00c6d.o"
+    "output": "/tmp/log-d987a1.o"
   },
   {
     "arguments": [
@@ -577,12 +577,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/darray-c487b3.o",
+      "/tmp/darray-5089b4.o",
       "libs/darray/darray.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/libs/darray/darray.c",
-    "output": "/tmp/darray-c487b3.o"
+    "output": "/tmp/darray-5089b4.o"
   },
   {
     "arguments": [
@@ -655,12 +655,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/animation_system-8af60f.o",
+      "/tmp/animation_system-09ee1c.o",
       "src/systems/animation_system.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/systems/animation_system.c",
-    "output": "/tmp/animation_system-8af60f.o"
+    "output": "/tmp/animation_system-09ee1c.o"
   },
   {
     "arguments": [
@@ -733,12 +733,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/movement_system-7130cd.o",
+      "/tmp/movement_system-a6dc45.o",
       "src/systems/movement_system.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/systems/movement_system.c",
-    "output": "/tmp/movement_system-7130cd.o"
+    "output": "/tmp/movement_system-a6dc45.o"
   },
   {
     "arguments": [
@@ -811,12 +811,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/render_system-f97cd0.o",
+      "/tmp/render_system-50282c.o",
       "src/systems/render_system.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/systems/render_system.c",
-    "output": "/tmp/render_system-f97cd0.o"
+    "output": "/tmp/render_system-50282c.o"
   },
   {
     "arguments": [
@@ -889,12 +889,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/ECS-883ec8.o",
+      "/tmp/ECS-20fd6e.o",
       "src/ECS/ECS.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/ECS/ECS.c",
-    "output": "/tmp/ECS-883ec8.o"
+    "output": "/tmp/ECS-20fd6e.o"
   },
   {
     "arguments": [
@@ -967,12 +967,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/animation_comp-2f11ee.o",
+      "/tmp/animation_comp-42ec93.o",
       "src/components/animation_comp.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/components/animation_comp.c",
-    "output": "/tmp/animation_comp-2f11ee.o"
+    "output": "/tmp/animation_comp-42ec93.o"
   },
   {
     "arguments": [
@@ -1045,12 +1045,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/rigidbody_comp-732d73.o",
+      "/tmp/rigidbody_comp-8ac35c.o",
       "src/components/rigidbody_comp.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/components/rigidbody_comp.c",
-    "output": "/tmp/rigidbody_comp-732d73.o"
+    "output": "/tmp/rigidbody_comp-8ac35c.o"
   },
   {
     "arguments": [
@@ -1123,12 +1123,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/sprite_comp-047833.o",
+      "/tmp/sprite_comp-ae2c65.o",
       "src/components/sprite_comp.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/components/sprite_comp.c",
-    "output": "/tmp/sprite_comp-047833.o"
+    "output": "/tmp/sprite_comp-ae2c65.o"
   },
   {
     "arguments": [
@@ -1201,12 +1201,12 @@
       "-x",
       "c",
       "-o",
-      "/tmp/transform_comp-0b74d5.o",
+      "/tmp/transform_comp-e76729.o",
       "src/components/transform_comp.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/components/transform_comp.c",
-    "output": "/tmp/transform_comp-0b74d5.o"
+    "output": "/tmp/transform_comp-e76729.o"
   },
   {
     "arguments": [
@@ -1279,11 +1279,11 @@
       "-x",
       "c",
       "-o",
-      "/tmp/assets_manager-cf2d85.o",
+      "/tmp/assets_manager-0d3744.o",
       "src/assets_manager/assets_manager.c"
     ],
     "directory": "/home/lhgs/dev/C/c_2d_gameengine",
     "file": "/home/lhgs/dev/C/c_2d_gameengine/src/assets_manager/assets_manager.c",
-    "output": "/tmp/assets_manager-cf2d85.o"
+    "output": "/tmp/assets_manager-0d3744.o"
   }
 ]

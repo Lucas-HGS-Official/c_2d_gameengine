@@ -160,6 +160,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     registry_set_component_to_entity(registry, entts->tank, SPRITE_COMP, &tank_sprite);
 
 
+    Logging_Comp_t chopper_logging = true;
     Transform_Comp_t chopper_transform = {
         .position = (Vector2) { .x=10, .y=30 },
         .rotation = 0.f,
@@ -180,6 +181,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
         .timer = chopper_animation.frame_time,
     };
     entts->chopper = registry_create_entity(registry);
+    registry_set_component_to_entity(registry, entts->chopper, LOGGING_COMP, &chopper_logging);
     registry_set_component_to_entity(registry, entts->chopper, RIGIDBODY_COMP, &chopper_rigidbody);
     registry_set_component_to_entity(registry, entts->chopper, TRANSFORM_COMP, &chopper_transform);
     registry_set_component_to_entity(registry, entts->chopper, SPRITE_COMP, &chopper_sprite);
@@ -197,6 +199,8 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     int y=0;
     for (int i=0; y<num_rows && x<num_cols; i++) {
         if (map_file[i] == ',') {
+            Logging_Comp_t tile_logging = false;
+
             int num = 0;
 
             num = map_file[i-2] - '0';
@@ -227,6 +231,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
 
             int16_t new_tile = registry_create_entity(registry);
             darray_push(entts->tile_darr, new_tile);
+            registry_set_component_to_entity(registry, new_tile, LOGGING_COMP, &tile_logging);
             registry_set_component_to_entity(registry, new_tile, TRANSFORM_COMP, &tile_transform);
             registry_set_component_to_entity(registry, new_tile, SPRITE_COMP, &tile_sprite);
 

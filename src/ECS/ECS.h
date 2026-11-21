@@ -14,6 +14,7 @@
 
 
 typedef enum COMPONENT {
+    LOGGING_COMP,
     TRANSFORM_COMP,
     RIGIDBODY_COMP,
     SPRITE_COMP,

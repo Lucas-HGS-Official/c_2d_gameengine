@@ -11,6 +11,7 @@
 #include "../ECS/ECS.h"
 #include "assets_manager.h"
 
+#include "logging_comp.h"
 #include "movement_system.h"
 #include "render_system.h"
 #include "animation_system.h"
@@ -136,6 +137,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     assets_manager_add_texture(assets_manager, "assets/images/chopper.png", CHOPPER_SPRITESHEET_TEXTURE);
 
 
+    Logging_Comp_t tank_log = true;
     Transform_Comp_t tank_transform = {
         .position = (Vector2) { .x=10, .y=30 },
         .rotation = 0.f,
@@ -152,6 +154,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
         .color = WHITE,
     };
     entts->tank = registry_create_entity(registry);
+    registry_set_component_to_entity(registry, entts->tank, LOGGING_COMP, &tank_log);
     registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, &tank_rigidbody);
     registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &tank_transform);
     registry_set_component_to_entity(registry, entts->tank, SPRITE_COMP, &tank_sprite);

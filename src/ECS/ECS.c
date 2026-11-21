@@ -8,6 +8,7 @@
 #include "darray/darray.h"
 #include "log_dot_c/log.h"
 
+#include "logging_comp.h"
 #include "transform_comp.h"
 #include "rigidbody_comp.h"
 #include "sprite_comp.h"
@@ -62,7 +63,7 @@ void destroy_entities(Entities_t entity) {
 void entities_add_entity(Entities_t *entity, int16_t id) {
     darray_push(entity->id_list, id);
     entity->length++;
-    log_info("entity %i added", id);
+    // log_info("entity %i added", id);
 
     return;
 }
@@ -182,6 +183,10 @@ Registry_t *init_registry(void) {
 
     for (COMPONENT i=0; i<NUM_COMPONENTS; i++) {
         switch (i) {
+            case LOGGING_COMP:
+                init_logging_comp_pool_data(&new_registry->component_pools[i]);
+                break;
+
             case TRANSFORM_COMP:
                 init_transform_comp_pool_data(&new_registry->component_pools[i]);
                 break;

@@ -9,11 +9,13 @@
 
 #include "ECS.h"
 #include "assets_manager.h"
+#include "logging_comp.h"
 #include "transform_comp.h"
 #include "sprite_comp.h"
 
 
 typedef struct Renderable_Entity {
+    Logging_Comp_t *logging;
     Transform_Comp_t *transform;
     Sprite_Comp_t *sprite;
 } Renderable_Entity;
@@ -22,15 +24,17 @@ typedef struct Renderable_Entity {
 static int _comp_z_index(const void * elem1, const void * elem2);
 
 System_t init_render_system() {
-    COMPONENT comp_arr[2]={TRANSFORM_COMP, SPRITE_COMP};
-    System_t new_render_system = system_create_system(comp_arr, 2);
+    COMPONENT comp_arr[3]={LOGGING_COMP, TRANSFORM_COMP, SPRITE_COMP};
+    System_t new_render_system = system_create_system(comp_arr, 3);
     log_info("render system initialized");
 
     return new_render_system;
 }
 void render_system_update(System_t *render_system,  Registry_t *registry, AssetsManager_t *assets_manager) {
+    ComponentPool_t *logging_pool = &registry->component_pools[LOGGING_COMP];
     ComponentPool_t *transform_pool = &registry->component_pools[TRANSFORM_COMP];
     ComponentPool_t *sprite_pool = &registry->component_pools[SPRITE_COMP];
+    Logging_Comp_t *logging_entt = NULL;
     Transform_Comp_t *transform_entt = NULL;
     Sprite_Comp_t *sprite_entt = NULL;
     void *temp_comp = NULL;
@@ -40,6 +44,9 @@ void render_system_update(System_t *render_system,  Registry_t *registry, Assets
     for (int16_t i=0; i<render_system->entities.length; i++) {
         int16_t entt_id = render_system->entities.id_list[i];
 
+        temp_comp = logging_pool->get_comp(logging_pool, entt_id);
+        logging_entt = (Logging_Comp_t *)temp_comp;
+
         temp_comp = transform_pool->get_comp(transform_pool, entt_id);
         transform_entt = (Transform_Comp_t *)temp_comp;
 
@@ -47,6 +54,7 @@ void render_system_update(System_t *render_system,  Registry_t *registry, Assets
         sprite_entt = (Sprite_Comp_t *)temp_comp;
 
         Renderable_Entity new_render_entt = {
+            .logging=logging_entt,
             .transform=transform_entt,
             .sprite=sprite_entt,
         };
@@ -71,6 +79,8 @@ void render_system_update(System_t *render_system,  Registry_t *registry, Assets
 
         DrawTexturePro(entt_texture, entt_src_rec, entt_dest_rec, sprite_entt->origin, transform_entt->rotation, sprite_entt->color);
     }
+
+    darray_free(render_entt_darr);
 
     return;
 }

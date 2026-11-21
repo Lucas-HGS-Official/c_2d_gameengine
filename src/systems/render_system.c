@@ -65,6 +65,7 @@ void render_system_update(System_t *render_system,  Registry_t *registry, Assets
     qsort(render_entt_darr, darray_size(render_entt_darr), sizeof(Renderable_Entity), _comp_z_index);
 
     for (int16_t i=0; i<darray_size(render_entt_darr); i++) {
+        logging_entt = render_entt_darr[i].logging;
         sprite_entt = render_entt_darr[i].sprite;
         transform_entt = render_entt_darr[i].transform;
 
@@ -78,6 +79,10 @@ void render_system_update(System_t *render_system,  Registry_t *registry, Assets
         Rectangle entt_src_rec = sprite_entt->rec;
 
         DrawTexturePro(entt_texture, entt_src_rec, entt_dest_rec, sprite_entt->origin, transform_entt->rotation, sprite_entt->color);
+
+        if (*logging_entt) {
+
+        }
     }
 
     darray_free(render_entt_darr);

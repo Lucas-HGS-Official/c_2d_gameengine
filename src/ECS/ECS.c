@@ -342,12 +342,12 @@ void registry_remove_system(Registry_t *registry, SYSTEM system_to_remove) {
     return;
 }
 bool registry_has_system(Registry_t *registry, SYSTEM system_to_check) {
-    log_info("testing system %i", system_to_check);
+    // log_info("testing system %i", system_to_check);
 
     return registry->systems_list[system_to_check].is_system_initialized;
 }
 void registry_add_entity_to_systems(Registry_t *registry, int16_t entt_id) {
-    log_info("adding entity %i to systems", entt_id);
+    // log_info("adding entity %i to systems", entt_id);
     for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
         if (!registry_has_system(registry, i)) {
             continue;
@@ -372,7 +372,7 @@ void registry_add_entity_to_systems(Registry_t *registry, int16_t entt_id) {
         }
         if (is_entt_added_to_sys) {
             system_add_entity(&registry->systems_list[i], entt_id);
-            log_info("entity %i added to system %i", entt_id, i);
+            // log_info("entity %i added to system %i", entt_id, i);
         }
     }
 

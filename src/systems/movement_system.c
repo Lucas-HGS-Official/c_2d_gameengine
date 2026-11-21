@@ -40,6 +40,10 @@ void movement_system_update(System_t *movement_system, Registry_t *registry, flo
 
         transform_entt->position.x += rigidbody_entt->velocity.x * dt;
         transform_entt->position.y += rigidbody_entt->velocity.y * dt;
+
+        if (*logging_entt) {
+
+        }
     }
 
     return;

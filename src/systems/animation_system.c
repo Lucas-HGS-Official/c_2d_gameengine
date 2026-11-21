@@ -48,5 +48,9 @@ void animation_system_update(System_t *animation_system, Registry_t *registry, f
         animation_entt->timer -= dt;
 
         sprite_entt->rec.x = sprite_entt->rec.width * animation_entt->current_frame;
+
+        if (*logging_entt) {
+
+        }
     }
 }

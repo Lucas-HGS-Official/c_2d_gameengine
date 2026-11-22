@@ -27,6 +27,7 @@ struct Game_Entts_t {
     int16_t tank;
     int16_t truck;
     int16_t chopper;
+    int16_t radar;
 
     bool is_game_entts_initialized;
 };
@@ -112,8 +113,6 @@ void render_game(Game_t *game) {
 
         render_system_update(&systems[RENDER_SYS], game->registry, game->assets_manager);
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-
     EndDrawing();
 
     return;
@@ -135,6 +134,7 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     assets_manager_add_texture(assets_manager, "assets/images/tank-panther-right.png", TANK_PANTHER_RIGHT_TEXTURE);
     assets_manager_add_texture(assets_manager, "assets/tilemaps/jungle.png", TILESET_TEXTURE);
     assets_manager_add_texture(assets_manager, "assets/images/chopper.png", CHOPPER_SPRITESHEET_TEXTURE);
+    assets_manager_add_texture(assets_manager, "assets/images/radar.png", RADAR_SPRITESHEET_TEXTURE);
 
 
     Logging_Comp_t tank_log = true;
@@ -186,6 +186,33 @@ void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
     registry_set_component_to_entity(registry, entts->chopper, TRANSFORM_COMP, &chopper_transform);
     registry_set_component_to_entity(registry, entts->chopper, SPRITE_COMP, &chopper_sprite);
     registry_set_component_to_entity(registry, entts->chopper, ANIMATION_COMP, &chopper_animation);
+
+    Logging_Comp_t radar_logging = true;
+    Transform_Comp_t radar_transform = {
+        .position = (Vector2) { .x=WINDOW_WIDTH-64 - 3, .y=3 },
+        .rotation = 0.f,
+        .scale = 1.f,
+    };
+    RigidBody_Comp_t radar_rigidbody = { 0 };
+    Sprite_Comp_t radar_sprite = {
+        .texture_id = RADAR_SPRITESHEET_TEXTURE,
+        .rec.height = 64,
+        .rec.width = 64,
+        .z_index = 2,
+        .color = WHITE,
+    };
+    Animation_Comp_t radar_animation = {
+        .num_frames = 8,
+        .frame_time = .05f,
+        .is_looping = true,
+        .timer = radar_animation.frame_time,
+    };
+    entts->radar = registry_create_entity(registry);
+    registry_set_component_to_entity(registry, entts->radar, LOGGING_COMP, &radar_logging);
+    registry_set_component_to_entity(registry, entts->radar, RIGIDBODY_COMP, &radar_rigidbody);
+    registry_set_component_to_entity(registry, entts->radar, TRANSFORM_COMP, &radar_transform);
+    registry_set_component_to_entity(registry, entts->radar, SPRITE_COMP, &radar_sprite);
+    registry_set_component_to_entity(registry, entts->radar, ANIMATION_COMP, &radar_animation);
 
 
     int tile_size = 32;

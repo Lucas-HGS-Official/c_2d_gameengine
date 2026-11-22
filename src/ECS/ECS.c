@@ -39,7 +39,6 @@ Entities_t entities_create_entities(void) {
 // Frees memory for the entities
 void destroy_entities(Entities_t entity) {
     if (!entity.is_enttities_initialized) {
-        log_info("entities not initialized");
 
         return;
     }
@@ -141,11 +140,7 @@ ComponentPool_t *init_pool(void) {
 }
 void destroy_pool_data(ComponentPool_t *pool) {
     if (pool->length != 0) {
-        log_info("no data in component pool");
-
         MemFree(pool->data);
-    } else {
-        log_info("freed component pool data");
     }
 
     return;
@@ -189,12 +184,10 @@ void destroy_registry(Registry_t *registry) {
 
     for (int i=0; i<MAX_SYSTEMS; i++) {
 
-        log_info("freeing %i system in the registry", i);
         destroy_entities(registry->systems_list[i].entities);
     }
     for (int i=0; i<MAX_COMPONENTS; i++) {
 
-        log_info("freeing %i component in the registry", i);
         destroy_pool_data(&registry->component_pools[i]);
     }
     if (registry->entities_components_len != 0) {
@@ -208,7 +201,6 @@ void destroy_registry(Registry_t *registry) {
 }
 
 int16_t registry_create_entity(Registry_t *registry) {
-    log_info("creating a new entity in the registry");
     int16_t entity_id = registry->biggest_entity_id;
     registry->biggest_entity_id++;
 
@@ -216,15 +208,12 @@ int16_t registry_create_entity(Registry_t *registry) {
         Signature_t new_signature = {0};
         darray_push(registry->entities_components, new_signature);
         registry->entities_components_len++;
-        log_info("new slot for component signature added in the registry");
     }
     entities_add_entity(&registry->entities_to_be_added, entity_id);
-    log_info("entity %i created in the registry", entity_id);
 
     return entity_id;
 }
 void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, int comp_type, void *comp) {
-    log_info("setting %i component to entity %i", comp_type, entt_id);
 
     if (entt_id >= registry->entities_components_len) {
         log_info("no space for new signature");

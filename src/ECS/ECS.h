@@ -12,24 +12,7 @@
 #define MAX_COMPONENTS 32
 #define SIGNATURE_SIZE BITSLOT(MAX_COMPONENTS)
 
-
-typedef enum COMPONENT {
-    LOGGING_COMP,
-    TRANSFORM_COMP,
-    RIGIDBODY_COMP,
-    SPRITE_COMP,
-    ANIMATION_COMP,
-
-    NUM_COMPONENTS,
-} COMPONENT;
-
-typedef enum SYSTEM {
-    MOVEMENT_SYS,
-    RENDER_SYS,
-    ANIMATION_SYS,
-
-    NUM_SYSTEMS,
-} SYSTEM;
+#define MAX_SYSTEMS 32
 
 
 typedef struct Signature_t {
@@ -68,8 +51,8 @@ typedef struct Registry_t {
     Signature_t *entities_components;
     int16_t entities_components_len;
 
-    ComponentPool_t component_pools[NUM_COMPONENTS];
-    System_t systems_list[NUM_SYSTEMS];
+    ComponentPool_t component_pools[MAX_COMPONENTS];
+    System_t systems_list[MAX_SYSTEMS];
 
     bool is_registry_initialized;
 } Registry_t;
@@ -77,7 +60,7 @@ typedef struct Registry_t {
 
 Entities_t entities_create_entities(void);
 
-System_t system_create_system(COMPONENT *comp_arr, int comp_arr_len);
+System_t system_create_system(int *comp_arr, int comp_arr_len);
 
 
 Registry_t *init_registry(void);
@@ -85,13 +68,13 @@ void destroy_registry(Registry_t *registry);
 
 int16_t registry_create_entity(Registry_t *registry);
 
-void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type, void *comp);
-void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type);
-void registry_remove_component_from_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type);
-bool registry_entity_has_component(Registry_t *registry, int16_t entt_id, COMPONENT comp_type);
+void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, int comp_type, void *comp);
+void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, int comp_type);
+void registry_remove_component_from_entity(Registry_t *registry, int16_t entt_id, int comp_type);
+bool registry_entity_has_component(Registry_t *registry, int16_t entt_id, int comp_type);
 
-void registry_remove_system(Registry_t *registry, SYSTEM system_to_remove);
-bool registry_has_system(Registry_t *registry, SYSTEM system_to_check);
+void registry_remove_system(Registry_t *registry, int system_to_remove);
+bool registry_has_system(Registry_t *registry, int system_to_check);
 void registry_add_entity_to_systems(Registry_t *registry, int16_t entt_id);
 void registry_remove_entity_from_systems(Registry_t *registry, int16_t entt_id);
 void registry_update(Registry_t *registry);

@@ -120,12 +120,58 @@ void render_game(Game_t *game) {
 
 
 void setup_game(Game_t *game) {
+    Registry_t *registry = game->registry;
+    for (COMPONENT_E i=0; i<NUM_COMPONENTS; i++) {
+        switch (i) {
+            case LOGGING_COMP:
+                init_logging_comp_pool_data(&registry->component_pools[i]);
+                break;
+
+            case TRANSFORM_COMP:
+                init_transform_comp_pool_data(&registry->component_pools[i]);
+                break;
+
+            case RIGIDBODY_COMP:
+                init_rigidbody_comp_pool_data(&registry->component_pools[i]);
+                break;
+
+            case SPRITE_COMP:
+                init_sprite_comp_pool_data(&registry->component_pools[i]);
+                break;
+
+            case ANIMATION_COMP:
+                init_animation_comp_pool_data(&registry->component_pools[i]);
+                break;
+
+            case NUM_COMPONENTS:
+                break;
+        }
+    }
+
+    for (SYSTEMS_E i=0; i<NUM_SYSTEMS; i++) {
+        switch (i) {
+            case MOVEMENT_SYS:
+                registry->systems_list[i] = init_movement_system();
+                break;
+
+            case RENDER_SYS:
+                registry->systems_list[i] = init_render_system();
+                break;
+
+            case ANIMATION_SYS:
+                registry->systems_list[i] = init_animation_system();
+                break;
+
+            case NUM_SYSTEMS:
+                break;
+        }
+    }
     game_load_lvl(game, 0);
 
     return;
 }
 
-void game_load_lvl(Game_t *game, LEVELS lvl_to_load) {
+void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
     AssetsManager_t *assets_manager = game->assets_manager;
     Registry_t *registry = game->registry;
     Game_Entts_t *entts = game->game_entts;

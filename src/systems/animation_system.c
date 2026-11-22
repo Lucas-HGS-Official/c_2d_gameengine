@@ -6,12 +6,13 @@
 #include "log_dot_c/log.h"
 
 #include "ECS.h"
+#include "../game/game.h"
 #include "logging_comp.h"
 #include "sprite_comp.h"
 
 
 System_t init_animation_system() {
-    COMPONENT comp_arr[3]={LOGGING_COMP, SPRITE_COMP, ANIMATION_COMP};
+    int comp_arr[3]={LOGGING_COMP, SPRITE_COMP, ANIMATION_COMP};
     System_t new_animation_system = system_create_system(comp_arr, 3);
     log_info("animation system initialized");
 

@@ -9,9 +9,27 @@
 #include "assets_manager.h"
 
 
-typedef enum LEVELS {
+typedef enum COMPONENT_E {
+    LOGGING_COMP,
+    TRANSFORM_COMP,
+    RIGIDBODY_COMP,
+    SPRITE_COMP,
+    ANIMATION_COMP,
+
+    NUM_COMPONENTS,
+} COMPONENT_E;
+
+typedef enum SYSTEMS_E {
+    MOVEMENT_SYS,
+    RENDER_SYS,
+    ANIMATION_SYS,
+
+    NUM_SYSTEMS,
+} SYSTEMS_E;
+
+typedef enum LEVELS_E {
     NUM_LVLS,
-} LEVELS ;
+} LEVELS_E ;
 
 static const int WINDOW_WIDTH = 800;
 static const int WINDOW_HEIGHT = 600;
@@ -40,4 +58,4 @@ void update_game(Game_t *game, float dt);
 void render_game(Game_t *game);
 void setup_game(Game_t *game);
 
-void game_load_lvl(Game_t *game, LEVELS lvl_to_load);
+void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load);

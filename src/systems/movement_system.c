@@ -5,13 +5,14 @@
 #include "log_dot_c/log.h"
 
 #include "ECS.h"
+#include "../game/game.h"
 #include "logging_comp.h"
 #include "rigidbody_comp.h"
 #include "transform_comp.h"
 
 
 System_t init_movement_system() {
-    COMPONENT comp_arr[3]={LOGGING_COMP, TRANSFORM_COMP, RIGIDBODY_COMP};
+    int comp_arr[3]={LOGGING_COMP, TRANSFORM_COMP, RIGIDBODY_COMP};
     System_t new_movement_system = system_create_system(comp_arr, 3);
     log_info("movement system initialized");
 

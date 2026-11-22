@@ -8,16 +8,6 @@
 #include "darray/darray.h"
 #include "log_dot_c/log.h"
 
-#include "logging_comp.h"
-#include "transform_comp.h"
-#include "rigidbody_comp.h"
-#include "sprite_comp.h"
-#include "animation_comp.h"
-
-#include "animation_system.h"
-#include "movement_system.h"
-#include "render_system.h"
-
 
 void destroy_entities(Entities_t entity);
 
@@ -28,7 +18,7 @@ void entities_remove_entity(Entities_t *entity, int16_t id);
 System_t *init_system(void);
 void destroy_system(System_t *system);
 
-void system_set_required_components(System_t * system, COMPONENT *component_list, int component_list_size);
+void system_set_required_components(System_t * system, int *component_list, int component_list_size);
 void system_add_entity(System_t *system, int16_t entity_id);
 void system_remove_entity(System_t *system, int16_t entity_id);
 
@@ -107,7 +97,7 @@ void destroy_system(System_t *system) {
 
     return;
 }
-System_t system_create_system(COMPONENT *comp_arr, int comp_arr_len) {
+System_t system_create_system(int *comp_arr, int comp_arr_len) {
     System_t new_system = {0};
     system_set_required_components(&new_system, comp_arr, comp_arr_len);
     new_system.entities = entities_create_entities();
@@ -116,7 +106,7 @@ System_t system_create_system(COMPONENT *comp_arr, int comp_arr_len) {
     return new_system;
 }
 // Sets the system component signature to that it can chose aplicable entities
-void system_set_required_components(System_t *system, COMPONENT *component_list, int component_list_size) {
+void system_set_required_components(System_t *system, int *component_list, int component_list_size) {
 
     log_info("system set to require the components:");
     for (int i=0; i<component_list_size; i++) {
@@ -181,52 +171,6 @@ Registry_t *init_registry(void) {
     new_registry->entities_to_be_added = entities_create_entities();
     new_registry->entities_to_be_destroyed = entities_create_entities();
 
-    for (COMPONENT i=0; i<NUM_COMPONENTS; i++) {
-        switch (i) {
-            case LOGGING_COMP:
-                init_logging_comp_pool_data(&new_registry->component_pools[i]);
-                break;
-
-            case TRANSFORM_COMP:
-                init_transform_comp_pool_data(&new_registry->component_pools[i]);
-                break;
-
-            case RIGIDBODY_COMP:
-                init_rigidbody_comp_pool_data(&new_registry->component_pools[i]);
-                break;
-
-            case SPRITE_COMP:
-                init_sprite_comp_pool_data(&new_registry->component_pools[i]);
-                break;
-
-            case ANIMATION_COMP:
-                init_animation_comp_pool_data(&new_registry->component_pools[i]);
-                break;
-
-            case NUM_COMPONENTS:
-                break;
-        }
-    }
-
-    for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
-        switch (i) {
-            case MOVEMENT_SYS:
-                new_registry->systems_list[i] = init_movement_system();
-                break;
-
-            case RENDER_SYS:
-                new_registry->systems_list[i] = init_render_system();
-                break;
-
-            case ANIMATION_SYS:
-                new_registry->systems_list[i] = init_animation_system();
-                break;
-
-            case NUM_SYSTEMS:
-                break;
-        }
-    }
-
     new_registry->is_registry_initialized = true;
     log_info("registry initialized");
 
@@ -243,12 +187,12 @@ void destroy_registry(Registry_t *registry) {
     destroy_entities(registry->entities_to_be_destroyed);
     log_info("freed all entities in the registry struct");
 
-    for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
+    for (int i=0; i<MAX_SYSTEMS; i++) {
 
         log_info("freeing %i system in the registry", i);
         destroy_entities(registry->systems_list[i].entities);
     }
-    for (COMPONENT i=0; i<NUM_COMPONENTS; i++) {
+    for (int i=0; i<MAX_COMPONENTS; i++) {
 
         log_info("freeing %i component in the registry", i);
         destroy_pool_data(&registry->component_pools[i]);
@@ -279,7 +223,7 @@ int16_t registry_create_entity(Registry_t *registry) {
 
     return entity_id;
 }
-void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type, void *comp) {
+void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, int comp_type, void *comp) {
     log_info("setting %i component to entity %i", comp_type, entt_id);
 
     if (entt_id >= registry->entities_components_len) {
@@ -293,7 +237,7 @@ void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, COM
 
     return;
 }
-void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type) {
+void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, int comp_type) {
     if (entt_id == -1) {
         return NULL;
     }
@@ -306,7 +250,7 @@ void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, CO
 
     return NULL;
 }
-void registry_remove_component_from_entity(Registry_t *registry, int16_t entt_id, COMPONENT comp_type) {
+void registry_remove_component_from_entity(Registry_t *registry, int16_t entt_id, int comp_type) {
     log_info("removing %i component from entity %i", comp_type, entt_id);
 
     BITCLEAR(registry->entities_components[entt_id].signature, comp_type);
@@ -314,41 +258,27 @@ void registry_remove_component_from_entity(Registry_t *registry, int16_t entt_id
 
     return;
 }
-bool registry_entity_has_component(Registry_t *registry, int16_t entt_id, COMPONENT comp_type) {
+bool registry_entity_has_component(Registry_t *registry, int16_t entt_id, int comp_type) {
     log_info("testing component %i for entity %i", comp_type, entt_id);
 
     return BITTEST(registry->entities_components[entt_id].signature, comp_type);
 }
-void registry_add_system(Registry_t *registry, SYSTEM system_to_add) {
-    log_info("adding %i system to registry");
 
-    switch (system_to_add) {
-        case MOVEMENT_SYS:
-            registry->systems_list[system_to_add] = init_movement_system();
-            break;
-        case NUM_SYSTEMS:
-            break;
-        default:
-            break;
-    }
-
-    return;
-}
-void registry_remove_system(Registry_t *registry, SYSTEM system_to_remove) {
+void registry_remove_system(Registry_t *registry, int system_to_remove) {
     log_info("removing %i system from registry");
 
     registry->systems_list[system_to_remove] = (System_t) {0};
 
     return;
 }
-bool registry_has_system(Registry_t *registry, SYSTEM system_to_check) {
+bool registry_has_system(Registry_t *registry, int system_to_check) {
     // log_info("testing system %i", system_to_check);
 
     return registry->systems_list[system_to_check].is_system_initialized;
 }
 void registry_add_entity_to_systems(Registry_t *registry, int16_t entt_id) {
     // log_info("adding entity %i to systems", entt_id);
-    for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
+    for (int i=0; i<MAX_SYSTEMS; i++) {
         if (!registry_has_system(registry, i)) {
             continue;
         }
@@ -380,7 +310,7 @@ void registry_add_entity_to_systems(Registry_t *registry, int16_t entt_id) {
 }
 void registry_remove_entity_from_systems(Registry_t *registry, int16_t entt_id) {
     log_info("removing entity %i from systems", entt_id);
-    for (SYSTEM i=0; i<NUM_SYSTEMS; i++) {
+    for (int i=0; i<MAX_SYSTEMS; i++) {
         if (!registry_has_system(registry, i)) {
             continue;
         }

@@ -9,6 +9,7 @@
 
 #include "ECS.h"
 #include "../game/game.h"
+#include "base_system.h"
 #include "assets_manager.h"
 #include "logging_comp.h"
 #include "transform_comp.h"
@@ -32,27 +33,18 @@ System_t init_render_system() {
     return new_render_system;
 }
 void render_system_update(System_t *render_system,  Registry_t *registry, AssetsManager_t *assets_manager) {
-    ComponentPool_t *logging_pool = &registry->component_pools[LOGGING_COMP];
-    ComponentPool_t *transform_pool = &registry->component_pools[TRANSFORM_COMP];
-    ComponentPool_t *sprite_pool = &registry->component_pools[SPRITE_COMP];
     Logging_Comp_t *logging_entt = NULL;
     Transform_Comp_t *transform_entt = NULL;
     Sprite_Comp_t *sprite_entt = NULL;
-    void *temp_comp = NULL;
 
     Renderable_Entity *render_entt_darr = NULL;
 
     for (int16_t i=0; i<render_system->entities.length; i++) {
         int16_t entt_id = render_system->entities.id_list[i];
 
-        temp_comp = logging_pool->get_comp(logging_pool, entt_id);
-        logging_entt = (Logging_Comp_t *)temp_comp;
-
-        temp_comp = transform_pool->get_comp(transform_pool, entt_id);
-        transform_entt = (Transform_Comp_t *)temp_comp;
-
-        temp_comp = sprite_pool->get_comp(sprite_pool, entt_id);
-        sprite_entt = (Sprite_Comp_t *)temp_comp;
+        logging_entt = SYSTEM_GET_COMP(registry, LOGGING_COMP, entt_id);
+        transform_entt = SYSTEM_GET_COMP(registry, TRANSFORM_COMP, entt_id);
+        sprite_entt = SYSTEM_GET_COMP(registry, SPRITE_COMP, entt_id);
 
         Renderable_Entity new_render_entt = {
             .logging=logging_entt,

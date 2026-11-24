@@ -16,6 +16,7 @@
 #include "render_system.h"
 #include "animation_system.h"
 
+#include "boxcollider_comp.h"
 #include "animation_comp.h"
 #include "rigidbody_comp.h"
 #include "sprite_comp.h"
@@ -141,6 +142,9 @@ void setup_game(Game_t *game) {
 
             case ANIMATION_COMP:
                 init_animation_comp_pool_data(&registry->component_pools[i]);
+                break;
+            case BOXCOLLIDER_COMP:
+                init_boxcollider_comp_pool_data(&registry->component_pools[i]);
                 break;
 
             case NUM_COMPONENTS:

@@ -24,21 +24,27 @@ void destroy_assets_manager(AssetsManager_t *assets_manager) {
     return;
 }
 void assets_manager_clear_assets(AssetsManager_t *assets_manager) {
-    for (int i=0; i<NUM_TEXTURES; i++) {
+    for (int i=0; i<MAX_TEXTURES; i++) {
         UnloadTexture(assets_manager->textures_arr[i]);
     }
 
     return;
 }
 
-void assets_manager_add_texture(AssetsManager_t *assets_manager, char *file_path, TEXTURES texture_id) {
-    Texture2D new_texture = LoadTexture(file_path);
-    assets_manager->textures_arr[texture_id] = new_texture;
-    log_info("new texture loaded with the id: %i", texture_id);
+void assets_manager_add_texture(AssetsManager_t *assets_manager, char *file_path, int texture_id) {
+    if (!IsTextureValid(assets_manager->textures_arr[texture_id])) {
+        Texture2D new_texture = LoadTexture(file_path);
+        assets_manager->textures_arr[texture_id] = new_texture;
+        log_info("new texture loaded with the id: %i", texture_id);
+    }
 
     return;
 }
-Texture2D *assets_manager_get_texture(AssetsManager_t *assets_manager, TEXTURES texture_id) {
+Texture2D *assets_manager_get_texture(AssetsManager_t *assets_manager, int texture_id) {
+    if (IsTextureValid(assets_manager->textures_arr[texture_id])) {
 
-    return &assets_manager->textures_arr[texture_id];
+        return &assets_manager->textures_arr[texture_id];
+    }
+
+    return NULL;
 }

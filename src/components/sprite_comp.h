@@ -6,7 +6,7 @@
 #include <raymath.h>
 
 #include "../ECS/ECS.h"
-#include "assets_manager.h"
+#include "../game/game.h"
 
 
 typedef struct Sprite_Comp_t {
@@ -14,7 +14,7 @@ typedef struct Sprite_Comp_t {
     Rectangle rec;
     Vector2 origin;
     uint32_t z_index;
-    TEXTURES texture_id;
+    TEXTURES_E texture_id;
 } Sprite_Comp_t;
 
 void init_sprite_comp_pool_data(ComponentPool_t *sprite_comp_pool);

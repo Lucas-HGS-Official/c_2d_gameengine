@@ -32,7 +32,7 @@ System_t init_render_system() {
 
     return new_render_system;
 }
-void render_system_update(System_t *render_system,  Registry_t *registry, AssetsManager_t *assets_manager) {
+void render_system_update(System_t *render_system,  World_t *world, AssetsManager_t *assets_manager) {
     Logging_Comp_t *logging_entt = NULL;
     Transform_Comp_t *transform_entt = NULL;
     Sprite_Comp_t *sprite_entt = NULL;
@@ -42,9 +42,9 @@ void render_system_update(System_t *render_system,  Registry_t *registry, Assets
     for (int16_t i=0; i<render_system->entities.length; i++) {
         int16_t entt_id = render_system->entities.id_list[i];
 
-        logging_entt = SYSTEM_GET_COMP(registry, LOGGING_COMP, entt_id);
-        transform_entt = SYSTEM_GET_COMP(registry, TRANSFORM_COMP, entt_id);
-        sprite_entt = SYSTEM_GET_COMP(registry, SPRITE_COMP, entt_id);
+        logging_entt = SYSTEM_GET_COMP(world, LOGGING_COMP, entt_id);
+        transform_entt = SYSTEM_GET_COMP(world, TRANSFORM_COMP, entt_id);
+        sprite_entt = SYSTEM_GET_COMP(world, SPRITE_COMP, entt_id);
 
         Renderable_Entity new_render_entt = {
             .logging=logging_entt,

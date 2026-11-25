@@ -44,7 +44,7 @@ typedef struct ComponentPool_t {
     bool is_pool_initialized;
 } ComponentPool_t;
 
-typedef struct Registry_t {
+typedef struct World_t {
     int16_t biggest_entity_id;
     Entities_t entities_to_be_added;
     Entities_t entities_to_be_destroyed;
@@ -54,8 +54,8 @@ typedef struct Registry_t {
     ComponentPool_t component_pools[MAX_COMPONENTS];
     System_t systems_list[MAX_SYSTEMS];
 
-    bool is_registry_initialized;
-} Registry_t;
+    bool is_world_initialized;
+} World_t;
 
 
 Entities_t entities_create_entities(void);
@@ -63,18 +63,18 @@ Entities_t entities_create_entities(void);
 System_t system_create_system(int *comp_arr, int comp_arr_len);
 
 
-Registry_t *init_registry(void);
-void destroy_registry(Registry_t *registry);
+World_t *init_world(void);
+void destroy_world(World_t *world);
 
-int16_t registry_create_entity(Registry_t *registry);
+int16_t world_create_entity(World_t *world);
 
-void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, int comp_type, void *comp);
-void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, int comp_type);
-void registry_remove_component_from_entity(Registry_t *registry, int16_t entt_id, int comp_type);
-bool registry_entity_has_component(Registry_t *registry, int16_t entt_id, int comp_type);
+void world_set_component_to_entity(World_t *world, int16_t entt_id, int comp_type, void *comp);
+void *world_get_component_of_entity(World_t *world, int16_t entt_id, int comp_type);
+void world_remove_component_from_entity(World_t *world, int16_t entt_id, int comp_type);
+bool world_entity_has_component(World_t *world, int16_t entt_id, int comp_type);
 
-void registry_remove_system(Registry_t *registry, int system_to_remove);
-bool registry_has_system(Registry_t *registry, int system_to_check);
-void registry_add_entity_to_systems(Registry_t *registry, int16_t entt_id);
-void registry_remove_entity_from_systems(Registry_t *registry, int16_t entt_id);
-void registry_update(Registry_t *registry);
+void world_remove_system(World_t *world, int system_to_remove);
+bool world_has_system(World_t *world, int system_to_check);
+void world_add_entity_to_systems(World_t *world, int16_t entt_id);
+void world_remove_entity_from_systems(World_t *world, int16_t entt_id);
+void world_update(World_t *world);

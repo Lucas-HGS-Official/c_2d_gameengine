@@ -50,7 +50,7 @@ typedef struct Game_Entts_t Game_Entts_t;
 
 typedef struct Game_t {
     Game_Entts_t *game_entts;
-    Registry_t *registry;
+    World_t *world;
     AssetsManager_t *assets_manager;
     char *title;
     bool is_running;

@@ -20,13 +20,13 @@ System_t init_animation_system() {
 
     return new_animation_system;
 }
-void animation_system_update(System_t *animation_system, Registry_t *registry, float dt) {
+void animation_system_update(System_t *animation_system, World_t *world, float dt) {
     for (int16_t i=0; i<animation_system->entities.length; i++) {
         int16_t entt_id = animation_system->entities.id_list[i];
 
-        Logging_Comp_t *logging_entt = SYSTEM_GET_COMP(registry, LOGGING_COMP, entt_id);
-        Sprite_Comp_t *sprite_entt = SYSTEM_GET_COMP(registry, SPRITE_COMP, entt_id);
-        Animation_Comp_t *animation_entt = SYSTEM_GET_COMP(registry, ANIMATION_COMP, entt_id);
+        Logging_Comp_t *logging_entt = SYSTEM_GET_COMP(world, LOGGING_COMP, entt_id);
+        Sprite_Comp_t *sprite_entt = SYSTEM_GET_COMP(world, SPRITE_COMP, entt_id);
+        Animation_Comp_t *animation_entt = SYSTEM_GET_COMP(world, ANIMATION_COMP, entt_id);
 
         if (animation_entt->current_frame >= animation_entt->num_frames) {
             animation_entt->current_frame = 0;

@@ -159,120 +159,120 @@ void destroy_pool(ComponentPool_t *pool) {
 }
 
 
-Registry_t *init_registry(void) {
-    Registry_t *new_registry = MemAlloc(sizeof(Registry_t));
-    *new_registry = (Registry_t) {0};
+World_t *init_world(void) {
+    World_t *new_world = MemAlloc(sizeof(World_t));
+    *new_world = (World_t) {0};
 
-    new_registry->entities_to_be_added = entities_create_entities();
-    new_registry->entities_to_be_destroyed = entities_create_entities();
+    new_world->entities_to_be_added = entities_create_entities();
+    new_world->entities_to_be_destroyed = entities_create_entities();
 
-    new_registry->is_registry_initialized = true;
-    log_info("registry initialized");
+    new_world->is_world_initialized = true;
+    log_info("world initialized");
 
-    return new_registry;
+    return new_world;
 }
-void destroy_registry(Registry_t *registry) {
-    if (!registry->is_registry_initialized) {
-        log_info("registry not initialized");
+void destroy_world(World_t *world) {
+    if (!world->is_world_initialized) {
+        log_info("world not initialized");
 
         return;
     }
 
-    destroy_entities(registry->entities_to_be_added);
-    destroy_entities(registry->entities_to_be_destroyed);
-    log_info("freed all entities in the registry struct");
+    destroy_entities(world->entities_to_be_added);
+    destroy_entities(world->entities_to_be_destroyed);
+    log_info("freed all entities in the world struct");
 
     for (int i=0; i<MAX_SYSTEMS; i++) {
 
-        destroy_entities(registry->systems_list[i].entities);
+        destroy_entities(world->systems_list[i].entities);
     }
     for (int i=0; i<MAX_COMPONENTS; i++) {
 
-        destroy_pool_data(&registry->component_pools[i]);
+        destroy_pool_data(&world->component_pools[i]);
     }
-    if (registry->entities_components_len != 0) {
-        darray_free(registry->entities_components);
-        log_info("freed component signatures in the registry");
+    if (world->entities_components_len != 0) {
+        darray_free(world->entities_components);
+        log_info("freed component signatures in the world");
     }
-    MemFree(registry);
-    log_info("freed registry");
+    MemFree(world);
+    log_info("freed world");
 
     return;
 }
 
-int16_t registry_create_entity(Registry_t *registry) {
-    int16_t entity_id = registry->biggest_entity_id;
-    registry->biggest_entity_id++;
+int16_t world_create_entity(World_t *world) {
+    int16_t entity_id = world->biggest_entity_id;
+    world->biggest_entity_id++;
 
-    while (entity_id >= registry->entities_components_len) {
+    while (entity_id >= world->entities_components_len) {
         Signature_t new_signature = {0};
-        darray_push(registry->entities_components, new_signature);
-        registry->entities_components_len++;
+        darray_push(world->entities_components, new_signature);
+        world->entities_components_len++;
     }
-    entities_add_entity(&registry->entities_to_be_added, entity_id);
+    entities_add_entity(&world->entities_to_be_added, entity_id);
 
     return entity_id;
 }
-void registry_set_component_to_entity(Registry_t *registry, int16_t entt_id, int comp_type, void *comp) {
+void world_set_component_to_entity(World_t *world, int16_t entt_id, int comp_type, void *comp) {
 
-    if (entt_id >= registry->entities_components_len) {
+    if (entt_id >= world->entities_components_len) {
         log_info("no space for new signature");
 
         return;
     }
 
-    BITSET(registry->entities_components[entt_id].signature, comp_type);
-    registry->component_pools[comp_type].set_comp(&registry->component_pools[comp_type], entt_id, comp);
+    BITSET(world->entities_components[entt_id].signature, comp_type);
+    world->component_pools[comp_type].set_comp(&world->component_pools[comp_type], entt_id, comp);
 
     return;
 }
-void *registry_get_component_of_entity(Registry_t *registry, int16_t entt_id, int comp_type) {
+void *world_get_component_of_entity(World_t *world, int16_t entt_id, int comp_type) {
     if (entt_id == -1) {
         return NULL;
     }
 
-    Signature_t entt_signature = registry->entities_components[entt_id];
+    Signature_t entt_signature = world->entities_components[entt_id];
     if (BITTEST(entt_signature.signature, comp_type)) {
-        ComponentPool_t *comp_pool = &registry->component_pools[comp_type];
+        ComponentPool_t *comp_pool = &world->component_pools[comp_type];
         return comp_pool->get_comp(comp_pool, entt_id);
     }
 
     return NULL;
 }
-void registry_remove_component_from_entity(Registry_t *registry, int16_t entt_id, int comp_type) {
+void world_remove_component_from_entity(World_t *world, int16_t entt_id, int comp_type) {
     log_info("removing %i component from entity %i", comp_type, entt_id);
 
-    BITCLEAR(registry->entities_components[entt_id].signature, comp_type);
-    registry->component_pools[comp_type].remove_comp(&registry->component_pools[comp_type], entt_id);
+    BITCLEAR(world->entities_components[entt_id].signature, comp_type);
+    world->component_pools[comp_type].remove_comp(&world->component_pools[comp_type], entt_id);
 
     return;
 }
-bool registry_entity_has_component(Registry_t *registry, int16_t entt_id, int comp_type) {
+bool world_entity_has_component(World_t *world, int16_t entt_id, int comp_type) {
     log_info("testing component %i for entity %i", comp_type, entt_id);
 
-    return BITTEST(registry->entities_components[entt_id].signature, comp_type);
+    return BITTEST(world->entities_components[entt_id].signature, comp_type);
 }
 
-void registry_remove_system(Registry_t *registry, int system_to_remove) {
-    log_info("removing %i system from registry");
+void world_remove_system(World_t *world, int system_to_remove) {
+    log_info("removing %i system from world");
 
-    registry->systems_list[system_to_remove] = (System_t) {0};
+    world->systems_list[system_to_remove] = (System_t) {0};
 
     return;
 }
-bool registry_has_system(Registry_t *registry, int system_to_check) {
+bool world_has_system(World_t *world, int system_to_check) {
     // log_info("testing system %i", system_to_check);
 
-    return registry->systems_list[system_to_check].is_system_initialized;
+    return world->systems_list[system_to_check].is_system_initialized;
 }
-void registry_add_entity_to_systems(Registry_t *registry, int16_t entt_id) {
+void world_add_entity_to_systems(World_t *world, int16_t entt_id) {
     // log_info("adding entity %i to systems", entt_id);
     for (int i=0; i<MAX_SYSTEMS; i++) {
-        if (!registry_has_system(registry, i)) {
+        if (!world_has_system(world, i)) {
             continue;
         }
-        Signature_t system_required_signature = registry->systems_list[i].requirement;
-        Signature_t entity_signature = registry->entities_components[entt_id];
+        Signature_t system_required_signature = world->systems_list[i].requirement;
+        Signature_t entity_signature = world->entities_components[entt_id];
 
         bool is_entt_added_to_sys = false;
 
@@ -290,20 +290,20 @@ void registry_add_entity_to_systems(Registry_t *registry, int16_t entt_id) {
             }
         }
         if (is_entt_added_to_sys) {
-            system_add_entity(&registry->systems_list[i], entt_id);
+            system_add_entity(&world->systems_list[i], entt_id);
             // log_info("entity %i added to system %i", entt_id, i);
         }
     }
 
     return;
 }
-void registry_remove_entity_from_systems(Registry_t *registry, int16_t entt_id) {
+void world_remove_entity_from_systems(World_t *world, int16_t entt_id) {
     log_info("removing entity %i from systems", entt_id);
     for (int i=0; i<MAX_SYSTEMS; i++) {
-        if (!registry_has_system(registry, i)) {
+        if (!world_has_system(world, i)) {
             continue;
         }
-        Entities_t *entts = &registry->systems_list[i].entities;
+        Entities_t *entts = &world->systems_list[i].entities;
         int16_t *entts_ids = entts->id_list;
         int16_t entts_len = entts->length;
         for (int j=0; j<entts_len; j++) {
@@ -316,15 +316,15 @@ void registry_remove_entity_from_systems(Registry_t *registry, int16_t entt_id) 
 
     return;
 }
-void registry_update(Registry_t *registry) {
-    int16_t n_entts_to_add = registry->entities_to_be_added.length;
+void world_update(World_t *world) {
+    int16_t n_entts_to_add = world->entities_to_be_added.length;
     for (int16_t i=0; i<n_entts_to_add; i++) {
-        int16_t *entt_id = &registry->entities_to_be_added.id_list[i];
+        int16_t *entt_id = &world->entities_to_be_added.id_list[i];
         if (*entt_id == -1) {
             continue;
         } else {
-            registry_add_entity_to_systems(registry, *entt_id);
-            entities_remove_entity(&registry->entities_to_be_added, *entt_id);
+            world_add_entity_to_systems(world, *entt_id);
+            entities_remove_entity(&world->entities_to_be_added, *entt_id);
         }
     }
 

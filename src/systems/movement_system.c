@@ -19,13 +19,13 @@ System_t init_movement_system() {
 
     return new_movement_system;
 }
-void movement_system_update(System_t *movement_system, Registry_t *registry, float dt) {
+void movement_system_update(System_t *movement_system, World_t *world, float dt) {
     for (int16_t i=0; i<movement_system->entities.length; i++) {
         int16_t entt_id = movement_system->entities.id_list[i];
 
-        Logging_Comp_t *logging_entt = SYSTEM_GET_COMP(registry, LOGGING_COMP, entt_id);
-        Transform_Comp_t *transform_entt = SYSTEM_GET_COMP(registry, TRANSFORM_COMP, entt_id);
-        RigidBody_Comp_t *rigidbody_entt = SYSTEM_GET_COMP(registry, RIGIDBODY_COMP, entt_id);
+        Logging_Comp_t *logging_entt = SYSTEM_GET_COMP(world, LOGGING_COMP, entt_id);
+        Transform_Comp_t *transform_entt = SYSTEM_GET_COMP(world, TRANSFORM_COMP, entt_id);
+        RigidBody_Comp_t *rigidbody_entt = SYSTEM_GET_COMP(world, RIGIDBODY_COMP, entt_id);
 
         transform_entt->position.x += rigidbody_entt->velocity.x * dt;
         transform_entt->position.y += rigidbody_entt->velocity.y * dt;

@@ -56,7 +56,7 @@ Game_t *init_game() {
         log_error("Raylib window not correctly initialized");
     }
 
-    game->registry = init_registry();
+    game->world = init_world();
     game->assets_manager = init_assets_manager();
 
     return game;
@@ -75,8 +75,8 @@ void destroy_game(Game_t *game) {
     if (game->assets_manager != NULL) {
         destroy_assets_manager(game->assets_manager);
     }
-    if (game->registry != NULL) {
-        destroy_registry(game->registry);
+    if (game->world != NULL) {
+        destroy_world(game->world);
     }
     if (game->game_entts->is_game_entts_initialized) {
         darray_free(game->game_entts->tile_darr);
@@ -98,21 +98,21 @@ void process_input(Game_t *game) {
     return;
 }
 void update_game(Game_t *game, float dt) {
-    System_t *systems = game->registry->systems_list;
-    movement_system_update(&systems[MOVEMENT_SYS], game->registry, dt);
-    animation_system_update(&systems[ANIMATION_SYS], game->registry, dt);
+    System_t *systems = game->world->systems_list;
+    movement_system_update(&systems[MOVEMENT_SYS], game->world, dt);
+    animation_system_update(&systems[ANIMATION_SYS], game->world, dt);
 
-    registry_update(game->registry);
+    world_update(game->world);
 
     return;
 }
 void render_game(Game_t *game) {
-    System_t *systems = game->registry->systems_list;
+    System_t *systems = game->world->systems_list;
     BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
-        render_system_update(&systems[RENDER_SYS], game->registry, game->assets_manager);
+        render_system_update(&systems[RENDER_SYS], game->world, game->assets_manager);
 
     EndDrawing();
 
@@ -121,21 +121,18 @@ void render_game(Game_t *game) {
 
 
 void setup_game(Game_t *game) {
-    Registry_t *registry = game->registry;
+    World_t *world = game->world;
 
+    world->component_pools[LOGGING_COMP] = init_logging_comp_pool();
+    world->component_pools[TRANSFORM_COMP] = init_transform_comp_pool();
+    world->component_pools[RIGIDBODY_COMP] = init_rigidbody_comp_pool();
+    world->component_pools[SPRITE_COMP] = init_sprite_comp_pool();
+    world->component_pools[ANIMATION_COMP] = init_animation_comp_pool();
+    world->component_pools[BOXCOLLIDER_COMP] = init_boxcollider_comp_pool();
 
-
-    registry->component_pools[LOGGING_COMP] = init_logging_comp_pool();
-    registry->component_pools[TRANSFORM_COMP] = init_transform_comp_pool();
-    registry->component_pools[RIGIDBODY_COMP] = init_rigidbody_comp_pool();
-    registry->component_pools[SPRITE_COMP] = init_sprite_comp_pool();
-    registry->component_pools[ANIMATION_COMP] = init_animation_comp_pool();
-    registry->component_pools[BOXCOLLIDER_COMP] = init_boxcollider_comp_pool();
-
-    registry->systems_list[MOVEMENT_SYS] = init_movement_system();
-    registry->systems_list[RENDER_SYS] = init_render_system();
-    registry->systems_list[ANIMATION_SYS] = init_animation_system();
-
+    world->systems_list[MOVEMENT_SYS] = init_movement_system();
+    world->systems_list[RENDER_SYS] = init_render_system();
+    world->systems_list[ANIMATION_SYS] = init_animation_system();
 
     game_load_lvl(game, 0);
 
@@ -144,7 +141,7 @@ void setup_game(Game_t *game) {
 
 void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
     AssetsManager_t *assets_manager = game->assets_manager;
-    Registry_t *registry = game->registry;
+    World_t *world = game->world;
     Game_Entts_t *entts = game->game_entts;
 
 
@@ -170,11 +167,11 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
         .z_index = 1,
         .color = WHITE,
     };
-    entts->tank = registry_create_entity(registry);
-    registry_set_component_to_entity(registry, entts->tank, LOGGING_COMP, &tank_log);
-    registry_set_component_to_entity(registry, entts->tank, RIGIDBODY_COMP, &tank_rigidbody);
-    registry_set_component_to_entity(registry, entts->tank, TRANSFORM_COMP, &tank_transform);
-    registry_set_component_to_entity(registry, entts->tank, SPRITE_COMP, &tank_sprite);
+    entts->tank = world_create_entity(world);
+    world_set_component_to_entity(world, entts->tank, LOGGING_COMP, &tank_log);
+    world_set_component_to_entity(world, entts->tank, RIGIDBODY_COMP, &tank_rigidbody);
+    world_set_component_to_entity(world, entts->tank, TRANSFORM_COMP, &tank_transform);
+    world_set_component_to_entity(world, entts->tank, SPRITE_COMP, &tank_sprite);
 
 
     Logging_Comp_t chopper_logging = true;
@@ -197,12 +194,12 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
         .is_looping = true,
         .timer = chopper_animation.frame_time,
     };
-    entts->chopper = registry_create_entity(registry);
-    registry_set_component_to_entity(registry, entts->chopper, LOGGING_COMP, &chopper_logging);
-    registry_set_component_to_entity(registry, entts->chopper, RIGIDBODY_COMP, &chopper_rigidbody);
-    registry_set_component_to_entity(registry, entts->chopper, TRANSFORM_COMP, &chopper_transform);
-    registry_set_component_to_entity(registry, entts->chopper, SPRITE_COMP, &chopper_sprite);
-    registry_set_component_to_entity(registry, entts->chopper, ANIMATION_COMP, &chopper_animation);
+    entts->chopper = world_create_entity(world);
+    world_set_component_to_entity(world, entts->chopper, LOGGING_COMP, &chopper_logging);
+    world_set_component_to_entity(world, entts->chopper, RIGIDBODY_COMP, &chopper_rigidbody);
+    world_set_component_to_entity(world, entts->chopper, TRANSFORM_COMP, &chopper_transform);
+    world_set_component_to_entity(world, entts->chopper, SPRITE_COMP, &chopper_sprite);
+    world_set_component_to_entity(world, entts->chopper, ANIMATION_COMP, &chopper_animation);
 
     Logging_Comp_t radar_logging = true;
     Transform_Comp_t radar_transform = {
@@ -224,12 +221,12 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
         .is_looping = true,
         .timer = radar_animation.frame_time,
     };
-    entts->radar = registry_create_entity(registry);
-    registry_set_component_to_entity(registry, entts->radar, LOGGING_COMP, &radar_logging);
-    registry_set_component_to_entity(registry, entts->radar, RIGIDBODY_COMP, &radar_rigidbody);
-    registry_set_component_to_entity(registry, entts->radar, TRANSFORM_COMP, &radar_transform);
-    registry_set_component_to_entity(registry, entts->radar, SPRITE_COMP, &radar_sprite);
-    registry_set_component_to_entity(registry, entts->radar, ANIMATION_COMP, &radar_animation);
+    entts->radar = world_create_entity(world);
+    world_set_component_to_entity(world, entts->radar, LOGGING_COMP, &radar_logging);
+    world_set_component_to_entity(world, entts->radar, RIGIDBODY_COMP, &radar_rigidbody);
+    world_set_component_to_entity(world, entts->radar, TRANSFORM_COMP, &radar_transform);
+    world_set_component_to_entity(world, entts->radar, SPRITE_COMP, &radar_sprite);
+    world_set_component_to_entity(world, entts->radar, ANIMATION_COMP, &radar_animation);
 
 
     int tile_size = 32;
@@ -273,11 +270,11 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
                 .color = WHITE,
             };
 
-            int16_t new_tile = registry_create_entity(registry);
+            int16_t new_tile = world_create_entity(world);
             darray_push(entts->tile_darr, new_tile);
-            registry_set_component_to_entity(registry, new_tile, LOGGING_COMP, &tile_logging);
-            registry_set_component_to_entity(registry, new_tile, TRANSFORM_COMP, &tile_transform);
-            registry_set_component_to_entity(registry, new_tile, SPRITE_COMP, &tile_sprite);
+            world_set_component_to_entity(world, new_tile, LOGGING_COMP, &tile_logging);
+            world_set_component_to_entity(world, new_tile, TRANSFORM_COMP, &tile_transform);
+            world_set_component_to_entity(world, new_tile, SPRITE_COMP, &tile_sprite);
 
             x++;
             if (x>=num_cols-1) {
@@ -291,9 +288,9 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
     UnloadFileText(map_file);
 
 
-    entts->truck = registry_create_entity(registry);
-    registry_set_component_to_entity(registry, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});
-    // registry_set_component_to_entity(registry, entts->truck, SPRITE_COMP, &(Sprite_Comp_t) { 0, 100, 100 });
+    entts->truck = world_create_entity(world);
+    world_set_component_to_entity(world, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});
+    // world_set_component_to_entity(world, entts->truck, SPRITE_COMP, &(Sprite_Comp_t) { 0, 100, 100 });
 
     return;
 }

@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include <raylib.h>
+#include "ECS.h"
 #include "log_dot_c/log.h"
 
 
@@ -42,24 +43,25 @@
     component_pool_data[entt_id] = (component_type) {0}; \
 
 
-#define COMPONENT_IMPLEMENTATION(component_type, pool_init_func_name, str_component_name) \
+#define COMPONENT_IMPLEMENTATION(component_type, create_pool_func_name, str_component_name) \
 static void comp_pool_resize(ComponentPool_t *comp_pool, int16_t size_to_add); \
 static void comp_set_to_pool(ComponentPool_t *comp_pool, int16_t entt_id, void *comp); \
 static void *comp_get_from_pool(ComponentPool_t *comp_pool, int16_t entt_id); \
 static void comp_remove_from_pool(ComponentPool_t *comp_pool, int16_t entt_id); \
  \
-void pool_init_func_name(ComponentPool_t *comp_pool) { \
-    comp_pool->resize = &comp_pool_resize; \
-    comp_pool->set_comp = &comp_set_to_pool; \
-    comp_pool->get_comp = &comp_get_from_pool; \
-    comp_pool->remove_comp = &comp_remove_from_pool; \
+ComponentPool_t create_pool_func_name(void) { \
+    ComponentPool_t comp_pool = {0}; \
+    comp_pool.resize = &comp_pool_resize; \
+    comp_pool.set_comp = &comp_set_to_pool; \
+    comp_pool.get_comp = &comp_get_from_pool; \
+    comp_pool.remove_comp = &comp_remove_from_pool; \
  \
-    comp_pool->resize(comp_pool, SLOTS_TO_ADD); \
+    comp_pool.resize(comp_pool, SLOTS_TO_ADD); \
  \
-    comp_pool->is_pool_initialized = true; \
+    comp_pool.is_pool_initialized = true; \
     log_info("%s pool initilized", str_component_name); \
  \
-    return; \
+    return comp_pool; \
 } \
 \
 void comp_pool_resize(ComponentPool_t *comp_pool, int16_t size_to_add) { \

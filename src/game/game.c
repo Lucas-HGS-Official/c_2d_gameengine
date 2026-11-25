@@ -122,54 +122,20 @@ void render_game(Game_t *game) {
 
 void setup_game(Game_t *game) {
     Registry_t *registry = game->registry;
-    for (COMPONENT_E i=0; i<NUM_COMPONENTS; i++) {
-        switch (i) {
-            case LOGGING_COMP:
-                init_logging_comp_pool_data(&registry->component_pools[i]);
-                break;
 
-            case TRANSFORM_COMP:
-                init_transform_comp_pool_data(&registry->component_pools[i]);
-                break;
 
-            case RIGIDBODY_COMP:
-                init_rigidbody_comp_pool_data(&registry->component_pools[i]);
-                break;
+    // init_logging_comp_pool_data(&registry->component_pools[LOGGING_COMP]);
+    // init_transform_comp_pool_data(&registry->component_pools[TRANSFORM_COMP]);
+    // init_rigidbody_comp_pool_data(&registry->component_pools[RIGIDBODY_COMP]);
+    // init_sprite_comp_pool_data(&registry->component_pools[SPRITE_COMP]);
+    // init_animation_comp_pool_data(&registry->component_pools[ANIMATION_COMP]);
+    // init_boxcollider_comp_pool_data(&registry->component_pools[BOXCOLLIDER_COMP]);
 
-            case SPRITE_COMP:
-                init_sprite_comp_pool_data(&registry->component_pools[i]);
-                break;
+    registry->systems_list[MOVEMENT_SYS] = init_movement_system();
+    registry->systems_list[RENDER_SYS] = init_render_system();
+    registry->systems_list[ANIMATION_SYS] = init_animation_system();
 
-            case ANIMATION_COMP:
-                init_animation_comp_pool_data(&registry->component_pools[i]);
-                break;
-            case BOXCOLLIDER_COMP:
-                init_boxcollider_comp_pool_data(&registry->component_pools[i]);
-                break;
 
-            case NUM_COMPONENTS:
-                break;
-        }
-    }
-
-    for (SYSTEMS_E i=0; i<NUM_SYSTEMS; i++) {
-        switch (i) {
-            case MOVEMENT_SYS:
-                registry->systems_list[i] = init_movement_system();
-                break;
-
-            case RENDER_SYS:
-                registry->systems_list[i] = init_render_system();
-                break;
-
-            case ANIMATION_SYS:
-                registry->systems_list[i] = init_animation_system();
-                break;
-
-            case NUM_SYSTEMS:
-                break;
-        }
-    }
     game_load_lvl(game, 0);
 
     return;

@@ -17,4 +17,4 @@ typedef struct Animation_Comp_t {
 } Animation_Comp_t;
 
 
-void init_animation_comp_pool_data(ComponentPool_t *animation_comp_pool);
+ComponentPool_t init_animation_comp_pool_data(void);

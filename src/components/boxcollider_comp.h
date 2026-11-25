@@ -8,4 +8,4 @@
 typedef Rectangle BoxCollider_Comp_t;
 
 
-ComponentPool_t init_boxcollider_comp_pool_data(void);
+ComponentPool_t init_boxcollider_comp_pool(void);

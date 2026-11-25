@@ -17,4 +17,4 @@ typedef struct Sprite_Comp_t {
     TEXTURES_E texture_id;
 } Sprite_Comp_t;
 
-ComponentPool_t init_sprite_comp_pool_data(void);
+ComponentPool_t init_sprite_comp_pool(void);

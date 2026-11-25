@@ -13,4 +13,4 @@ typedef struct RigidBody_Comp_t {
 } RigidBody_Comp_t;
 
 
-ComponentPool_t init_rigidbody_comp_pool_data(void);
+ComponentPool_t init_rigidbody_comp_pool(void);

@@ -124,12 +124,13 @@ void setup_game(Game_t *game) {
     Registry_t *registry = game->registry;
 
 
-    // init_logging_comp_pool_data(&registry->component_pools[LOGGING_COMP]);
-    // init_transform_comp_pool_data(&registry->component_pools[TRANSFORM_COMP]);
-    // init_rigidbody_comp_pool_data(&registry->component_pools[RIGIDBODY_COMP]);
-    // init_sprite_comp_pool_data(&registry->component_pools[SPRITE_COMP]);
-    // init_animation_comp_pool_data(&registry->component_pools[ANIMATION_COMP]);
-    // init_boxcollider_comp_pool_data(&registry->component_pools[BOXCOLLIDER_COMP]);
+
+    registry->component_pools[LOGGING_COMP] = init_logging_comp_pool();
+    registry->component_pools[TRANSFORM_COMP] = init_transform_comp_pool();
+    registry->component_pools[RIGIDBODY_COMP] = init_rigidbody_comp_pool();
+    registry->component_pools[SPRITE_COMP] = init_sprite_comp_pool();
+    registry->component_pools[ANIMATION_COMP] = init_animation_comp_pool();
+    registry->component_pools[BOXCOLLIDER_COMP] = init_boxcollider_comp_pool();
 
     registry->systems_list[MOVEMENT_SYS] = init_movement_system();
     registry->systems_list[RENDER_SYS] = init_render_system();

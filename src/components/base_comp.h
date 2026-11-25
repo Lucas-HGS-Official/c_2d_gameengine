@@ -5,7 +5,6 @@
 #include <stdint.h>
 
 #include <raylib.h>
-#include "ECS.h"
 #include "log_dot_c/log.h"
 
 
@@ -56,7 +55,7 @@ ComponentPool_t create_pool_func_name(void) { \
     comp_pool.get_comp = &comp_get_from_pool; \
     comp_pool.remove_comp = &comp_remove_from_pool; \
  \
-    comp_pool.resize(comp_pool, SLOTS_TO_ADD); \
+    comp_pool.resize(&comp_pool, SLOTS_TO_ADD); \
  \
     comp_pool.is_pool_initialized = true; \
     log_info("%s pool initilized", str_component_name); \

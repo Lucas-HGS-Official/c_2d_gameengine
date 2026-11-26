@@ -98,7 +98,7 @@ void process_input(Game_t *game) {
     return;
 }
 void update_game(Game_t *game, float dt) {
-    System_t *systems = game->world->systems_list;
+    System_t *systems = game->world->systems_darr;
     movement_system_update(&systems[MOVEMENT_SYS], game->world, dt);
     animation_system_update(&systems[ANIMATION_SYS], game->world, dt);
 
@@ -107,7 +107,7 @@ void update_game(Game_t *game, float dt) {
     return;
 }
 void render_game(Game_t *game) {
-    System_t *systems = game->world->systems_list;
+    System_t *systems = game->world->systems_darr;
     BeginDrawing();
 
         ClearBackground(RAYWHITE);
@@ -123,16 +123,25 @@ void render_game(Game_t *game) {
 void setup_game(Game_t *game) {
     World_t *world = game->world;
 
-    world->component_pools[LOGGING_COMP] = init_logging_comp_pool();
-    world->component_pools[TRANSFORM_COMP] = init_transform_comp_pool();
-    world->component_pools[RIGIDBODY_COMP] = init_rigidbody_comp_pool();
-    world->component_pools[SPRITE_COMP] = init_sprite_comp_pool();
-    world->component_pools[ANIMATION_COMP] = init_animation_comp_pool();
-    world->component_pools[BOXCOLLIDER_COMP] = init_boxcollider_comp_pool();
+    for (COMPONENTS_E comp_type = 0; comp_type < NUM_COMPONENTS; comp_type++) {
+        darray_push(world->component_pools_darr, (ComponentPool_t) {0});
+        world->component_pools_darr_size++;
+    }
+    for (SYSTEMS_E sys_type=0; sys_type < NUM_SYSTEMS; sys_type++) {
+        darray_push(world->systems_darr, (System_t) {0});
+        world->systems_darr_size++;
+    }
 
-    world->systems_list[MOVEMENT_SYS] = init_movement_system();
-    world->systems_list[RENDER_SYS] = init_render_system();
-    world->systems_list[ANIMATION_SYS] = init_animation_system();
+    world->component_pools_darr[LOGGING_COMP] = init_logging_comp_pool();
+    world->component_pools_darr[TRANSFORM_COMP] = init_transform_comp_pool();
+    world->component_pools_darr[RIGIDBODY_COMP] = init_rigidbody_comp_pool();
+    world->component_pools_darr[SPRITE_COMP] = init_sprite_comp_pool();
+    world->component_pools_darr[ANIMATION_COMP] = init_animation_comp_pool();
+    world->component_pools_darr[BOXCOLLIDER_COMP] = init_boxcollider_comp_pool();
+
+    world->systems_darr[MOVEMENT_SYS] = init_movement_system();
+    world->systems_darr[RENDER_SYS] = init_render_system();
+    world->systems_darr[ANIMATION_SYS] = init_animation_system();
 
     game_load_lvl(game, 0);
 

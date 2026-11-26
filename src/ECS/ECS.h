@@ -51,8 +51,10 @@ typedef struct World_t {
     Signature_t *entities_components;
     int16_t entities_components_len;
 
-    ComponentPool_t component_pools[MAX_COMPONENTS];
-    System_t systems_list[MAX_SYSTEMS];
+    ComponentPool_t *component_pools_darr;
+    int component_pools_darr_size;
+    System_t *systems_darr;
+    int systems_darr_size;
 
     bool is_world_initialized;
 } World_t;

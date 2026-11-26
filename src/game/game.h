@@ -18,7 +18,7 @@ typedef enum TEXTURES_E {
     NUM_TEXTURES,
 } TEXTURES_E;
 
-typedef enum COMPONENT_E {
+typedef enum COMPONENTS_E {
     LOGGING_COMP,
     TRANSFORM_COMP,
     RIGIDBODY_COMP,
@@ -27,7 +27,7 @@ typedef enum COMPONENT_E {
     BOXCOLLIDER_COMP,
 
     NUM_COMPONENTS,
-} COMPONENT_E;
+} COMPONENTS_E;
 
 typedef enum SYSTEMS_E {
     MOVEMENT_SYS,

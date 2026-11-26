@@ -182,14 +182,16 @@ void destroy_world(World_t *world) {
     destroy_entities(world->entities_to_be_destroyed);
     log_info("freed all entities in the world struct");
 
-    for (int i=0; i<MAX_SYSTEMS; i++) {
+    for (int i=0; i<darray_size(world->systems_darr); i++) {
 
-        destroy_entities(world->systems_list[i].entities);
+        destroy_entities(world->systems_darr[i].entities);
     }
-    for (int i=0; i<MAX_COMPONENTS; i++) {
+    darray_free(world->systems_darr);
+    for (int i=0; i<darray_size(world->component_pools_darr); i++) {
 
-        destroy_pool_data(&world->component_pools[i]);
+        destroy_pool_data(&world->component_pools_darr[i]);
     }
+    darray_free(world->component_pools_darr);
     if (world->entities_components_len != 0) {
         darray_free(world->entities_components);
         log_info("freed component signatures in the world");
@@ -222,7 +224,7 @@ void world_set_component_to_entity(World_t *world, int16_t entt_id, int comp_typ
     }
 
     BITSET(world->entities_components[entt_id].signature, comp_type);
-    world->component_pools[comp_type].set_comp(&world->component_pools[comp_type], entt_id, comp);
+    world->component_pools_darr[comp_type].set_comp(&world->component_pools_darr[comp_type], entt_id, comp);
 
     return;
 }
@@ -233,7 +235,7 @@ void *world_get_component_of_entity(World_t *world, int16_t entt_id, int comp_ty
 
     Signature_t entt_signature = world->entities_components[entt_id];
     if (BITTEST(entt_signature.signature, comp_type)) {
-        ComponentPool_t *comp_pool = &world->component_pools[comp_type];
+        ComponentPool_t *comp_pool = &world->component_pools_darr[comp_type];
         return comp_pool->get_comp(comp_pool, entt_id);
     }
 
@@ -243,7 +245,7 @@ void world_remove_component_from_entity(World_t *world, int16_t entt_id, int com
     log_info("removing %i component from entity %i", comp_type, entt_id);
 
     BITCLEAR(world->entities_components[entt_id].signature, comp_type);
-    world->component_pools[comp_type].remove_comp(&world->component_pools[comp_type], entt_id);
+    world->component_pools_darr[comp_type].remove_comp(&world->component_pools_darr[comp_type], entt_id);
 
     return;
 }
@@ -256,27 +258,27 @@ bool world_entity_has_component(World_t *world, int16_t entt_id, int comp_type) 
 void world_remove_system(World_t *world, int system_to_remove) {
     log_info("removing %i system from world");
 
-    world->systems_list[system_to_remove] = (System_t) {0};
+    world->systems_darr[system_to_remove] = (System_t) {0};
 
     return;
 }
 bool world_has_system(World_t *world, int system_to_check) {
     // log_info("testing system %i", system_to_check);
 
-    return world->systems_list[system_to_check].is_system_initialized;
+    return world->systems_darr[system_to_check].is_system_initialized;
 }
 void world_add_entity_to_systems(World_t *world, int16_t entt_id) {
     // log_info("adding entity %i to systems", entt_id);
-    for (int i=0; i<MAX_SYSTEMS; i++) {
+    for (int i=0; i<darray_size(world->systems_darr); i++) {
         if (!world_has_system(world, i)) {
             continue;
         }
-        Signature_t system_required_signature = world->systems_list[i].requirement;
+        Signature_t system_required_signature = world->systems_darr[i].requirement;
         Signature_t entity_signature = world->entities_components[entt_id];
 
         bool is_entt_added_to_sys = false;
 
-        for (int16_t j=0; j<MAX_COMPONENTS; j++) {
+        for (int16_t j=0; j<darray_size(world->component_pools_darr); j++) {
             bool is_component_required_in_sys = BITTEST(system_required_signature.signature, j);
             bool is_component_turned_on_in_entt = BITTEST(entity_signature.signature, j);
 
@@ -290,7 +292,7 @@ void world_add_entity_to_systems(World_t *world, int16_t entt_id) {
             }
         }
         if (is_entt_added_to_sys) {
-            system_add_entity(&world->systems_list[i], entt_id);
+            system_add_entity(&world->systems_darr[i], entt_id);
             // log_info("entity %i added to system %i", entt_id, i);
         }
     }
@@ -299,11 +301,11 @@ void world_add_entity_to_systems(World_t *world, int16_t entt_id) {
 }
 void world_remove_entity_from_systems(World_t *world, int16_t entt_id) {
     log_info("removing entity %i from systems", entt_id);
-    for (int i=0; i<MAX_SYSTEMS; i++) {
+    for (int i=0; i<darray_size(world->systems_darr); i++) {
         if (!world_has_system(world, i)) {
             continue;
         }
-        Entities_t *entts = &world->systems_list[i].entities;
+        Entities_t *entts = &world->systems_darr[i].entities;
         int16_t *entts_ids = entts->id_list;
         int16_t entts_len = entts->length;
         for (int j=0; j<entts_len; j++) {

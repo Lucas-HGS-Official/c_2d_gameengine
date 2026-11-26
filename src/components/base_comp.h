@@ -10,8 +10,29 @@
 
 #define SLOTS_TO_ADD 100
 
-
-#define RESIZE_COMP_POOL(component_type, component_pool, size_to_add) \
+#define COMPONENT_IMPLEMENTATION(component_type, create_pool_func_name, str_component_name) \
+static void comp_pool_resize(ComponentPool_t *component_pool, int16_t size_to_add); \
+static void comp_set_to_pool(ComponentPool_t *component_pool, int16_t entt_id, void *comp); \
+static void *comp_get_from_pool(ComponentPool_t *component_pool, int16_t entt_id); \
+static void comp_remove_from_pool(ComponentPool_t *component_pool, int16_t entt_id); \
+ \
+ComponentPool_t create_pool_func_name(void) { \
+    ComponentPool_t component_pool = {0}; \
+    component_pool.resize = &comp_pool_resize; \
+    component_pool.set_comp = &comp_set_to_pool; \
+    component_pool.get_comp = &comp_get_from_pool; \
+    component_pool.remove_comp = &comp_remove_from_pool; \
+ \
+    component_pool.resize(&component_pool, SLOTS_TO_ADD); \
+ \
+    component_pool.is_pool_initialized = true; \
+    log_info("%s pool initilized", str_component_name); \
+ \
+    return component_pool; \
+} \
+\
+void comp_pool_resize(ComponentPool_t *component_pool, int16_t size_to_add) { \
+    log_info("re-sizing %s component pool", str_component_name); \
     int16_t old_length = component_pool->length; \
     int16_t new_size = old_length + size_to_add; \
     size_t new_memory_size = sizeof(component_type) * new_size; \
@@ -22,66 +43,28 @@
         component_pool_data[i] =  (component_type) {0}; \
     } \
     component_pool->length = new_size; \
-
-
-#define SET_COMP_TO_POOL(component_type, component_pool, entt_id, component, resize_function_name) \
+ \
+    return; \
+} \
+void comp_set_to_pool(ComponentPool_t *component_pool, int16_t entt_id, void *component) { \
     if (entt_id >= component_pool->length) { \
-        resize_function_name(component_pool, entt_id+SLOTS_TO_ADD); \
+        component_pool->resize(component_pool, entt_id+SLOTS_TO_ADD); \
     } \
     component_type *component_pool_data = (component_type *) component_pool->data; \
     component_pool_data[entt_id] = *(component_type *)component; \
-
-
-#define GET_COMP_FROM_POOL(component_type, component_pool, entt_id, returned_component_pointer) \
-    component_type *component_pool_data = (component_type*) component_pool->data; \
-    returned_component_pointer = (void *) &component_pool_data[entt_id] \
-
-
-#define REMOVE_COMP_FROM_POOL(component_type, component_pool, entt_id) \
-    component_type *component_pool_data = (component_type*) component_pool->data; \
-    component_pool_data[entt_id] = (component_type) {0}; \
-
-
-#define COMPONENT_IMPLEMENTATION(component_type, create_pool_func_name, str_component_name) \
-static void comp_pool_resize(ComponentPool_t *comp_pool, int16_t size_to_add); \
-static void comp_set_to_pool(ComponentPool_t *comp_pool, int16_t entt_id, void *comp); \
-static void *comp_get_from_pool(ComponentPool_t *comp_pool, int16_t entt_id); \
-static void comp_remove_from_pool(ComponentPool_t *comp_pool, int16_t entt_id); \
- \
-ComponentPool_t create_pool_func_name(void) { \
-    ComponentPool_t comp_pool = {0}; \
-    comp_pool.resize = &comp_pool_resize; \
-    comp_pool.set_comp = &comp_set_to_pool; \
-    comp_pool.get_comp = &comp_get_from_pool; \
-    comp_pool.remove_comp = &comp_remove_from_pool; \
- \
-    comp_pool.resize(&comp_pool, SLOTS_TO_ADD); \
- \
-    comp_pool.is_pool_initialized = true; \
-    log_info("%s pool initilized", str_component_name); \
- \
-    return comp_pool; \
-} \
-\
-void comp_pool_resize(ComponentPool_t *comp_pool, int16_t size_to_add) { \
-    log_info("re-sizing %s component pool", str_component_name); \
-    RESIZE_COMP_POOL(component_type, comp_pool, size_to_add); \
  \
     return; \
 } \
-void comp_set_to_pool(ComponentPool_t *comp_pool, int16_t entt_id, void *comp) { \
-    SET_COMP_TO_POOL(component_type, comp_pool, entt_id, comp, comp_pool_resize); \
- \
-    return; \
-} \
-void *comp_get_from_pool(ComponentPool_t *comp_pool, int16_t entt_id) { \
+void *comp_get_from_pool(ComponentPool_t *component_pool, int16_t entt_id) { \
     void *returned_component_pointer = NULL; \
-    GET_COMP_FROM_POOL(component_type, comp_pool, entt_id, returned_component_pointer); \
+    component_type *component_pool_data = (component_type*) component_pool->data; \
+    returned_component_pointer = (void *) &component_pool_data[entt_id]; \
  \
     return returned_component_pointer; \
 } \
-void comp_remove_from_pool(ComponentPool_t *comp_pool, int16_t entt_id) { \
-    REMOVE_COMP_FROM_POOL(component_type, comp_pool, entt_id); \
+void comp_remove_from_pool(ComponentPool_t *component_pool, int16_t entt_id) { \
+    component_type *component_pool_data = (component_type*) component_pool->data; \
+    component_pool_data[entt_id] = (component_type) {0}; \
  \
     return; \
 } \

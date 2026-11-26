@@ -15,7 +15,7 @@
 
 System_t init_animation_system() {
     int comp_arr[3]={LOGGING_COMP, SPRITE_COMP, ANIMATION_COMP};
-    System_t new_animation_system = system_create_system(comp_arr, 3);
+    System_t new_animation_system = init_system(comp_arr, 3);
     log_info("animation system initialized");
 
     return new_animation_system;

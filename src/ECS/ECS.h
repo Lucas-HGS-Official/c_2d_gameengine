@@ -62,10 +62,10 @@ typedef struct World_t {
 
 Entities_t entities_create_entities(void);
 
-System_t system_create_system(int *comp_arr, int comp_arr_len);
+System_t init_system(int *comp_arr, int comp_arr_len);
 
 
-World_t *init_world(void);
+World_t *world_create_world(void);
 void destroy_world(World_t *world);
 
 int16_t world_create_entity(World_t *world);

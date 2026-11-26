@@ -15,7 +15,7 @@ void entities_add_entity(Entities_t *entity, int16_t id);
 void entities_remove_entity(Entities_t *entity, int16_t id);
 
 
-System_t *init_system(void);
+System_t *system_create_system(void);
 void destroy_system(System_t *system);
 
 void system_set_required_components(System_t * system, int *component_list, int component_list_size);
@@ -23,7 +23,7 @@ void system_add_entity(System_t *system, int16_t entity_id);
 void system_remove_entity(System_t *system, int16_t entity_id);
 
 
-ComponentPool_t *init_pool(void);
+ComponentPool_t *comp_pool_create_pool(void);
 void destroy_pool_data(ComponentPool_t *pool);
 void destroy_pool(ComponentPool_t *pool);
 
@@ -72,7 +72,7 @@ void entities_remove_entity(Entities_t *entity, int16_t id) {
 
 
 // Allocates memory for the system
-System_t *init_system(void) {
+System_t *system_create_system(void) {
     System_t *new_system = MemAlloc(sizeof(System_t));
 
     for (int i=0; i<BITSLOT(MAX_COMPONENTS); i++) {
@@ -96,7 +96,7 @@ void destroy_system(System_t *system) {
 
     return;
 }
-System_t system_create_system(int *comp_arr, int comp_arr_len) {
+System_t init_system(int *comp_arr, int comp_arr_len) {
     System_t new_system = {0};
     system_set_required_components(&new_system, comp_arr, comp_arr_len);
     new_system.entities = entities_create_entities();
@@ -131,7 +131,7 @@ void system_remove_entity(System_t *system, int16_t entity_id) {
 }
 
 
-ComponentPool_t *init_pool(void) {
+ComponentPool_t *comp_pool_create_pool(void) {
     ComponentPool_t *new_pool = MemAlloc(sizeof(ComponentPool_t));
     *new_pool = (ComponentPool_t) {0};
     log_info("component pool initialized");
@@ -159,7 +159,7 @@ void destroy_pool(ComponentPool_t *pool) {
 }
 
 
-World_t *init_world(void) {
+World_t *world_create_world(void) {
     World_t *new_world = MemAlloc(sizeof(World_t));
     *new_world = (World_t) {0};
 

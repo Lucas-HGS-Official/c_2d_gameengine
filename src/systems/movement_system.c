@@ -14,7 +14,7 @@
 
 System_t init_movement_system() {
     int comp_arr[3]={LOGGING_COMP, TRANSFORM_COMP, RIGIDBODY_COMP};
-    System_t new_movement_system = system_create_system(comp_arr, 3);
+    System_t new_movement_system = init_system(comp_arr, 3);
     log_info("movement system initialized");
 
     return new_movement_system;

@@ -27,7 +27,7 @@ static int _comp_z_index(const void * elem1, const void * elem2);
 
 System_t init_render_system() {
     int comp_arr[3]={LOGGING_COMP, TRANSFORM_COMP, SPRITE_COMP};
-    System_t new_render_system = system_create_system(comp_arr, 3);
+    System_t new_render_system = init_system(comp_arr, 3);
     log_info("render system initialized");
 
     return new_render_system;

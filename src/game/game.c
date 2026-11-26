@@ -56,7 +56,7 @@ Game_t *init_game() {
         log_error("Raylib window not correctly initialized");
     }
 
-    game->world = init_world();
+    game->world = world_create_world();
     game->assets_manager = init_assets_manager();
 
     return game;

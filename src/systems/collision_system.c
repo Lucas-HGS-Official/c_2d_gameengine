@@ -41,7 +41,7 @@ void collision_system_update(System_t *collision_system, World_t *world) {
 
         int16_t collided_entt = entt_id;
 
-        for (int16_t j=0; j<n_entitites; j++) {
+        for (int16_t j=i; j<n_entitites; j++) {
             int16_t entt_collision_check_id = collision_system->entities.id_list[j];
             if (entt_id == entt_collision_check_id) {
                 continue;

@@ -11,11 +11,11 @@
 #include "../ECS/ECS.h"
 #include "assets_manager.h"
 
-#include "logging_comp.h"
 #include "movement_system.h"
 #include "render_system.h"
 #include "animation_system.h"
 
+#include "logging_comp.h"
 #include "boxcollider_comp.h"
 #include "animation_comp.h"
 #include "rigidbody_comp.h"
@@ -155,6 +155,7 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
 
 
     assets_manager_add_texture(assets_manager, "assets/images/tank-panther-right.png", TANK_PANTHER_RIGHT_TEXTURE);
+    assets_manager_add_texture(assets_manager, "assets/images/truck-ford-left.png", TRUCK_FORD_LEFT_TEXTURE);
     assets_manager_add_texture(assets_manager, "assets/tilemaps/jungle.png", TILESET_TEXTURE);
     assets_manager_add_texture(assets_manager, "assets/images/chopper.png", CHOPPER_SPRITESHEET_TEXTURE);
     assets_manager_add_texture(assets_manager, "assets/images/radar.png", RADAR_SPRITESHEET_TEXTURE);
@@ -162,12 +163,12 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
 
     Logging_Comp_t tank_log = true;
     Transform_Comp_t tank_transform = {
-        .position = (Vector2) { .x=10, .y=30 },
+        .position = (Vector2) { .x=10, .y=3 },
         .rotation = 0.f,
         .scale = 1.f,
     };
     RigidBody_Comp_t tank_rigidbody = {
-        .velocity = (Vector2) { .x=10, .y=50 },
+        .velocity = (Vector2) { .x=10, .y=0 },
     };
     Sprite_Comp_t tank_sprite = {
         .texture_id = TANK_PANTHER_RIGHT_TEXTURE,
@@ -176,11 +177,13 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
         .z_index = 1,
         .color = WHITE,
     };
+    BoxCollider_Comp_t tank_boxcollider = tank_sprite.rec;
     entts->tank = world_create_entity(world);
     world_set_component_to_entity(world, entts->tank, LOGGING_COMP, &tank_log);
     world_set_component_to_entity(world, entts->tank, RIGIDBODY_COMP, &tank_rigidbody);
     world_set_component_to_entity(world, entts->tank, TRANSFORM_COMP, &tank_transform);
     world_set_component_to_entity(world, entts->tank, SPRITE_COMP, &tank_sprite);
+    world_set_component_to_entity(world, entts->tank, BOXCOLLIDER_COMP, &tank_boxcollider);
 
 
     Logging_Comp_t chopper_logging = true;
@@ -189,7 +192,9 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
         .rotation = 0.f,
         .scale = 1.f,
     };
-    RigidBody_Comp_t chopper_rigidbody = { 0 };
+    RigidBody_Comp_t chopper_rigidbody = {
+        .velocity = (Vector2) { .x=10, .y=50 },
+    };
     Sprite_Comp_t chopper_sprite = {
         .texture_id = CHOPPER_SPRITESHEET_TEXTURE,
         .rec.height = 32,
@@ -203,12 +208,14 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
         .is_looping = true,
         .timer = chopper_animation.frame_time,
     };
+    BoxCollider_Comp_t chopper_boxcollider = chopper_sprite.rec;
     entts->chopper = world_create_entity(world);
     world_set_component_to_entity(world, entts->chopper, LOGGING_COMP, &chopper_logging);
     world_set_component_to_entity(world, entts->chopper, RIGIDBODY_COMP, &chopper_rigidbody);
     world_set_component_to_entity(world, entts->chopper, TRANSFORM_COMP, &chopper_transform);
     world_set_component_to_entity(world, entts->chopper, SPRITE_COMP, &chopper_sprite);
     world_set_component_to_entity(world, entts->chopper, ANIMATION_COMP, &chopper_animation);
+    world_set_component_to_entity(world, entts->chopper, BOXCOLLIDER_COMP, &chopper_boxcollider);
 
     Logging_Comp_t radar_logging = true;
     Transform_Comp_t radar_transform = {
@@ -297,9 +304,26 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
     UnloadFileText(map_file);
 
 
+    Logging_Comp_t truck_log = true;
+    Transform_Comp_t truck_transform = {
+        .position = (Vector2) { .x=100, .y=3 },
+        .scale=1.f,
+    };
+    Sprite_Comp_t truck_sprite = {
+        .color=WHITE,
+        .texture_id=TRUCK_FORD_LEFT_TEXTURE,
+        .rec.height=32,
+        .rec.width=32,
+        .z_index=2,
+    };
+    RigidBody_Comp_t truck_rigidbody = {
+        .velocity = (Vector2) { .x=-10, .y=0 },
+    };
     entts->truck = world_create_entity(world);
-    world_set_component_to_entity(world, entts->truck, TRANSFORM_COMP, &(Transform_Comp_t) {0});
-    // world_set_component_to_entity(world, entts->truck, SPRITE_COMP, &(Sprite_Comp_t) { 0, 100, 100 });
+    world_set_component_to_entity(world, entts->truck, LOGGING_COMP, &truck_log);
+    world_set_component_to_entity(world, entts->truck, TRANSFORM_COMP, &truck_transform);
+    world_set_component_to_entity(world, entts->truck, SPRITE_COMP, &truck_sprite);
+    world_set_component_to_entity(world, entts->truck, RIGIDBODY_COMP, &truck_rigidbody);
 
     return;
 }

@@ -34,6 +34,7 @@ typedef enum SYSTEMS_E {
     MOVEMENT_SYS,
     RENDER_SYS,
     ANIMATION_SYS,
+    COLLISION_SYS,
 
     NUM_SYSTEMS,
 } SYSTEMS_E;

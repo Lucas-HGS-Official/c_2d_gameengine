@@ -12,6 +12,7 @@
 #include "assets_manager.h"
 
 #include "movement_system.h"
+#include "collision_system.h"
 #include "render_system.h"
 #include "animation_system.h"
 
@@ -101,6 +102,7 @@ void update_game(Game_t *game, float dt) {
     System_t *systems = game->world->systems_darr;
     movement_system_update(&systems[MOVEMENT_SYS], game->world, dt);
     animation_system_update(&systems[ANIMATION_SYS], game->world, dt);
+    collision_system_update(&systems[COLLISION_SYS], game->world);
 
     world_update(game->world);
 
@@ -142,6 +144,7 @@ void setup_game(Game_t *game) {
     world->systems_darr[MOVEMENT_SYS] = init_movement_system();
     world->systems_darr[RENDER_SYS] = init_render_system();
     world->systems_darr[ANIMATION_SYS] = init_animation_system();
+    world->systems_darr[COLLISION_SYS] = init_collision_system();
 
     game_load_lvl(game, 0);
 
@@ -317,13 +320,15 @@ void game_load_lvl(Game_t *game, LEVELS_E lvl_to_load) {
         .z_index=2,
     };
     RigidBody_Comp_t truck_rigidbody = {
-        .velocity = (Vector2) { .x=-10, .y=0 },
+        .velocity = (Vector2) { .x=-20, .y=0 },
     };
+    BoxCollider_Comp_t truck_boxcollider = truck_sprite.rec;
     entts->truck = world_create_entity(world);
     world_set_component_to_entity(world, entts->truck, LOGGING_COMP, &truck_log);
     world_set_component_to_entity(world, entts->truck, TRANSFORM_COMP, &truck_transform);
     world_set_component_to_entity(world, entts->truck, SPRITE_COMP, &truck_sprite);
     world_set_component_to_entity(world, entts->truck, RIGIDBODY_COMP, &truck_rigidbody);
+    world_set_component_to_entity(world, entts->truck, BOXCOLLIDER_COMP, &truck_boxcollider);
 
     return;
 }

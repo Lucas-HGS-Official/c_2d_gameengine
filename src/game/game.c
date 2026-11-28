@@ -15,6 +15,7 @@
 #include "collision_system.h"
 #include "render_system.h"
 #include "animation_system.h"
+#include "rendercollider_system.h"
 
 #include "logging_comp.h"
 #include "boxcollider_comp.h"
@@ -95,6 +96,9 @@ void process_input(Game_t *game) {
     if (IsKeyPressed(KEY_ESCAPE)) {
         game->is_running = false;
     }
+    if (IsKeyPressed(KEY_D)) {
+        game->is_debugging = !game->is_debugging;
+    }
 
     return;
 }
@@ -115,6 +119,7 @@ void render_game(Game_t *game) {
         ClearBackground(RAYWHITE);
 
         render_system_update(&systems[RENDER_SYS], game->world, game->assets_manager);
+        rendercollider_system_update(&systems[RENDERCOLLIDER_SYS], game->world, game->is_debugging);
 
     EndDrawing();
 
@@ -145,6 +150,7 @@ void setup_game(Game_t *game) {
     world->systems_darr[RENDER_SYS] = init_render_system();
     world->systems_darr[ANIMATION_SYS] = init_animation_system();
     world->systems_darr[COLLISION_SYS] = init_collision_system();
+    world->systems_darr[RENDERCOLLIDER_SYS] = init_render_system();
 
     game_load_lvl(game, 0);
 

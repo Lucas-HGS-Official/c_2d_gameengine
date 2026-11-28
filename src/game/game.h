@@ -35,6 +35,7 @@ typedef enum SYSTEMS_E {
     RENDER_SYS,
     ANIMATION_SYS,
     COLLISION_SYS,
+    RENDERCOLLIDER_SYS,
 
     NUM_SYSTEMS,
 } SYSTEMS_E;
@@ -56,6 +57,7 @@ typedef struct Game_t {
     AssetsManager_t *assets_manager;
     char *title;
     bool is_running;
+    bool is_debugging;
     Vector2 screen_size;
 
 } Game_t;
